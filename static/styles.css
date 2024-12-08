@@ -170,15 +170,33 @@ body {
 .bio-text a {
     text-decoration: none;
     color: #888;
+    transition: color 0.3s ease;
 }
 
 .bio-text a:hover {
-    color: #1ca591!important;
+    background: linear-gradient(90deg, #1ca591, #888, #1ca591);
+    background-size: 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientHover 2s infinite linear;
 }
 
 .com-footer:hover {
-    color: #1ca591!important;
+    background: linear-gradient(90deg, #1ca591, #888, #1ca591);
+    background-size: 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientHover 2s infinite linear;
     z-index: 99;
+}
+
+@keyframes gradientMove {
+    0% {
+        background-position: 0%;
+    }
+    100% {
+        background-position: 100%;
+    }
 }
 
 /* Image container for random positions */
