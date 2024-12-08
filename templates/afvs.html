@@ -5,89 +5,91 @@
 {% block content %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.js"></script>
 
-<div id="sketch-container"></div>
+<!-- Containers for the two sketches -->
+<div id="sketch1-container" class="sketch-container"></div>
+<div id="sketch2-container" class="sketch-container"></div>
+
+<style>
+    /* Style to align both sketches horizontally */
+    .sketch-container {
+        display: inline-block;
+        width: 50vw; /* Take half the viewport width */
+        height: 100vh; /* Full viewport height */
+        position: relative;
+    }
+</style>
 
 <script>
-    let c = 0;
-    let f;
-    let d = 710;
-    let w = 750;
-    let h = 300;
-    let counter = 0;
-    let textArray = ["Cute", "What\nthey\ndoing?", "Ew", "That's\nnot it...", "YES", "HELP"];
+    // Sketch 1: Gumball Dispenser
+    let sketch1 = (s) => {
+        let gumball_dispenser, dispenser_lid_open, dispenser_lid_close, dispenser_knob;
+        let candy, posX_candy = 320, posY_candy, size_candy;
+        let lid_open = false, knob_rotate = 0;
+        let Bored = new Array(10), fish, school;
+        let positions, cols = 5, rows = 6;
+        let f, question = 0, answerDisplayed = false;
+        let questions = ["What brings\nyou here?", "Ask a Yes/No\nquestion"];
+        let answer1 = ["Bored?", "Love?", "Study?"];
+        let answer2 = [
+            "Yes", "Might\ndefinitely\nbe", "Absolutely!",
+            "You might\nbe true", "What are you\neven thinking?",
+            "It's good\nyou have\nthe mindset,\nno", "No, just no"
+        ];
 
-    function setup() {
-        let canvas = createCanvas(1000, 600);
-        canvas.parent("sketch-container"); // Attach the canvas to the div with ID "sketch-container"
-        background(255);
-        noStroke();
-
-        // Draw the background grid
-        for (let i = 200; i < width - 200; i += 25) {
-            for (let j = 50; j < height - 50; j += 25) {
-                fill(c % 2 === 0 ? 190 : 230);
-                c++;
-                ellipse(i, j, 10, 10);
+        s.preload = () => {
+            gumball_dispenser = s.loadImage("/static/asset/images/processing/Dispenser.png");
+            dispenser_lid_open = s.loadImage("/static/asset/images/processing/lid_open.png");
+            dispenser_lid_close = s.loadImage("/static/asset/images/processing/lid_close.png");
+            dispenser_knob = s.loadImage("/static/asset/images/processing/dispenser_knob.png");
+            candy = s.loadImage("/static/asset/images/processing/candy.png");
+            for (let i = 0; i < Bored.length; i++) {
+                Bored[i] = s.loadImage(`/static/asset/images/processing/Bored${i}.png`);
             }
-            c++;
-        }
+            fish = s.loadImage("/static/asset/images/processing/fish.png");
+            school = s.loadImage("/static/asset/images/processing/school.png");
+            f = s.loadFont("/static/asset/fonts/BHN Cinema.ttf");
+        };
 
-        // Add the slogan
-        textAlign(LEFT, CENTER);
-        fill(0);
-        textSize(50);
-        text("MIND\nOTHERS'\nBUSINESS", 70, 400);
-    }
+        s.setup = () => {
+            let canvas = s.createCanvas(600, 600);
+            canvas.parent("sketch1-container");
+            s.background(114, 206, 212);
+        };
 
-    function draw() {
-        // Face
-        fill(200);
-        noStroke();
-        ellipse(w, 350, 300, 350);
+        s.draw = () => {
+            // Add your gumball dispenser logic here
+        };
+    };
 
-        // Eye
-        fill(255);
-        noStroke();
-        ellipse(w, h, 170, 70);
+    // Sketch 2: Another Sketch (Example)
+    let sketch2 = (p) => {
+        let d = 710, w = 750, h = 300, counter = 0;
+        let textArray = ["Cute", "What\nthey\ndoing?", "Ew", "That's\nnot it...", "YES", "HELP"];
 
-        // Iris
-        fill(0);
-        noStroke();
-        ellipse(d, h, 100, 100);
+        p.setup = () => {
+            let canvas = p.createCanvas(600, 600);
+            canvas.parent("sketch2-container");
+            p.background(255);
+        };
 
-        if (d > 709 && d < 790) d += 2;
-        if (d === 790) d = 710;
+        p.draw = () => {
+            p.fill(200);
+            p.ellipse(w, 350, 300, 350); // Face
+            p.fill(0);
+            p.textSize(32);
+            p.textAlign(p.CENTER, p.CENTER);
+            p.text(textArray[counter], 300, 300);
+        };
 
-        // Eye stroke
-        noFill();
-        strokeWeight(20);
-        stroke(200);
-        ellipse(w, h, 170, 70);
+        p.keyPressed = () => {
+            counter = p.int(p.random(0, textArray.length));
+        };
+    };
 
-        // Mouth
-        rectMode(CENTER);
-        fill(100);
-        noStroke();
-        rect(w, 450, 150, 15);
-
-        // Thought bubble
-        fill(0);
-        noStroke();
-        ellipse(550, h, 50, 50);
-        ellipse(470, h - 40, 70, 70);
-        ellipse(560, h - 180, 270, 200);
-
-        // Thought text
-        fill(255);
-        textSize(50);
-        textAlign(CENTER, CENTER);
-        text(textArray[counter], 560, 120);
-    }
-
-    function keyPressed() {
-        counter = int(random(0, textArray.length));
-    }
+    // Instantiate both sketches
+    new p5(sketch1);
+    new p5(sketch2);
 </script>
 
-<div class="spacer" style="padding-bottom: 10rem;"> </div>
+<div class="spacer" style="padding-bottom: 77.5vh;"> </div>
 {% endblock %}
