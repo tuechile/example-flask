@@ -5,176 +5,89 @@
 {% block content %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.js"></script>
 <script>
-let gumball_dispenser, dispenser_lid_open, dispenser_lid_close, lid_open;
-let dispenser_knob, knob_rotate = 0;
-
-// For the candy
-let candy, posX_candy = 320, posY_candy, size_candy;
-
-// For answer1[0]
-let Bored = new Array(10);
-
-// For answer1[2]
-let fish, school, positions, cols = 5, rows = 6;
-
-// General data for the question and answer so that they don't glitch onto each other
-let f, question = 0;
-let questions = ["What brings\nyou here?", "Ask a Yes/No\nquestion"];
-let answerDisplayed = false;
-
-// Question 1 should give a random moodboard for each answer
-let answer1 = ["Bored?", "Love?", "Study?"];
-// Question 2 should give the question with background from red to green
-let answer2 = [
-    "Yes", "Might\ndefinitely\nbe", "Absolutely!",
-    "You might\nbe true", "What are you\neven thinking?",
-    "It's good\nyou have\nthe mindset,\nno", "No, just no"
-];
+let c = 0; 
+let f; 
+let d = 710; 
+let w = 750; 
+let h = 300; 
+let counter = 0; 
+let thoughts = ["Cute", "What\nthey\ndoing?", "Ew", "That's\nnot it...", "YES", "HELP"];
 
 function setup() {
-    createCanvas(600, 600);
-    background(114, 206, 212);
+    createCanvas(1000, 600);
+    background(255);
+    noStroke();
 
-    // Initialize positions for fish
-    positions = Array.from(new Array(cols), () => new Array(rows));
+    // Draw background grid
+    for (let i = 200; i < width - 200; i += 25) {
+        for (let j = 50; j < height - 50; j += 25) {
+            fill(c % 2 === 0 ? 190 : 230);
+            c++;
+            ellipse(i, j, 10, 10);
+        }
+        c++;
+    }
 
-    // At first, the lid of the dispenser is closed
-    lid_open = false;
-
-    // Information for text
-    textAlign(CENTER);
+    // Draw slogan
     textFont(f);
+    textAlign(CENTER, CENTER);
+    fill(0);
+    textSize(50);
+    text("MIND\nOTHERS'\nBUSINESS", 70, 400);
 }
 
 function preload() {
-    gumball_dispenser = loadImage("../static/asset/images/processing/Dispenser.png");
-    dispenser_lid_open = loadImage("../static/asset/images/processing/lid_open.png");
-    dispenser_lid_close = loadImage("../static/asset/images/processing/lid_close.png");
-    dispenser_knob = loadImage("../static/asset/images/processing/dispenser_knob.png");
-    candy = loadImage("../static/asset/images/processing/candy.png");
-
-    // Load bored images
-    for (let i = 0; i < Bored.length; i++) {
-        Bored[i] = loadImage(`../static/asset/images/processing/Bored${i}.png`);
-    }
-
-    fish = loadImage("../static/asset/images/processing/fish.png");
-    school = loadImage("../static/asset/images/processing/school.png");
-
-    f = loadFont("../static/asset/fonts/BHN Cinema.ttf");
+    f = loadFont("Junicode.ttf");
 }
 
 function draw() {
-    // If mouse is pressed at the button, the knob will turn and the lid will be open
-    if (mouseIsPressed && mouseX < 374 && mouseX > 313 && mouseY < 250 && mouseY > 230) {
-        lid_open = true;
-        knob_rotate += 0.1;
-        if (knob_rotate > TWO_PI) knob_rotate = 0;
-    } else {
-        lid_open = false;
-    }
+    // Draw face
+    fill(200);
+    noStroke();
+    ellipse(w, 350, 300, 350); // Face
 
-    // Handle closed lid state
-    if (!lid_open) {
-        noTint();
-        image(gumball_dispenser, 0, 0, width, height);
-        image(dispenser_knob, 0, 0, width, height);
-        image(dispenser_lid_close, 0, 0, width, height);
+    // Draw eye
+    fill(255);
+    noStroke();
+    ellipse(w, h, 170, 70); // White of the eye
 
-        posY_candy = 305;
-        size_candy = 30;
+    // Draw iris
+    fill(0);
+    noStroke();
+    ellipse(d, h, 100, 100);
 
-        // Display Flash Warning and Question
-        push();
-        fill(200, 39, 138);
-        textSize(20);
-        text("Flash Warning", 300, 440);
+    // Move iris
+    if (d > 709 && d < 790) d += 2;
+    if (d === 790) d = 710;
 
-        fill(116, 39, 138);
-        textSize(50);
-        text(questions[question], 300, 510);
-        pop();
-    } else if (lid_open && size_candy < 100) {
-        // Continue enlarging candy
-        tint(random(0, 255), random(0, 255), random(0, 255));
-        image(gumball_dispenser, 0, 0, width, height);
+    // Eye stroke
+    noFill();
+    strokeWeight(20);
+    stroke(200);
+    ellipse(w, h, 170, 70);
 
-        push();
-        translate(349, 242);
-        rotate(knob_rotate);
-        image(dispenser_knob, -349, -242, width, height);
-        pop();
+    // Draw mouth
+    rectMode(CENTER);
+    fill(100);
+    noStroke();
+    rect(w, 450, 150, 15);
 
-        push();
-        posY_candy += 2;
-        size_candy += 2;
-        image(candy, posX_candy, posY_candy, size_candy, size_candy);
-        pop();
+    // Draw thought bubble
+    fill(0);
+    noStroke();
+    ellipse(550, h, 50, 50); // Bubble 1
+    ellipse(470, h - 40, 70, 70); // Bubble 2
+    ellipse(560, h - 180, 270, 200); // Main bubble
 
-        text("Loading...", 300, 550);
-        image(dispenser_lid_open, 0, 0, width, height);
-    }
-
-    // Display answers when candy is big enough
-    if (lid_open && size_candy >= 100 && !answerDisplayed) {
-        if (question === 0) {
-            let answer = int(random(0, answer1.length));
-            background_texture(answer);
-            fill(255);
-            text(answer1[answer], width / 2, height / 2);
-        } else if (question === 1) {
-            let answer = int(random(0, answer2.length));
-            if (answer > 3) {
-                background(100 + (answer2.length - answer) * 30, 0, 0);
-            } else {
-                background(0, 100 + answer * 30, 0);
-            }
-            fill(255);
-            textAlign(CENTER);
-            text(answer2[answer], width / 2, height / 2);
-        }
-        answerDisplayed = true;
-    }
-
-    // Reset on mouse release
-    if (!mouseIsPressed) {
-        answerDisplayed = false;
-    }
+    // Draw thought text
+    fill(255);
+    textSize(50);
+    textAlign(CENTER, CENTER);
+    text(thoughts[counter], 560, 120);
 }
 
-function mouseReleased() {
-    question = question === 0 ? 1 : 0;
-}
-
-function background_texture(a) {
-    if (a === 0) {
-        for (let i = 0; i < Bored.length; i++) {
-            for (let j = 0; j < Bored.length; j++) {
-                let b = int(random(0, Bored.length));
-                tint(random(0, 255), random(0, 255), random(0, 255));
-                image(Bored[(b + i) % Bored.length], i * 60, j * 60, 60, 60);
-            }
-        }
-    } else if (a === 1) {
-        background(255, 126, 234);
-        text("200% AKMU", width / 2, 500);
-    } else if (a === 2) {
-        tint(200, 200, 250);
-        image(school, 0, 0, width, height);
-
-        for (let i = 0; i < cols; i++) {
-            for (let j = 0; j < rows; j++) {
-                let x = map(i, 0, cols - 1, 0, width);
-                let y = map(j, 0, rows - 1, 0, height);
-                positions[i][j] = x;
-                image(fish, x - 300, y - 300, width, height);
-            }
-        }
-
-        fill(255);
-        textSize(20);
-        text("Quit Harvard,\ngo to school of fish!", width / 2, 500);
-    }
+function keyPressed() {
+    counter = int(random(0, thoughts.length));
 }
 </script>
 {% endblock %}
