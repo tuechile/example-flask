@@ -4,19 +4,20 @@
 
 {% block content %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.js"></script>
+<div>
 <script>
     let gumball_dispenser ; let dispenser_lid_open ; let dispenser_lid_close ; let lid_open ; let dispenser_knob ; let knob_rotate = 0 ; // For the candy
     let candy ; let posX_candy = 320 ; let posY_candy ; let size_candy ; // For answer1[0]
-    let Bored [ ] = new Array(10); // For answer1[2]
+    let Bored = new Array(10); // For answer1[2]
     let fish ; let school ; let positions ; let cols = 5 ; let rows = 6 ; // General data for the question and answer so that they don't glitch onto each other
-    let f ; let question = 0 ; let questions [ ] = [ "What brings\nyou here?" , "Ask a Yes/No\nquestion" ] ; let answerDisplayed = false ; // Question 1 should give a random moodboard for each answer
-    let answer1 [ ] = [ "Bored?" , "Love?" , "Study?" ] ; // Question 2 should give the question with background from red to green
-    let answer2 [ ] = [ "Yes" , "Might\ndefinitely\nbe" , "Absolutely!" , "You might\nbe true" , "What are you\neven thinking?" , "It's good\nyou have\nthe mindset,\nno" , "No, just no" ] ; function setup ( ) { createCanvas( 600 , 600 ) ; background( 114 , 206 , 212 ) ; // Loading neccessary images for the gumball dispeser
+    let f ; let question = 0 ; let questions = [ "What brings\nyou here?" , "Ask a Yes/No\nquestion" ] ; let answerDisplayed = false ; // Question 1 should give a random moodboard for each answer
+    let answer1 = [ "Bored?" , "Love?" , "Study?" ] ; // Question 2 should give the question with background from red to green
+    let answer2 = [ "Yes" , "Might\ndefinitely\nbe" , "Absolutely!" , "You might\nbe true" , "What are you\neven thinking?" , "It's good\nyou have\nthe mindset,\nno" , "No, just no" ] ; function setup ( ) { createCanvas( 600 , 600 ) ; background( 114 , 206 , 212 ) ; // Loading neccessary images for the gumball dispeser
     // For answer1[0]
     for ( let i = 0 ; i< Bored . length; i++ ) { } // For answer1[2]
     positions= Array.from(new Array(cols), ()=>new Array(rows)); // At first, the lid of the dispenser is closed
     lid_open= false ; // Information for text
-    textAlign( CENTER) ; textFont( f) ; } function preload() {gumball_dispenser= loadImage( "Dispenser.png" ) ; dispenser_lid_open= loadImage( "lid_open.png" ) ; dispenser_lid_close= loadImage( "lid_close.png" ) ; dispenser_knob= loadImage( "dispenser_knob.png" ) ; candy= loadImage( "candy.png" ) ; Bored[ i] = loadImage( "Bored" + i+ ".png" ) ; fish= loadImage( "fish.png" ) ; school= loadImage( "school.png" ) ; f= loadFont( "BHN Cinema.ttf" ) ; }function draw ( ) { // If mouse is pressed at the button, the knob will turn and the lid will be open
+    textAlign( CENTER) ; textFont( f) ; } function preload() {gumball_dispenser= loadImage( "../static/asset/images/processing/Dispenser.png" ) ; dispenser_lid_open= loadImage( "../static/asset/images/processing/lid_open.png" ) ; dispenser_lid_close= loadImage( "../static/asset/images/processing/lid_close.png" ) ; dispenser_knob= loadImage( "../static/asset/images/processing/dispenser_knob.png" ) ; candy= loadImage( "../static/asset/images/processing/candy.png" ) ; Bored[ i] = loadImage( "../static/asset/images/processing/Bored" + i+ ".png" ) ; fish= loadImage( "../static/asset/images/processing/fish.png" ) ; school= loadImage( "../static/asset/images/processing/school.png" ) ; f= loadFont( "../static/asset/fonts/BHN Cinema.ttf" ) ; }function draw ( ) { // If mouse is pressed at the button, the knob will turn and the lid will be open
     if ( mousePressed&& mouseX< 374 && mouseX> 313 && mouseY< 250 && mouseY> 230 ) { lid_open= true ; knob_rotate+= 0.1; if ( knob_rotate> TWO_PI) { knob_rotate= 0 ; } } else { lid_open= false ; } // If the lid is closed, load the background like default
     if ( ! lid_open) { noTint( ) ; image( gumball_dispenser, 0 , 0 , width, height) ; image( dispenser_knob, 0 , 0 , width, height) ; image( dispenser_lid_close, 0 , 0 , width, height) ; // Return the original position and size of the candy after each answer
     posY_candy= 305 ; size_candy= 30 ; // Warning for possible trigger effect if the knob is turned
@@ -44,4 +45,5 @@
     } else if ( a== 2 ) { tint( 200 , 200 , 250 ) ; image( school, 0 , 0 , width, height) ; // Draw and update positions
     for ( let i = 0 ; i< cols; i++ ) { for ( let j = 0 ; j< rows; j++ ) { let x = map( i, 0 , cols- 1 , 0 , width) ; let y = map( j, 0 , rows- 1 , 0 , height) ; positions[ i] [ j] = x; image( fish, x- 300 , y- 300 , width, height) ; } fill( 255 ) ; textSize( 20 ) ; text( "Quit Harvard,\ngo to school of fish!" , width/ 2 , 500 ) ; textSize( 50 ) ; } } } 
 </script>
+</div>
 {% endblock %}

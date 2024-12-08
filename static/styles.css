@@ -107,7 +107,8 @@ body {
 }
 
 .contact-logo {
-    text-decoration: none color: white;
+    text-decoration: none;
+    color: white;
     width: 1.5rem;
     height: auto;
     opacity: 0.5;
