@@ -16,10 +16,6 @@
     let counter = 0;
     let textArray = ["Cute", "What\nthey\ndoing?", "Ew", "That's\nnot it...", "YES", "HELP"];
 
-    function preload() {
-        f = loadFont("/static/asset/fonts/BHN_CINEMA.ttf");
-    }
-
     function setup() {
         let canvas = createCanvas(1000, 600);
         canvas.parent("sketch-container"); // Attach the canvas to the div with ID "sketch-container"
@@ -37,7 +33,6 @@
         }
 
         // Add the slogan
-        textFont(f);
         textAlign(CENTER, CENTER);
         fill(0);
         textSize(50);
