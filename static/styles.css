@@ -1,0 +1,609 @@
+body {
+    background-color: #000000;
+    color: #555;
+    font-size: 1.5rem;
+    line-height: 1.5;
+    margin: 0;
+    text-align: left;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    /* Ensure footer is always at the bottom */
+    height: 100%;
+}
+
+@font-face {
+    font-family: 'BHN Cinema';
+    src: url("/static/asset/fonts/BHN_CINEMA.TTF") format("truetype");
+}
+
+.navigator {
+    display: flex;
+    font-size: 1.5rem;
+    position: sticky;
+    top: 0;
+    background-image: linear-gradient(rgba(0,0,0,1), rgba(0,0,0,0));
+    z-index: 999;
+}
+
+.nav-item-big {
+    font-family: 'Crimson Text';
+    font-size: 1rem;
+    font-weight: 200;
+    padding: 1.5rem 1.5rem 1.5rem 1.5rem;
+    color: #fff;
+    border: 1px solid transparent;
+    text-decoration: none;
+}
+
+.nav-item {
+    font-family: 'Crimson Text';
+    font-size: 1rem;
+    font-weight: 200;
+    padding: 1.5rem 1.5rem 1.5rem 1.5rem;
+    color: #fff;
+    border: 1px solid transparent;
+    text-decoration: none;
+}
+
+.nav-item:hover {
+    filter: blur(1px);
+}
+
+.nav-header {
+    padding: 1rem;
+    font-family: 'BHN Cinema';
+    font-size: 2rem;
+    color: #fff;
+    text-decoration: none;
+    margin-right: auto;
+}
+
+.nav-header:hover {
+    filter: blur(1px);
+}
+
+.video {
+    padding: 3rem;
+}
+
+.header {
+    width: 95%;
+    font-family: "BHN Cinema";
+    font-size: 7rem;
+    display: flex;
+    height: 60vh;
+    margin: 0;
+    text-decoration: none;
+    color: #fff;
+    margin-bottom: 2rem;
+    padding: 1rem 1rem;
+    text-align: center;
+    background: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), url('homepage.png');
+    background-size: 75vh 30vh;
+    background-repeat: no-repeat;
+    background-position: center
+}
+
+::placeholder {
+    color: white;
+    opacity: 1;
+    /* Firefox */
+}
+
+*::selection {
+    color: #ddd;
+    text-shadow: 0px 0px 5px rgba(255, 255, 255, 1.5);
+    background-color: transparent;
+}
+
+
+* {
+    outline: none;
+    border-width: 0;
+}
+
+*:focus {
+    outline: none;
+}
+
+.contact-logo {
+    text-decoration: none color: white;
+    width: 1.5rem;
+    height: auto;
+    opacity: 0.5;
+    transition: opacity 0.3s;
+    text-decoration: none;
+    -webkit-filter: grayscale(100%);
+    text-decoration: none;
+    /* Safari 6.0 - 9.0 */
+}
+
+.contact-logo:hover {
+    filter: blur(1px) grayscale(100%);
+    opacity: 0.8;
+}
+
+
+.bio-container {
+    background-repeat: no-repeat;
+    background-size: 10rem auto;
+    max-width: 100%;
+    margin: 0 auto;
+    padding-top: 3rem;
+    display: flex;
+    /* Enables flexbox */
+    align-items: center;
+    /* Vertically centers content */
+    justify-content: space-between;
+    /* Pushes children to edges */
+    gap: 2rem;
+    /* Adds space between the image and text */
+    padding: 5rem;
+}
+
+/* General container styling */
+.bio-container {
+    position: relative;
+    padding: 2rem;
+    text-align: center;
+}
+
+/* Text section styling */
+.bio-text {
+    margin-bottom: 2rem;
+    z-index: 2;
+    /* Ensure text stays above the images */
+    position: relative;
+}
+
+.bio-text h2 {
+    font-size: 1.5rem;
+    color: #ccc;
+}
+
+.bio-text p {
+    font-size: 1rem;
+    color: #888;
+}
+
+.bio-text a {
+    text-decoration: none;
+    color: #888;
+}
+
+.bio-text a:hover {
+    color: #1ca591!important;
+}
+
+.com-footer:hover {
+    color: #1ca591!important;
+}
+
+/* Image container for random positions */
+.image-container {
+    position: relative;
+    width: 100%;
+    height: 500px;
+    /* Set height for random positioning */
+    overflow: hidden;
+    z-index: 1;
+}
+
+/* Individual images */
+.image {
+    position: absolute;
+    /* Allow placement anywhere within the container */
+    width: 150px;
+    height: 150px;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, top 0.3s ease, left 0.3s ease;
+    cursor: pointer;
+    z-index: 1;
+    filter: grayscale(100%);
+}
+
+/* Dim other images */
+.image:hover~.image {
+    opacity: 0.5;
+    /* Dim non-hovered images */
+}
+
+/* Set random positions for images */
+.image:nth-child(1) {
+    top: 50px;
+    left: 100px;
+}
+
+.image:nth-child(2) {
+    top: 200px;
+    left: 300px;
+}
+
+.image:nth-child(3) {
+    top: 100px;
+    left: 500px;
+}
+
+.image:nth-child(4) {
+    top: 300px;
+    left: 150px;
+}
+
+.image:nth-child(5) {
+    top: 400px;
+    left: 400px;
+}
+
+.image:nth-child(6) {
+    top: 200px;
+    left: 600px;
+}
+
+/* Hover effect */
+/* General bio-container styling */
+.bio-container {
+    padding: 2rem;
+    text-align: center;
+}
+
+/* Text section styling */
+.bio-text {
+    margin-bottom: 2rem;
+}
+
+.bio-text h2 {
+    font-size: 1.5rem;
+    color: #ccc;
+}
+
+.bio-text p {
+    font-size: 1rem;
+    color: #888;
+}
+
+
+/* Full-size pop-up styling */
+.popup-image {
+    position: fixed;
+    background-size: contain;
+    /* Maintain aspect ratio */
+    background-repeat: no-repeat;
+    background-position: center;
+    z-index: 999;
+    pointer-events: none;
+    /* Disable pointer interactions */
+}
+
+.bio-image {
+    flex: 0 0 auto;
+    /* Ensures the image stays its natural size */
+    max-width: 300px;
+    /* Limit image width */
+    /* Rounded corners */
+    filter: grayscale(100%);
+    opacity: 0.8;
+}
+
+.bio-image:hover {
+    filter: grayscale(25%);
+}
+
+.bio-text {
+    max-width: 25rem;
+    /* Limit image width */
+    text-align: justify;
+    padding-left: 2rem;
+    text-decoration: none;
+    /* Adds space between the text and the image */
+}
+
+.bio-text h2,
+.bio-text p {
+    font-family: 'Crimson Text', serif;
+    line-height: 1.8;
+    color: #777;
+}
+
+.bio-text h2 {
+    font-size: 1rem;
+    color: #ccc;
+}
+
+.bio-text p {
+    font-size: 0.75rem;
+    color: #888;
+}
+
+
+footer {
+    font-family: "Crimson Text", serif;
+    font-weight: 800;
+    font-style: italic;
+    border-radius: 0.25rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    /* Ensure consistent spacing */
+    text-align: center;
+    vertical-align: middle;
+    color: gray;
+    position: sticky;
+    bottom: 0;
+}
+
+.thumbnail-container {
+    font-family: "Crimson Text", serif;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 3rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.thumbnail {
+    display: flex;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+}
+
+.thumbnail:hover {
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.thumbnail img {
+    width: 300px;
+    height: 150px;
+    object-fit: cover;
+}
+
+.thumbnail-content {
+    padding-left: 3rem;
+    flex: 1;
+}
+
+.thumbnail-header {
+    font-style: italic;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #ddd;
+    text-decoration: none;
+}
+
+.thumbnail-description {
+    font-size: 0.75rem;
+    color: #666;
+}
+
+/* Masonry Grid Styling */
+.masonry {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    /* 3 equal-width columns */
+    block: inline;
+    padding: 2rem;
+}
+
+
+.item img {
+    display: block;
+    /* Fixes inline-block spacing */
+    width: 100%;
+    /* Images stretch to fill the container */
+    height: 20rem;
+    /* Ensure consistent height */
+    object-fit: cover;
+    /* Crop and fit images */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.item img:hover {
+    transform: scale(1.05);
+    /* Slight zoom effect */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    /* Shadow on hover */
+}
+
+
+/* Lightbox Overlay Styling */
+.lightbox-overlay {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    /* Semi-transparent black */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    /* Ensure it's on top */
+}
+
+.lightbox-overlay img {
+    max-width: 90%;
+    max-height: 90%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    /* Shadow for image */
+}
+
+.close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 2rem;
+    color: white;
+    cursor: pointer;
+    z-index: 1001;
+    /* Above overlay image */
+    transition: opacity 0.3s;
+}
+
+.close-btn:hover {
+    opacity: 0.7;
+    /* Subtle hover effect */
+}
+
+/* Loader Styling */
+.loader-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    /* Dark overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    /* Above all elements */
+    opacity: 1;
+    /* Fully visible by default */
+    visibility: visible;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+    /* Smooth fade-out */
+}
+
+.loader-container.hidden {
+    opacity: 0;
+    /* Fade out */
+    visibility: hidden;
+    /* Hide after fading out */
+}
+
+.loader-container img {
+    width: 10rem;
+    /* Adjust size of the GIF */
+    height: auto;
+}
+
+/* ===== Default Styles ===== */
+/* Your existing styles will apply to desktop (default) */
+
+/* ===== Tablet Styles ===== */
+@media (max-width: 1200px) {
+    .masonry {
+        grid-template-columns: repeat(2, 1fr);
+        /* 2 columns on tablets */
+    }
+
+    .bio-container {
+        flex-direction: column;
+        /* Stack content vertically */
+        padding: 2rem;
+        /* Adjust padding */
+    }
+
+    .bio-text {
+        max-width: 100%;
+        /* Full width for text */
+        padding: 0;
+        /* Remove left padding */
+    }
+
+    .image {
+        width: 120px;
+        /* Smaller images */
+        height: 120px;
+    }
+
+    .header {
+        font-size: 5rem;
+        /* Smaller header text */
+        height: 50vh;
+        /* Reduce height of the header */
+        background-size: 50vh 25vh;
+        /* Adjust background size */
+    }
+
+    .thumbnail img {
+        width: 200px;
+        /* Reduce thumbnail size */
+        height: 100px;
+    }
+
+    .thumbnail-content {
+        padding-left: 1.5rem;
+        /* Adjust padding */
+    }
+
+    .nav-header {
+        font-size: 1rem;
+        padding: 2rem;
+    }
+}
+
+/* ===== Mobile Styles ===== */
+@media (max-width: 768px) {
+    .masonry {
+        grid-template-columns: 1fr;
+        /* 1 column on mobile */
+        gap: 0.5rem;
+        /* Narrow gaps */
+    }
+
+    .bio-container {
+        padding: 1rem;
+        /* Smaller padding */
+    }
+
+    .bio-text {
+        font-size: 0.8rem;
+        /* Smaller font size */
+    }
+
+    .header {
+        font-size: 3rem;
+        /* Smaller header text */
+        height: 40vh;
+        /* Reduce header height further */
+        background-size: cover;
+        /* Full background size */
+    }
+
+    .image {
+        width: 100px;
+        /* Smaller images */
+        height: 100px;
+    }
+
+    .thumbnail {
+        flex-direction: column;
+        /* Stack thumbnails vertically */
+        align-items: center;
+    }
+
+    .thumbnail img {
+        width: 100%;
+        /* Full width thumbnails */
+        height: auto;
+        /* Maintain aspect ratio */
+    }
+
+    .thumbnail-content {
+        padding-left: 0;
+        /* Remove padding */
+        text-align: center;
+        /* Center align text */
+    }
+
+    .nav-header {
+        font-size: 1rem;
+        padding: 2rem;
+    }
+
+    footer {
+        font-size: 0.8rem;
+        /* Smaller footer text */
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+}
