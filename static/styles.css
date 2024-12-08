@@ -78,7 +78,8 @@ body {
     margin-bottom: 2rem;
     padding: 1rem 1rem;
     text-align: center;
-    background: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), url('homepage.png');
+    background: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), url('BG.mp4');
+    filter: grayscale(50%);
     background-size: 75vh 30vh;
     background-repeat: no-repeat;
     background-position: center
