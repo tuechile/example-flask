@@ -3,7 +3,6 @@
 {% block title %}| Personal{% endblock %}
 
 {% block content %}
-<!-- Include p5.js Library -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.js"></script>
 
 <div id="sketch-container"></div>
@@ -18,16 +17,16 @@
     let textArray = ["Cute", "What\nthey\ndoing?", "Ew", "That's\nnot it...", "YES", "HELP"];
 
     function preload() {
-        f = loadFont("../static/asset/fonts/BHN_CINEMA.ttf"); // Adjust the path to your font file
+        f = loadFont("/static/asset/fonts/BHN_CINEMA.ttf");
     }
 
     function setup() {
         let canvas = createCanvas(1000, 600);
-        canvas.parent("sketch-container"); // Attach canvas to the div
+        canvas.parent("sketch-container"); // Attach the canvas to the div with ID "sketch-container"
         background(255);
         noStroke();
 
-        // Background grid
+        // Draw the background grid
         for (let i = 200; i < width - 200; i += 25) {
             for (let j = 50; j < height - 50; j += 25) {
                 fill(c % 2 === 0 ? 190 : 230);
@@ -37,7 +36,7 @@
             c++;
         }
 
-        // Slogan
+        // Add the slogan
         textFont(f);
         textAlign(CENTER, CENTER);
         fill(0);
@@ -64,7 +63,7 @@
         if (d > 709 && d < 790) d += 2;
         if (d === 790) d = 710;
 
-        // Eye Stroke
+        // Eye stroke
         noFill();
         strokeWeight(20);
         stroke(200);
@@ -76,14 +75,14 @@
         noStroke();
         rect(w, 450, 150, 15);
 
-        // Thought Bubble
+        // Thought bubble
         fill(0);
         noStroke();
         ellipse(550, h, 50, 50);
         ellipse(470, h - 40, 70, 70);
         ellipse(560, h - 180, 270, 200);
 
-        // Thought
+        // Thought text
         fill(255);
         textSize(50);
         textAlign(CENTER, CENTER);

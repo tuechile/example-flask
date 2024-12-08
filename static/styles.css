@@ -174,7 +174,7 @@ body {
 }
 
 .bio-text a:hover {
-    background: linear-gradient(90deg, #1ca591, #888, #1ca591);
+    background: linear-gradient(45deg, #1ca591, #fff, #1ca591);
     background-size: 200%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -182,7 +182,7 @@ body {
 }
 
 .com-footer:hover {
-    background: linear-gradient(90deg, #1ca591, #888, #1ca591);
+    background: linear-gradient(45deg, #1ca591, #fff, #1ca591);
     background-size: 200%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -190,7 +190,7 @@ body {
     z-index: 99;
 }
 
-@keyframes gradientMove {
+@keyframes gradientHover {
     0% {
         background-position: 0%;
     }
