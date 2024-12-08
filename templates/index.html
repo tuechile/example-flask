@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <link href="/static/favicon.ico" rel="icon">
+        <link href="/static/styles.css" rel="stylesheet">
+        <title>Pirenily</title>
+        <script type="text/javascript">
+            // Change the placeholder text every 3 seconds
+            function changePlaceholder() {
+                const items = ["Pirenily", "Chi Le", "Iron Pig", "Emily", "Chi Bell"];
+                const inputField = document.getElementById("newtodo");
+                let index = 0;
+
+                // Update placeholder in an interval
+                setInterval(() => {
+                    inputField.placeholder = items[index];
+                    index = (index + 1) % items.length; // Loop through the array
+                }, 400); // 3 seconds interval
+            }
+
+            // Automatically submit form on Enter key press
+            function setupFormSubmit() {
+                const inputField = document.getElementById("newtodo");
+                inputField.addEventListener("keypress", function(event) {
+                    if (event.key === "Enter") {
+                        event.preventDefault(); // Prevent default form submission
+                        this.form.submit(); // Submit the form programmatically
+                    }
+                });
+            }
+
+            // Ensure all scripts run after the DOM is loaded
+            window.onload = function() {
+                changePlaceholder();
+                setupFormSubmit();
+            };
+        </script>
+    </head>
+
+    <body>
+        <nav>
+            <div class="nav-item-big" align="center">
+                <a class="nav-item" href="about"> About </a>
+                <a class="nav-item" href="collab"> Collaborative Work </a>
+                <a class="nav-item" href="personal"> Personal Work </a>
+                <a class="nav-item" href="client"> Commissions </a>
+            </div>
+        </nav>
+
+        <form method="POST">
+            <input autocomplete="off" type="text" class="header" id="newtodo" placeholder="Pirenily" name="finder">
+        </form>
+
+        <footer>
+            Chi (Tue) Le | Pirenily | Updated 2024
+        </footer>
+    </body>
+
+</html>

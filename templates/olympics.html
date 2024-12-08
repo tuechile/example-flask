@@ -1,0 +1,115 @@
+{% extends "layout.html" %}
+
+{% block title %}| Personal{% endblock %}
+
+{% block content %}
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const loader = document.querySelector('.loader-container');
+            const images = document.querySelectorAll('.masonry img'); // Select all gallery images
+            let loadedImagesCount = 0;
+
+            function hideLoader() {
+                setTimeout(() => {
+                    loader.classList.add('hidden'); // Hide loader after all images load
+                }, 400); // Ensures the loader stays visible for at least 0.4s
+            }
+
+        // Check if all images are loaded
+            images.forEach((img) => {
+                if (img.complete && img.naturalHeight !== 0) {
+                    loadedImagesCount++;
+                } else {
+                    img.addEventListener('load', () => {
+                        loadedImagesCount++;
+                        if (loadedImagesCount === images.length) {
+                            hideLoader(); // Hide loader once all images are loaded
+                        }
+                    });
+
+                    img.addEventListener('error', () => {
+                        console.error(`Failed to load image: ${img.src}`);
+                        loadedImagesCount++;
+                        if (loadedImagesCount === images.length) {
+                            hideLoader(); // Hide loader even if some images fail to load
+                        }
+                    });
+                }
+            });
+
+        // If all images are already loaded
+            if (loadedImagesCount === images.length) {
+                hideLoader();
+            }
+
+        // Lightbox functionality
+            const lightboxOverlay = document.createElement("div");
+            lightboxOverlay.classList.add("lightbox-overlay");
+
+            const img = document.createElement("img");
+            lightboxOverlay.appendChild(img);
+
+            const closeBtn = document.createElement("span");
+            closeBtn.classList.add("close-btn");
+            closeBtn.innerHTML = "&times;";
+            lightboxOverlay.appendChild(closeBtn);
+
+            document.body.appendChild(lightboxOverlay);
+
+            const lightboxLinks = document.querySelectorAll(".lightbox");
+            lightboxLinks.forEach((link) => {
+                link.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    img.src = link.href;
+                    lightboxOverlay.style.display = "flex";
+                });
+            });
+
+            closeBtn.addEventListener("click", () => {
+                lightboxOverlay.style.display = "none";
+            });
+
+            lightboxOverlay.addEventListener("click", (e) => {
+                if (e.target === lightboxOverlay) {
+                    lightboxOverlay.style.display = "none";
+                }
+            });
+        });
+    </script>
+
+
+    <div class="masonry">
+
+        <div class="item">
+            <a href="../static/asset/images/client/1Amber.jpg" class="lightbox">
+                <img src="../static/asset/images/client/1Amber.jpg" alt="Image 1" style="height:100%;">
+            </a>
+        </div>
+        <div class="item">
+            <a href="../static/asset/images/client/2Sapphire.jpg" class="lightbox">
+                <img src="../static/asset/images/client/2Sapphire.jpg" alt="Image 2" style="height:100%;">
+            </a>
+        </div>
+        <div class="item">
+            <a href="../static/asset/images/client/3Amethyst.jpg" class="lightbox">
+                <img src="../static/asset/images/client/3Amethyst.jpg" alt="Image 1" style="height:100%;">
+            </a>
+        </div>
+        <div class="item">
+            <a href="../static/asset/images/client/4Ruby.jpg" class="lightbox">
+                <img src="../static/asset/images/client/4Ruby.jpg" alt="Image 1" style="height:100%;">
+            </a>
+        </div>
+        <div class="item">
+            <a href="../static/asset/images/client/5Emerald.jpg" class="lightbox">
+                <img src="../static/asset/images/client/5Emerald.jpg" alt="Image 2" style="height:100%;">
+            </a>
+        </div>
+        <div class="item">
+            <a href="../static/asset/images/client/6Artboard.jpg" class="lightbox">
+                <img src="../static/asset/images/client/6Artboard.jpg" alt="Image 1" style="height:100%;">
+            </a>
+        </div>
+    </div>
+
+{% endblock %}

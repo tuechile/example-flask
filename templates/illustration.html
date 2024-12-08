@@ -1,0 +1,97 @@
+{% extends "layout.html" %}
+
+{% block title %}| Personal{% endblock %}
+
+{% block content %}
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+        // Create lightbox elements
+            const lightboxOverlay = document.createElement("div");
+            lightboxOverlay.classList.add("lightbox-overlay");
+
+            const img = document.createElement("img");
+            lightboxOverlay.appendChild(img);
+
+            const closeBtn = document.createElement("span");
+            closeBtn.classList.add("close-btn");
+            closeBtn.innerHTML = "&times;";
+            lightboxOverlay.appendChild(closeBtn);
+
+        // Append the overlay to the document
+            document.body.appendChild(lightboxOverlay);
+
+        // Event: Open the lightbox
+            const lightboxLinks = document.querySelectorAll(".lightbox");
+            lightboxLinks.forEach((link) => {
+                link.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    img.src = link.href;
+                    lightboxOverlay.style.display = "flex";
+                });
+            });
+
+        // Event: Close the lightbox when clicking the close button
+            closeBtn.addEventListener("click", () => {
+                lightboxOverlay.style.display = "none";
+            });
+
+        // Event: Close the lightbox when clicking outside the image
+            lightboxOverlay.addEventListener("click", (e) => {
+                if (e.target === lightboxOverlay) {
+                    lightboxOverlay.style.display = "none";
+                }
+            });
+
+        });
+    </script>
+
+    <div class="masonry">
+
+        <div class="item">
+            <a href="../static/asset/images/illustration/30.10.23.jpg" class="lightbox">
+                <img src="../static/asset/images/illustration/30.10.23.jpg" alt="Image 1">
+            </a>
+        </div>
+        <div class="item">
+            <a href="../static/asset/images/illustration/26.8.22.jpg" class="lightbox">
+                <img src="../static/asset/images/illustration/26.8.22.jpg" alt="Image 1">
+            </a>
+        </div>
+        <div class="item">
+            <a href="../static/asset/images/illustration/10.3.22.jpg" class="lightbox">
+                <img src="../static/asset/images/illustration/10.3.22.jpg" alt="Image 2">
+            </a>
+        </div>
+        <div class="item">
+            <a href="../static/asset/images/illustration/28.8.21.jpg" class="lightbox">
+                <img src="../static/asset/images/illustration/28.8.21.jpg" alt="Image 1">
+            </a>
+        </div>
+        <div class="item">
+            <a href="../static/asset/images/illustration/16.7.21.jpg" class="lightbox">
+                <img src="../static/asset/images/illustration/16.7.21.jpg" alt="Image 1">
+            </a>
+        </div>
+        <div class="item">
+            <a href="../static/asset/images/illustration/10.7.21.jpg" class="lightbox">
+                <img src="../static/asset/images/illustration/10.7.21.jpg" alt="Image 2">
+            </a>
+        </div>
+        <div class="item">
+            <a href="../static/asset/images/illustration/9.7.20.jpg" class="lightbox">
+                <img src="../static/asset/images/illustration/9.7.20.jpg" alt="Image 1">
+            </a>
+        </div>
+        <div class="item">
+            <a href="../static/asset/images/illustration/22.5.20.jpg" class="lightbox">
+                <img src="../static/asset/images/illustration/22.5.20.jpg" alt="Image 1">
+            </a>
+        </div>
+        <div class="item">
+            <a href="../static/asset/images/illustration/15.4.20.jpg" class="lightbox">
+                <img src="../static/asset/images/illustration/15.4.20.jpg" alt="Image 2">
+            </a>
+        </div>
+    </div>
+
+{% endblock %}
