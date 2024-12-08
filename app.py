@@ -87,6 +87,9 @@ def superface():
 def olympics():
     return render_template("olympics.html")
 
+@app.route("/afvs")
+def afvs():
+    return render_template("afvs.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
