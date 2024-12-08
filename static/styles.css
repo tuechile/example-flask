@@ -386,9 +386,8 @@ footer {
     grid-template-columns: repeat(3, 1fr);
     /* 3 equal-width columns */
     block: inline;
-    padding: 2rem;
+    padding: 1rem;
 }
-
 
 .item img {
     display: block;
