@@ -78,7 +78,7 @@ body {
     margin-bottom: 2rem;
     padding: 1rem 1rem;
     text-align: center;
-    background: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), url('BG.mp4');
+    background: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), url('/static/asset/images/other/BG.mp4');
     filter: grayscale(50%);
     background-size: 75vh 30vh;
     background-repeat: no-repeat;
@@ -124,18 +124,6 @@ body {
     filter: blur(1px) grayscale(100%);
     opacity: 0.8;
 }
-
-#background-video {
-    width: 100vw;
-    height: 100vh;
-    object-fit: cover;
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    z-index: -1;
- } 
 
 .bio-container {
     background-repeat: no-repeat;
