@@ -178,6 +178,7 @@ body {
 
 .com-footer:hover {
     color: #1ca591!important;
+    z-index: 99;
 }
 
 /* Image container for random positions */
@@ -333,6 +334,7 @@ footer {
     color: gray;
     position: sticky;
     bottom: 0;
+    z-index: 0;
 }
 
 .thumbnail-container {

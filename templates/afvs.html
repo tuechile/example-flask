@@ -4,46 +4,178 @@
 
 {% block content %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.js"></script>
-<div>
 <script>
-    let gumball_dispenser ; let dispenser_lid_open ; let dispenser_lid_close ; let lid_open ; let dispenser_knob ; let knob_rotate = 0 ; // For the candy
-    let candy ; let posX_candy = 320 ; let posY_candy ; let size_candy ; // For answer1[0]
-    let Bored = new Array(10); // For answer1[2]
-    let fish ; let school ; let positions ; let cols = 5 ; let rows = 6 ; // General data for the question and answer so that they don't glitch onto each other
-    let f ; let question = 0 ; let questions = [ "What brings\nyou here?" , "Ask a Yes/No\nquestion" ] ; let answerDisplayed = false ; // Question 1 should give a random moodboard for each answer
-    let answer1 = [ "Bored?" , "Love?" , "Study?" ] ; // Question 2 should give the question with background from red to green
-    let answer2 = [ "Yes" , "Might\ndefinitely\nbe" , "Absolutely!" , "You might\nbe true" , "What are you\neven thinking?" , "It's good\nyou have\nthe mindset,\nno" , "No, just no" ] ; function setup ( ) { createCanvas( 600 , 600 ) ; background( 114 , 206 , 212 ) ; // Loading neccessary images for the gumball dispeser
-    // For answer1[0]
-    for ( let i = 0 ; i< Bored . length; i++ ) { } // For answer1[2]
-    positions= Array.from(new Array(cols), ()=>new Array(rows)); // At first, the lid of the dispenser is closed
-    lid_open= false ; // Information for text
-    textAlign( CENTER) ; textFont( f) ; } function preload() {gumball_dispenser= loadImage( "../static/asset/images/processing/Dispenser.png" ) ; dispenser_lid_open= loadImage( "../static/asset/images/processing/lid_open.png" ) ; dispenser_lid_close= loadImage( "../static/asset/images/processing/lid_close.png" ) ; dispenser_knob= loadImage( "../static/asset/images/processing/dispenser_knob.png" ) ; candy= loadImage( "../static/asset/images/processing/candy.png" ) ; Bored[ i] = loadImage( "../static/asset/images/processing/Bored" + i+ ".png" ) ; fish= loadImage( "../static/asset/images/processing/fish.png" ) ; school= loadImage( "../static/asset/images/processing/school.png" ) ; f= loadFont( "../static/asset/fonts/BHN Cinema.ttf" ) ; }function draw ( ) { // If mouse is pressed at the button, the knob will turn and the lid will be open
-    if ( mousePressed&& mouseX< 374 && mouseX> 313 && mouseY< 250 && mouseY> 230 ) { lid_open= true ; knob_rotate+= 0.1; if ( knob_rotate> TWO_PI) { knob_rotate= 0 ; } } else { lid_open= false ; } // If the lid is closed, load the background like default
-    if ( ! lid_open) { noTint( ) ; image( gumball_dispenser, 0 , 0 , width, height) ; image( dispenser_knob, 0 , 0 , width, height) ; image( dispenser_lid_close, 0 , 0 , width, height) ; // Return the original position and size of the candy after each answer
-    posY_candy= 305 ; size_candy= 30 ; // Warning for possible trigger effect if the knob is turned
-    push( ) ; fill( 200 , 39 , 138 ) ; textSize( 20 ) ; text( "Flash Warning" , 300 , 440 ) ; // Ask the question
-    fill( 116 , 39 , 138 ) ; textSize( 50 ) ; text( questions[ question] , 300 , 510 ) ; pop( ) ; // If the lid is open but the candy is not big enough, continure turning the knob
-    } else if ( lid_open&& size_candy< 100 ) { tint( random( 0 , 255 ) , random( 0 , 255 ) , random( 0 , 255 ) ) ; image( gumball_dispenser, 0 , 0 , width, height) ; // Setting for knob rotation
-    push( ) ; translate( 349 , 242 ) ; rotate( knob_rotate) ; image( dispenser_knob, - 349 , - 242 , width, height) ; pop( ) ; // Setting for the candy
-    push( ) ; // Enlarge the size of the candy and move it out of the machine
-    posY_candy+= 2 ; size_candy+= 2 ; image( candy, posX_candy, posY_candy, size_candy, size_candy) ; pop( ) ; text( "Loading..." , 300 , 550 ) ; image( dispenser_lid_open, 0 , 0 , width, height) ; } // Once the lid is open and the candy is big enough, print a random answer to the previously shown question
-    if ( lid_open&& size_candy>= 100 && ! answerDisplayed) // Only when the answer have not been shown
-    { // Answer for Why you here Question
-    if ( question== 0 ) { let answer = int ( random( 0 , answer1 . length) ) ; background_texture( answer) ; fill( 255 ) ; text( answer1[ answer] , width/ 2 , height/ 2 ) ; // Answer for Yes/No Question
-    } else if ( question== 1 ) { // Choose a random answer
-    let answer = int ( random( 0 , answer2 . length) ) ; if ( answer> 3 ) { background( 100 + ( answer2 . length- answer) * 30 , 0 , 0 ) ; // If the answer is negative, paint the background red-ish
-    } else { background( 0 , 100 + answer* 30 , 0 ) ; // If the answer is positive, paint the background green-ish
-    } // Print the random answer chosen above
-    fill( 255 ) ; textAlign( CENTER) ; text( answer2[ answer] , width/ 2 , height/ 2 ) ; } answerDisplayed= true ; // When the answer is shown, stop jumping to a new answer
-    } // Once the mouse is released, turn the status of the answer back to not displayed
-    if ( ! mousePressed) { answerDisplayed= false ; } //frameRate(20);
-    //saveFrame("line-####.png");
-    } function mouseReleased ( ) { if ( question== 0 ) { question= 1 ; } else { question= 0 ; } // Close the song for answer1[1] when mouse is released
-    love . stop( ) ; } function background_texture ( a ) { // Bored
-    if ( a== 0 ) { for ( let i = 0 ; i< Bored . length; i++ ) { for ( let j = 0 ; j< Bored . length; j++ ) { let b = int ( random( 0 , Bored . length) ) ; tint( random( 0 , 255 ) , random( 0 , 255 ) , random( 0 , 255 ) ) ; image( Bored[ ( b+ i) % Bored . length] , i* 60 , j* 60 , 60 , 60 ) ; } } // Love
-    } else if ( a== 1 ) { background( 255 , 126 , 234 ) ; text( "200% AKMU" , width/ 2 , 500 ) ; beat . stop( ) ; love . play( ) ; // Study
-    } else if ( a== 2 ) { tint( 200 , 200 , 250 ) ; image( school, 0 , 0 , width, height) ; // Draw and update positions
-    for ( let i = 0 ; i< cols; i++ ) { for ( let j = 0 ; j< rows; j++ ) { let x = map( i, 0 , cols- 1 , 0 , width) ; let y = map( j, 0 , rows- 1 , 0 , height) ; positions[ i] [ j] = x; image( fish, x- 300 , y- 300 , width, height) ; } fill( 255 ) ; textSize( 20 ) ; text( "Quit Harvard,\ngo to school of fish!" , width/ 2 , 500 ) ; textSize( 50 ) ; } } } 
+let gumball_dispenser, dispenser_lid_open, dispenser_lid_close, lid_open;
+let dispenser_knob, knob_rotate = 0;
+
+// For the candy
+let candy, posX_candy = 320, posY_candy, size_candy;
+
+// For answer1[0]
+let Bored = new Array(10);
+
+// For answer1[2]
+let fish, school, positions, cols = 5, rows = 6;
+
+// General data for the question and answer so that they don't glitch onto each other
+let f, question = 0;
+let questions = ["What brings\nyou here?", "Ask a Yes/No\nquestion"];
+let answerDisplayed = false;
+
+// Question 1 should give a random moodboard for each answer
+let answer1 = ["Bored?", "Love?", "Study?"];
+// Question 2 should give the question with background from red to green
+let answer2 = [
+    "Yes", "Might\ndefinitely\nbe", "Absolutely!",
+    "You might\nbe true", "What are you\neven thinking?",
+    "It's good\nyou have\nthe mindset,\nno", "No, just no"
+];
+
+function setup() {
+    createCanvas(600, 600);
+    background(114, 206, 212);
+
+    // Initialize positions for fish
+    positions = Array.from(new Array(cols), () => new Array(rows));
+
+    // At first, the lid of the dispenser is closed
+    lid_open = false;
+
+    // Information for text
+    textAlign(CENTER);
+    textFont(f);
+}
+
+function preload() {
+    gumball_dispenser = loadImage("../static/asset/images/processing/Dispenser.png");
+    dispenser_lid_open = loadImage("../static/asset/images/processing/lid_open.png");
+    dispenser_lid_close = loadImage("../static/asset/images/processing/lid_close.png");
+    dispenser_knob = loadImage("../static/asset/images/processing/dispenser_knob.png");
+    candy = loadImage("../static/asset/images/processing/candy.png");
+
+    // Load bored images
+    for (let i = 0; i < Bored.length; i++) {
+        Bored[i] = loadImage(`../static/asset/images/processing/Bored${i}.png`);
+    }
+
+    fish = loadImage("../static/asset/images/processing/fish.png");
+    school = loadImage("../static/asset/images/processing/school.png");
+
+    f = loadFont("../static/asset/fonts/BHN Cinema.ttf");
+}
+
+function draw() {
+    // If mouse is pressed at the button, the knob will turn and the lid will be open
+    if (mouseIsPressed && mouseX < 374 && mouseX > 313 && mouseY < 250 && mouseY > 230) {
+        lid_open = true;
+        knob_rotate += 0.1;
+        if (knob_rotate > TWO_PI) knob_rotate = 0;
+    } else {
+        lid_open = false;
+    }
+
+    // Handle closed lid state
+    if (!lid_open) {
+        noTint();
+        image(gumball_dispenser, 0, 0, width, height);
+        image(dispenser_knob, 0, 0, width, height);
+        image(dispenser_lid_close, 0, 0, width, height);
+
+        posY_candy = 305;
+        size_candy = 30;
+
+        // Display Flash Warning and Question
+        push();
+        fill(200, 39, 138);
+        textSize(20);
+        text("Flash Warning", 300, 440);
+
+        fill(116, 39, 138);
+        textSize(50);
+        text(questions[question], 300, 510);
+        pop();
+    } else if (lid_open && size_candy < 100) {
+        // Continue enlarging candy
+        tint(random(0, 255), random(0, 255), random(0, 255));
+        image(gumball_dispenser, 0, 0, width, height);
+
+        push();
+        translate(349, 242);
+        rotate(knob_rotate);
+        image(dispenser_knob, -349, -242, width, height);
+        pop();
+
+        push();
+        posY_candy += 2;
+        size_candy += 2;
+        image(candy, posX_candy, posY_candy, size_candy, size_candy);
+        pop();
+
+        text("Loading...", 300, 550);
+        image(dispenser_lid_open, 0, 0, width, height);
+    }
+
+    // Display answers when candy is big enough
+    if (lid_open && size_candy >= 100 && !answerDisplayed) {
+        if (question === 0) {
+            let answer = int(random(0, answer1.length));
+            background_texture(answer);
+            fill(255);
+            text(answer1[answer], width / 2, height / 2);
+        } else if (question === 1) {
+            let answer = int(random(0, answer2.length));
+            if (answer > 3) {
+                background(100 + (answer2.length - answer) * 30, 0, 0);
+            } else {
+                background(0, 100 + answer * 30, 0);
+            }
+            fill(255);
+            textAlign(CENTER);
+            text(answer2[answer], width / 2, height / 2);
+        }
+        answerDisplayed = true;
+    }
+
+    // Reset on mouse release
+    if (!mouseIsPressed) {
+        answerDisplayed = false;
+    }
+}
+
+function mouseReleased() {
+    question = question === 0 ? 1 : 0;
+}
+
+function background_texture(a) {
+    if (a === 0) {
+        for (let i = 0; i < Bored.length; i++) {
+            for (let j = 0; j < Bored.length; j++) {
+                let b = int(random(0, Bored.length));
+                tint(random(0, 255), random(0, 255), random(0, 255));
+                image(Bored[(b + i) % Bored.length], i * 60, j * 60, 60, 60);
+            }
+        }
+    } else if (a === 1) {
+        background(255, 126, 234);
+        text("200% AKMU", width / 2, 500);
+    } else if (a === 2) {
+        tint(200, 200, 250);
+        image(school, 0, 0, width, height);
+
+        for (let i = 0; i < cols; i++) {
+            for (let j = 0; j < rows; j++) {
+                let x = map(i, 0, cols - 1, 0, width);
+                let y = map(j, 0, rows - 1, 0, height);
+                positions[i][j] = x;
+                image(fish, x - 300, y - 300, width, height);
+            }
+        }
+
+        fill(255);
+        textSize(20);
+        text("Quit Harvard,\ngo to school of fish!", width / 2, 500);
+    }
+}
 </script>
-</div>
 {% endblock %}
+
