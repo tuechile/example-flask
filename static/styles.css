@@ -517,11 +517,11 @@ footer {
 
 #sketch-container {
     display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
-    width: 90vw; /* Full viewport width */
-    height: 90vh; /* Full viewport height */
-    position: fixed; /* Ensure it fills the screen */
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    position: fixed;
     top: 0;
     left: 0;
 }
