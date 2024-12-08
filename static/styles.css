@@ -303,10 +303,20 @@ body {
     /* Rounded corners */
     filter: grayscale(100%);
     opacity: 0.8;
+    transition: filter 0.3s ease-in-out;
 }
 
 .bio-image:hover {
-    filter: grayscale(25%);
+    animation: grayscaleTransition 2s infinite alternate;
+}
+
+@keyframes grayscaleTransition {
+    from {
+        filter: grayscale(100%);
+    }
+    to {
+        filter: grayscale(25%);
+    }
 }
 
 .bio-text {
@@ -503,6 +513,17 @@ footer {
     width: 10rem;
     /* Adjust size of the GIF */
     height: auto;
+}
+
+#sketch-container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    width: 90vw; /* Full viewport width */
+    height: 90vh; /* Full viewport height */
+    position: fixed; /* Ensure it fills the screen */
+    top: 0;
+    left: 0;
 }
 
 /* ===== Default Styles ===== */
