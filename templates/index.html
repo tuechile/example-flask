@@ -49,12 +49,14 @@
         </nav>
         
         <div id="video-container">
+            <!--- Video will be used if the screen is big enough, otherwise a static image --->
             <video autoplay muted loop id="background-video">
                 <source src="/static/asset/images/other/BG.mp4" type="video/mp4">
             </video>
             <img id="image-static" src="/static/asset/images/other/homebackground.jpg" alt="Background Image">
         </div>
 
+        <!--- Pseudonavigator that takes visitor to a random page if input string does not match any known page well enough --->
         <form method="POST">
             <input autocomplete="off" type="text" class="header" id="newtodo" placeholder="Pirenily" name="finder">
         </form>

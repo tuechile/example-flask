@@ -94,6 +94,7 @@ body {
     position: fixed;
     overflow: hidden;
     z-index: -1;
+    padding-bottom: 0;
 }
 
 #background-video {
@@ -107,11 +108,12 @@ body {
 
 #image-static {
     display: none;
-    width: 60%;
-    max-height: 70%;
+    width: 50%;
+    height: auto;
+    max-height: 60%;
     padding-bottom: 10%;
     z-index: -1;
-    filter: grayscale(100%) brightness(0.75);
+    filter: grayscale(100%) brightness(0.5);
 }
 
 ::placeholder {
@@ -322,7 +324,7 @@ body {
 
 .bio-image:hover {
     animation: grayscaleTransition 2s infinite alternate;
-    transform: scale(1.05);
+    transform: translate(0.5rem, -0.5rem);
 }
 
 @keyframes grayscaleTransition {
@@ -371,7 +373,6 @@ footer {
     line-height: 1.5;
     padding-top: 2rem;
     padding-bottom: 2rem;
-    /* Ensure consistent spacing */
     text-align: center;
     vertical-align: middle;
     color: gray;
@@ -379,6 +380,7 @@ footer {
     z-index: 0;
 }
 
+/* Thumbnail Styling */
 .thumbnail-container {
     font-family: "Crimson Text", serif;
     display: flex;
@@ -434,15 +436,12 @@ footer {
     padding: 1rem;
 }
 
+/* Individual Item Styling */
 .item img {
     display: block;
-    /* Fixes inline-block spacing */
     width: 100%;
-    /* Images stretch to fill the container */
     height: 20rem;
-    /* Ensure consistent height */
     object-fit: cover;
-    /* Crop and fit images */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -454,27 +453,23 @@ footer {
 /* Lightbox Overlay Styling */
 .lightbox-overlay {
     display: none;
-    /* Hidden by default */
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.8);
-    /* Semi-transparent black */
     justify-content: center;
     align-items: center;
     z-index: 1000;
-    /* Ensure it's on top */
 }
 
 .lightbox-overlay img {
     max-width: 90%;
     max-height: 90%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-    /* Shadow for image */
 }
-
+/* Button Styling */
 .close-btn {
     position: absolute;
     top: 20px;
@@ -483,13 +478,11 @@ footer {
     color: white;
     cursor: pointer;
     z-index: 1001;
-    /* Above overlay image */
     transition: opacity 0.3s;
 }
 
 .close-btn:hover {
     opacity: 0.7;
-    /* Subtle hover effect */
 }
 
 /* Loader Styling */
@@ -500,29 +493,23 @@ footer {
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.8);
-    /* Dark overlay */
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 9999;
-    /* Above all elements */
     opacity: 1;
-    /* Fully visible by default */
     visibility: visible;
     transition: opacity 0.4s ease, visibility 0.4s ease;
-    /* Smooth fade-out */
 }
 
 .loader-container.hidden {
     opacity: 0;
-    /* Fade out */
     visibility: hidden;
-    /* Hide after fading out */
 }
 
+/* Adjust size of the GIF */
 .loader-container img {
     width: 10rem;
-    /* Adjust size of the GIF */
     height: auto;
 }
 
@@ -537,43 +524,33 @@ footer {
     left: 0;
 }
 
-/* ===== Default Styles ===== */
-/* Your existing styles will apply to desktop (default) */
+/* ===== Style Changes on Smaller Screen ===== */
 
 /* ===== Tablet Styles ===== */
 @media (max-width: 1200px) {
     .masonry {
         grid-template-columns: repeat(2, 1fr);
-        /* 2 columns on tablets */
     }
 
     .bio-container {
         flex-direction: column;
-        /* Stack content vertically */
         padding: 2rem;
-        /* Adjust padding */
     }
 
     .bio-text {
         max-width: 100%;
-        /* Full width for text */
         padding: 0;
-        /* Remove left padding */
     }
 
     .image {
         width: 120px;
-        /* Smaller images */
         height: 120px;
     }
 
     .header {
         font-size: 5rem;
-        /* Smaller header text */
         height: 50vh;
-        /* Reduce height of the header */
         background-size: 50vh 25vh;
-        /* Adjust background size */
     }
 
     .thumbnail {
@@ -582,18 +559,20 @@ footer {
 
     .thumbnail img {
         width: 200px;
-        /* Reduce thumbnail size */
         height: 100px;
     }
 
     .thumbnail-content {
         padding-left: 1.5rem;
-        /* Adjust padding */
     }
 
     .nav-header {
         font-size: 1rem;
         padding: 2rem;
+    }
+
+    #video-container {
+        padding-bottom: 10%;
     }
 
     #background-video {
@@ -609,55 +588,42 @@ footer {
 @media (max-width: 768px) {
     .masonry {
         grid-template-columns: 1fr;
-        /* 1 column on mobile */
         gap: 0.5rem;
-        /* Narrow gaps */
     }
 
     .bio-container {
         padding: 1rem;
-        /* Smaller padding */
     }
 
     .bio-text {
         font-size: 0.8rem;
-        /* Smaller font size */
     }
 
     .header {
         font-size: 3rem;
-        /* Smaller header text */
         height: 40vh;
-        /* Reduce header height further */
         background-size: cover;
-        /* Full background size */
     }
 
     .image {
         width: 100px;
-        /* Smaller images */
         height: 100px;
     }
 
     .thumbnail {
         flex-direction: column;
-        /* Stack thumbnails vertically */
         align-items: center;
         padding-bottom: 2rem;
     }
 
     .thumbnail img {
         width: 100%;
-        /* Full width thumbnails */
         height: auto;
-        /* Maintain aspect ratio */
     }
 
     .thumbnail-content {
         padding-left: 0;
-        /* Remove padding */
         text-align: center;
-        /* Center align text */
     }
 
     .nav-header {
@@ -667,16 +633,20 @@ footer {
 
     footer {
         font-size: 0.8rem;
-        /* Smaller footer text */
         padding-top: 1rem;
         padding-bottom: 1rem;
     }
-    
+
+    #video-container {
+        padding-bottom: 10%;
+    }
+
     #background-video {
         display: none;
     }
 
     #image-static {
         display: block;
+        width: 40%;
     }
 }
