@@ -82,7 +82,7 @@ body {
     filter: grayscale(50%);
     background-size: 75vh 30vh;
     background-repeat: no-repeat;
-    background-position: center
+    background-position: center;
 }
 
 #video-container {
@@ -104,16 +104,6 @@ body {
     padding-bottom: 10%;
     z-index:-1;
     filter: grayscale(50%);
-}
-
-#image-static {
-    display: none;
-    width: 50%;
-    height: auto;
-    max-height: 60%;
-    padding-bottom: 10%;
-    z-index: -1;
-    filter: grayscale(100%) brightness(0.5);
 }
 
 ::placeholder {
@@ -323,7 +313,7 @@ body {
 }
 
 .bio-image:hover {
-    animation: grayscaleTransition 2s infinite alternate;
+    animation: grayscaleTransition 0.5s infinite alternate;
     transform: translate(0.5rem, -0.5rem);
 }
 
@@ -432,7 +422,6 @@ footer {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     /* 3 equal-width columns */
-    block: inline;
     padding: 1rem;
 }
 
@@ -550,7 +539,8 @@ footer {
     .header {
         font-size: 5rem;
         height: 50vh;
-        background-size: 50vh 25vh;
+        background-size: 30vw;
+        background-image: url(/static/asset/images/other/homebackground.jpg);
     }
 
     .thumbnail {
@@ -579,9 +569,6 @@ footer {
         display: none;
     }
 
-    #image-static {
-        display: block;
-    }
 }
 
 /* ===== Mobile Styles ===== */
@@ -643,10 +630,5 @@ footer {
 
     #background-video {
         display: none;
-    }
-
-    #image-static {
-        display: block;
-        width: 40%;
     }
 }
