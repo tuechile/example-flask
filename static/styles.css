@@ -93,13 +93,15 @@ body {
     height: 100vh;
     position: relative;
     overflow: hidden;
+    z-index: -1;
 }
 
 #background-video {
     width: 60%;
-    height: auto; /* Maintain aspect ratio */
+    height: auto;
     max-height: 70%;
-    border-radius: 10px; /* Optional: Add rounded corners */
+    padding-bottom: 10%;
+    filter: grayscale(100%);
 }
 
 ::placeholder {
