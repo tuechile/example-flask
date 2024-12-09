@@ -12,6 +12,7 @@ Welcome to Pirenily! This project is a personal portfolio and image gallery webs
 - Backend: Flask (Python)
 Additional Tools:
 - Google Fonts
+- Koyeb
 
 3. Requirements
 To run this project, you will need:
@@ -28,13 +29,18 @@ With the virtual environment activated, install Flask using "pip install flask"
 Start the server with: "flask run"
 - Access the Website
 
-5. Usage
+5. Continuous Integration through Koyeb
+To integrate this with my own pre-purchased domain, I used Koyeb, which allows me to deploy and run Flask applications. Following the guide [here](https://github.com/koyeb/example-flask?tab=readme-ov-file), I set up an account with Koyeb (using their free tier), create a new web service, link the web service to my personal GitHub repository, and point my domain from Google Domains (now Squarespace) to the domain that Koyeb provided for my specific account.
+
+This means that I can just push new commits to my personal GitHub repository for my website, and Koyeb will take care of the deployment (if it works). You can access my website at [pirenily.com](pirenily.com)!
+
+6. Usage
 Home Page: Navigate the sections for personal, collaborative, and commissioned works.
 Small layout: about (neccessary information and self-photography), personal, collaborative, and commissioned works
 Lightbox Functionality: Click on any image thumbnail to view it in a lightbox overlay.
 Loader Animation: Notice the smooth transition when navigating between pages.
 
-6. File Structure
+7. File Structure
 pirenily-website/
 │
 ├── app.py                  # Main Flask application
@@ -51,5 +57,5 @@ pirenily-website/
 ├── README.md               # Project documentation
 └── DESIGN.md               # Design document
 
-7. Video Presentation
+8. Video Presentation
 Watch the video walkthrough here: [Pirenily Website Presentation](https://youtu.be/baghG5j9mC0)

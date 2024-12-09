@@ -56,5 +56,11 @@ How It Works: grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); allow
 e. Media queries
 To ensure an optimal experience on smaller devices, I added customized media queries for sizes where I think this might break. This includes custom box padding, changing the div element alignment, and dynamic photo sizing.
 
+f. Processing integration
+I wanted to showcase my artistic work in other projects that are at the intersection of art and technology. This one project uses Processing, which is rather hard to integrate with HTML. Instead, I converted it to p5.js language and was able to place it onto the website, with some limitations (no external libraries and limited fonts allowed).
+
+g. Subtle color introduction
+Even though the website is mostly in black and white, I wanted to add some color when it looks aesthetically appropriate. When I hover over certain texts or photos, they will gain a color or filter gradient.
+
 4. Summary
-The Pirenily website leverages Flask's templating system, CSS Grid, and JavaScript to deliver an interactive and visually appealing portfolio. Careful consideration of scalability, responsiveness, and user experience guided the design choices, ensuring the website can grow with future features and content.
+My Pirenily website leverages Flask's templating system, CSS Grid, and JavaScript to deliver an interactive and visually appealing portfolio. I have tried my best to carefully consider the scalability, responsiveness, and user experience. In the future, I hope to even manage growing the website content better by learning how to integrate a CMS database into my artworks, especially for those in the similar album grid.
