@@ -12,7 +12,7 @@ def home():
         # Get the user input from the form
         finder = request.form.get("finder")
 
-        # Validate the input against allowed templates
+        # Validate the input against allowed templates (the exact names and similar names)
         allowed_templates = ["about", "client", "collab", "personal", "street", "olympics",
                              "highlander", "illustration", "recit", "superface"]  # Add valid template names
         if finder.lower() in allowed_templates:
@@ -32,7 +32,7 @@ def home():
             # Abort with a 404 error if the template is not allowed
             return render_template(f"{finder}.html")
 
-
+# Generate template for each html page
 @app.route("/about")
 def about():
     return render_template("about.html")
