@@ -135,6 +135,7 @@ body {
     opacity: 0.5;
     transition: opacity 0.3s;
     text-decoration: none;
+    filter: grayscale(100%);
     -webkit-filter: grayscale(100%);
     text-decoration: none;
 }
@@ -159,7 +160,7 @@ body {
     /* Pushes children to edges */
     gap: 2rem;
     /* Adds space between the image and text */
-    padding: 5rem;
+    padding: 2rem;
     position: relative;
     text-align: center;
 }
@@ -190,6 +191,7 @@ body {
 .bio-text a:hover {
     background: linear-gradient(45deg, #1ca591, #fff, #1ca591);
     background-size: 200%;
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     animation: gradientHover 2s infinite linear;
@@ -198,6 +200,7 @@ body {
 .com-footer:hover {
     background: linear-gradient(45deg, #1ca591, #fff, #1ca591);
     background-size: 200%;
+    background-clip:text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     animation: gradientHover 2s infinite linear;
@@ -309,12 +312,12 @@ body {
     /* Rounded corners */
     filter: grayscale(100%);
     opacity: 0.8;
-    transition: filter 0.3s ease-in-out;
+    transition: filter 0.3s ease, box-shadow 0.3s ease;
 }
 
 .bio-image:hover {
-    animation: grayscaleTransition 0.5s infinite alternate;
-    transform: translate(0.5rem, -0.5rem);
+    animation: grayscaleTransition 1s infinite alternate;
+    box-shadow: -0.25rem 0.25rem 0.5rem 0.05rem rgba(255, 255, 255, 0.25)
 }
 
 @keyframes grayscaleTransition {
@@ -539,7 +542,7 @@ footer {
     .header {
         font-size: 5rem;
         height: 50vh;
-        background-size: 30vw;
+        background-size: contain;
         background-image: url(/static/asset/images/other/homebackground.jpg);
     }
 
@@ -589,7 +592,8 @@ footer {
     .header {
         font-size: 3rem;
         height: 40vh;
-        background-size: cover;
+        background-size: contain;
+        background-image: url(/static/asset/images/other/homebackground.jpg);
     }
 
     .image {
