@@ -30,7 +30,7 @@ Start the server with: "flask run"
 - Access the Website
 
 5. Continuous Integration through Koyeb
-To integrate this with my own pre-purchased domain, I used Koyeb, which allows me to deploy and run Flask applications. Following the guide [here](https://github.com/koyeb/example-flask?tab=readme-ov-file), I set up an account with Koyeb (using their free tier), create a new web service, link the web service to my personal GitHub repository, and point my domain from Google Domains (now Squarespace) to the domain that Koyeb provided for my specific account.
+To integrate this with my own pre-purchased domain, I used Koyeb, which is a Platform-as-a-Service platform that allows me to deploy and run Flask applications. Following the guide [here](https://github.com/koyeb/example-flask?tab=readme-ov-file), I set up an account with Koyeb (using their free tier), created a new web service, linked the web service to my personal GitHub repository (which now contained not only the front-end components, but also the Procfile and other installation requirements), and pointed my domain from Google Domains (now Squarespace) to the domain that Koyeb provided for my specific account. 
 
 This means that I can just push new commits to my personal GitHub repository for my website, and Koyeb will take care of the deployment (if it works). You can access my website at [pirenily.com](pirenily.com)!
 

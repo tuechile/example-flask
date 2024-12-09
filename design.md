@@ -54,7 +54,7 @@ CSS Grid provides a powerful and flexible layout for the gallery. It adapts seam
 How It Works: grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); allows the gallery to dynamically adjust the number of columns based on screen width.
 
 e. Media queries
-To ensure an optimal experience on smaller devices, I added customized media queries for sizes where I think this might break. This includes custom box padding, changing the div element alignment, and dynamic photo sizing.
+To ensure an optimal experience on smaller devices, I added customized media queries for sizes where I think this might break. This includes custom box padding, changing the div element alignment, and dynamic photo sizing for tablets and phones.
 
 f. Processing integration
 I wanted to showcase my artistic work in other projects that are at the intersection of art and technology. This one project uses Processing, which is rather hard to integrate with HTML. Instead, I converted it to p5.js language and was able to place it onto the website, with some limitations (no external libraries and limited fonts allowed).
