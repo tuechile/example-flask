@@ -23,16 +23,18 @@ def home():
             return render_template("client.html")
         elif finder.lower() in ["collaborative work", "collaborations", "collaboration", "member", "film", "direction", "director"]:
             return render_template("collab.html")
-        elif finder.lower() in ["personal work", "self", "person", "mine", "free","journey"]:
+        elif finder.lower() in ["personal work", "self", "person", "mine", "free", "journey"]:
             return render_template("personal.html")
         else:
-            allowed_templates = ["about", "client", "collab", "personal", "illustration"
-                                 , "portal", "recit", "street"]  # Add valid template names
+            allowed_templates = ["about", "client", "collab", "personal",
+                                 "illustration", "portal", "recit", "street"]  # Add valid template names
             finder = random.choice(allowed_templates)
             # Abort with a 404 error if the template is not allowed
             return render_template(f"{finder}.html")
 
 # Generate template for each html page
+
+
 @app.route("/about")
 def about():
     return render_template("about.html")
@@ -87,9 +89,11 @@ def superface():
 def olympics():
     return render_template("olympics.html")
 
+
 @app.route("/afvs")
 def afvs():
     return render_template("afvs.html")
+
 
 if __name__ == "__main__":
     app.run(debug=True)

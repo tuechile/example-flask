@@ -3,19 +3,19 @@
 {% block title %}| Personal{% endblock %}
 
 {% block content %}
-    <!--- Subnavigation page for displaying project --->
+<!--- Subnavigation page for displaying project --->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.js"></script>
 
     <div id="sketch-container"></div>
-    <!-- Import the script from Processing -->
-    <script> 
+<!-- Import the script from Processing -->
+    <script>
         let c = 0;
         let f;
         let d = 710;
         let w = 750;
         let h = 300;
         let counter = 0;
-        // A mixture of English and Vietnamese text for random display
+    // A mixture of English and Vietnamese text for random display
         let textArray = ["Cute", "What\nthey\ndoing?", "Ew", "That's\nnot it...", "YES", "HELP", "Actually...", "BYE!", "tsk,\ntsk", "Ủa alo", "Im", "Thôi đi", "Để\nyên!", "Ơ hay", "Kinh\nvãi", "Ê Ê Ê", "BYEEEE", "Chịu\nluôn", "Chillax", "Ồ OK", "Shhhh", "Hả?", "Huh?", "Not\nthis.", "Chuyện!"];
 
         function setup() {
@@ -24,7 +24,7 @@
             background(255);
             noStroke();
 
-            // Draw the background grid
+        // Draw the background grid
             for (let i = 200; i < width - 200; i += 25) {
                 for (let j = 50; j < height - 50; j += 25) {
                     fill(c % 2 === 0 ? 190 : 230);
@@ -34,7 +34,7 @@
                 c++;
             }
 
-            // Add the slogan
+        // Add the slogan
             textAlign(LEFT, CENTER);
             fill(0);
             textSize(50);
@@ -42,17 +42,17 @@
         }
 
         function draw() {
-            // Face
+        // Face
             fill(200);
             noStroke();
             ellipse(w, 350, 300, 350);
 
-            // Eye
+        // Eye
             fill(255);
             noStroke();
             ellipse(w, h, 170, 70);
 
-            // Iris
+        // Iris
             fill(0);
             noStroke();
             ellipse(d, h, 100, 100);
@@ -60,26 +60,26 @@
             if (d > 709 && d < 790) d += 2;
             if (d === 790) d = 710;
 
-            // Eye stroke
+        // Eye stroke
             noFill();
             strokeWeight(20);
             stroke(200);
             ellipse(w, h, 170, 70);
 
-            // Mouth
+        // Mouth
             rectMode(CENTER);
             fill(100);
             noStroke();
             rect(w, 450, 150, 15);
 
-            // Thought bubble
+        // Thought bubble
             fill(0);
             noStroke();
             ellipse(550, h, 50, 50);
             ellipse(470, h - 40, 70, 70);
             ellipse(560, h - 180, 270, 200);
 
-            // Thought text
+        // Thought text
             fill(255);
             textSize(50);
             textAlign(CENTER, CENTER);
@@ -91,6 +91,6 @@
         }
     </script>
 
-    <!--- Spacer to maintain page length --->
+<!--- Spacer to maintain page length --->
     <div class="spacer" style="padding-bottom: 77.5rem;"> </div>
 {% endblock %}
