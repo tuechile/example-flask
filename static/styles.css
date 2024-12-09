@@ -380,7 +380,6 @@ footer {
     text-align: center;
     vertical-align: middle;
     color: gray;
-    position: sticky;
     bottom: 0;
     z-index: 0;
 }
