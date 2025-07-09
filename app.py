@@ -98,5 +98,10 @@ def afvs():
 def fysemr():
     return render_template("fysemr.html")
 
+@app.route("/essays")
+def essays():
+    return render_template("essays.html")
+
+
 if __name__ == "__main__":
     app.run(debug=True)
