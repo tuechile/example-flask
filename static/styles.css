@@ -524,7 +524,7 @@ footer {
 /* ===== Style Changes on Smaller Screen ===== */
 
 /* ===== Tablet Styles ===== */
-@media (max-width: 1200px) {
+@media (min-width: 1200px) {
     .masonry {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -580,16 +580,12 @@ footer {
 }
 
 /* ===== Mobile Styles ===== */
-@media (max-width: 768px) {
+@media (min-width: 576px) {
     .masonry {
         grid-template-columns: 1fr;
         gap: 0.5rem;
     }
     .navigator {
-        font-size: 3rem;
-    }
-    
-    .nav-item-big {
         font-size: 3rem;
     }
     
