@@ -322,7 +322,7 @@ body {
 
 .bio-image:hover {
     animation: grayscaleTransition 1s infinite alternate;
-    box-shadow: -0.25rem 0.25rem 0.5rem 0.05rem #1ca591)
+    box-shadow: -0.25rem 0.25rem 0.5rem 0.05rem #1ca591;
 }
 
 @keyframes grayscaleTransition {

@@ -94,6 +94,9 @@ def olympics():
 def afvs():
     return render_template("afvs.html")
 
+@app.route("/fysemr")
+def fysemr():
+    return render_template("fysemr.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
