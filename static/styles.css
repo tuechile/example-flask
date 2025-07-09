@@ -525,7 +525,7 @@ footer {
 /* ===== Style Changes on Smaller Screen ===== */
 
 /* ===== Tablet Styles ===== */
-@media only screen and (min-width: 600px) and (max-width:880px) {
+@media screen and (min-width: 600px) and (max-width:880px) {
     .masonry {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -590,7 +590,7 @@ footer {
 }
 
 /* ===== Mobile Styles ===== */
-@media only screen and (max-width: 600px) {
+@media screen and (max-width: 600px) {
     .masonry {
         grid-template-columns: 1fr;
         gap: 0.5rem;
@@ -610,9 +610,7 @@ footer {
     }
 
     .nav-item-big{
-        display: grid;
-        grid-template-columns: 40vw;
-        
+        display: grid;        
     }
 
     .bio-container {
