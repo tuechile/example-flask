@@ -57,6 +57,7 @@ body {
     color: #fff;
     text-decoration: none;
     margin-right: auto;
+    align-content: center;
 }
 
 .nav-header:hover {
@@ -565,10 +566,19 @@ footer {
     }
 
     .nav-header {
-        font-size: 1rem;
+        font-size: 1.5rem;
         padding: 2rem;
     }
 
+    .nav-item-big{
+        display: grid;
+        grid-template-columns: 20vw 20vw;
+        
+    }
+    .nav-item{
+        padding: 0.2rem;
+
+    }
     #video-container {
         padding-bottom: 10%;
     }
@@ -585,18 +595,24 @@ footer {
         grid-template-columns: 1fr;
         gap: 0.5rem;
     }
-    
+
     .navigator {
         font-size: 3rem;
     }
     
     .nav-item {
-        font-size: 3 rem;
+        padding: 0.2rem;
     }    
 
     .nav-header {
-        font-size: 3rem;
+        font-size: 1.5rem;
         padding: 1rem;
+    }
+
+    .nav-item-big{
+        display: grid;
+        grid-template-columns: 40vw;
+        
     }
 
     .bio-container {
