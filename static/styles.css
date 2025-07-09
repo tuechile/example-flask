@@ -524,7 +524,7 @@ footer {
 /* ===== Style Changes on Smaller Screen ===== */
 
 /* ===== Tablet Styles ===== */
-@media (min-width: 600px) {
+@media (min-width: 600px) and (max-width:768px) {
     .masonry {
         grid-template-columns: repeat(2, 1fr);
     }
