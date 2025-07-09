@@ -566,12 +566,14 @@ footer {
     }
 
     .nav-header {
-        font-size: 1.5rem;
         padding: 2rem;
+        font-size: 4vw;
+        margin: auto;
     }
 
     .nav-item-big{
         display: grid;
+        flex: auto;
         grid-template-columns: 50% 50%;
         
     }
@@ -605,12 +607,13 @@ footer {
     }    
 
     .nav-header {
-        font-size: 1.5rem;
         padding: 1rem;
+        font-size: 4vw;
     }
 
     .nav-item-big{
         display: grid;        
+        text-align: right;
     }
 
     .bio-container {
