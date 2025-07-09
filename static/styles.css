@@ -16,6 +16,7 @@ body {
     src: url("/static/asset/fonts/BHN_CINEMA.TTF") format("truetype");
 }
 
+/* general item */
 .navigator {
     display: flex;
     font-size: 1.5rem;
@@ -62,6 +63,7 @@ body {
     filter: blur(1px);
 }
 
+/* for bio page */
 .video {
     padding: 3rem;
 }
@@ -582,6 +584,22 @@ footer {
     .masonry {
         grid-template-columns: 1fr;
         gap: 0.5rem;
+    }
+    .navigator {
+        font-size: 3rem;
+    }
+    
+    .nav-item-big {
+        font-size: 3rem;
+    }
+    
+    .nav-item {
+        font size: 3 rem;
+    }    
+
+    .nav-header {
+        font-size: 3rem;
+        padding: 1rem;
     }
 
     .bio-container {
