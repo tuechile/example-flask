@@ -4,31 +4,8 @@
 
 {% block content %}
 <!--- Subnavigation page for displaying project --->
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            console.log("Test script loaded");
-            const lightboxLinks = document.querySelectorAll(".lightbox");
-
-            const overlay = document.createElement("div");
-            overlay.classList.add("lightbox-overlay");
-            const img = document.createElement("img");
-            overlay.appendChild(img);
-            document.body.appendChild(overlay);
-
-            lightboxLinks.forEach((link) => {
-                link.addEventListener("click", (e) => {
-                    e.preventDefault();
-                    img.src = link.href;
-                    overlay.style.display = "flex";
-                });
-            });
-
-            overlay.addEventListener("click", () => {
-                overlay.style.display = "none";
-            });
-        });
-    </script>
-
+<script src="clickimage.js">
+</script>
     <div class="masonry">
 
         <div class="item">
