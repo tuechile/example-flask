@@ -171,13 +171,20 @@ footer {
     .nav-item{
         padding: 0.2rem;
     }
-
     .header {
     font-size: 5rem;
     height: 50vh;
     background-size: contain;
     background-image: url(/static/asset/images/other/homebackground.jpg);
     }
+        #video-container {
+        padding-bottom: 10%;
+    }
+
+    #background-video {
+        display: none;
+    }
+
 }
 
 /* ===== Mobile Styles ===== */
@@ -199,5 +206,25 @@ footer {
     .nav-item-big{
         display: grid;        
         text-align: right;
+    }
+        .header {
+        font-size: 3rem;
+        height: 40vh;
+        background-size: contain;
+        background-image: url(/static/asset/images/other/homebackground.jpg);
+    }
+
+    footer {
+        font-size: 0.8rem;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+
+    #video-container {
+        padding-bottom: 10%;
+    }
+
+    #background-video {
+        display: none;
     }
 }

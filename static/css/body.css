@@ -392,13 +392,6 @@
         height: 120px;
     }
 
-    .header {
-        font-size: 5rem;
-        height: 50vh;
-        background-size: contain;
-        background-image: url(/static/asset/images/other/homebackground.jpg);
-    }
-
     .thumbnail {
         padding-bottom: 3rem;
     }
@@ -412,13 +405,7 @@
         padding-left: 1.5rem;
     }
         
-    #video-container {
-        padding-bottom: 10%;
-    }
 
-    #background-video {
-        display: none;
-    }
 }
 
 @media screen and (max-width: 666px) {
@@ -435,12 +422,6 @@
         font-size: 0.8rem;
     }
 
-    .header {
-        font-size: 3rem;
-        height: 40vh;
-        background-size: contain;
-        background-image: url(/static/asset/images/other/homebackground.jpg);
-    }
 
     .image {
         width: 100px;
@@ -463,17 +444,4 @@
         text-align: center;
     }
 
-    footer {
-        font-size: 0.8rem;
-        padding-top: 1rem;
-        padding-bottom: 1rem;
-    }
-
-    #video-container {
-        padding-bottom: 10%;
-    }
-
-    #background-video {
-        display: none;
-    }
 }
