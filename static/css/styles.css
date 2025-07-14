@@ -81,6 +81,24 @@ footer {
     z-index: 0;
 }
 
+.header {
+    width: 95%;
+    font-family: "BHN Cinema";
+    font-size: 7rem;
+    display: flex;
+    height: 60vh;
+    margin: 0;
+    text-decoration: none;
+    color: #fff;
+    margin-bottom: 2rem;
+    padding: 1rem 1rem;
+    text-align: center;
+    background: transparent;
+    filter: grayscale(50%);
+    background-size: 75vh 30vh;
+    background-repeat: no-repeat;
+    background-position: center;
+}
 #video-container {
     display: flex;
     justify-content: center;
