@@ -1,69 +1,3 @@
-body {
-    background-color: #000000;
-    color: #555;
-    font-size: 1.5rem;
-    line-height: 1.5;
-    margin: 0;
-    text-align: left;
-    display: grid;
-    grid-template-rows: 1fr auto;
-    /* Ensure footer is always at the bottom */
-    height: 100%;
-}
-
-@font-face {
-    font-family: 'BHN Cinema';
-    src: url("/static/asset/fonts/BHN_CINEMA.TTF") format("truetype");
-}
-
-/* general item */
-.navigator {
-    display: flex;
-    font-size: 1.5rem;
-    position: sticky;
-    top: 0;
-    background-image: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
-    z-index: 999;
-}
-
-.nav-item-big {
-    font-family: 'Crimson Text';
-    font-size: 1rem;
-    font-weight: 200;
-    padding: 1.5rem 1.5rem 1.5rem 1.5rem;
-    color: #fff;
-    border: 1px solid transparent;
-    text-decoration: none;
-}
-
-.nav-item {
-    font-family: 'Crimson Text';
-    font-size: 1rem;
-    font-weight: 200;
-    padding: 1.5rem 1.5rem 1.5rem 1.5rem;
-    color: #fff;
-    border: 1px solid transparent;
-    text-decoration: none;
-}
-
-.nav-item:hover {
-    filter: blur(1px);
-}
-
-.nav-header {
-    padding: 1rem;
-    font-family: 'BHN Cinema';
-    font-size: 2rem;
-    color: #fff;
-    text-decoration: none;
-    margin-right: auto;
-    align-content: center;
-}
-
-.nav-header:hover {
-    filter: blur(1px);
-}
-
 /* for bio page */
 .video {
     padding: 3rem;
@@ -88,17 +22,6 @@ body {
     background-position: center;
 }
 
-#video-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 95vw;
-    height: 95vh;
-    position: fixed;
-    overflow: hidden;
-    z-index: -1;
-    padding-bottom: 0;
-}
 
 #background-video {
     width: 60%;
@@ -362,22 +285,6 @@ body {
 }
 
 /* Foter section design */
-footer {
-    font-family: "Crimson Text", serif;
-    font-weight: 800;
-    font-style: italic;
-    border-radius: 0.25rem;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
-    padding-top: 0.5rem;
-    padding-bottom: 1rem;
-    text-align: center;
-    vertical-align: middle;
-    color: gray;
-    bottom: 0;
-    z-index: 0;
-}
 
 /* Thumbnail Styling */
 .thumbnail-container {
@@ -523,9 +430,6 @@ footer {
     left: 0;
 }
 
-/* ===== Style Changes on Smaller Screen ===== */
-
-/* ===== Tablet Styles ===== */
 @media screen and (min-width: 666px) and (max-width:880px) {
     .masonry {
         grid-template-columns: repeat(2, 1fr);
@@ -565,23 +469,7 @@ footer {
     .thumbnail-content {
         padding-left: 1.5rem;
     }
-
-    .nav-header {
-        padding: 2rem;
-        font-size: 4vw;
-        margin: auto;
-    }
-
-    .nav-item-big{
-        display: grid;
-        flex: auto;
-        grid-template-columns: 50% 50%;
         
-    }
-    .nav-item{
-        padding: 0.2rem;
-
-    }
     #video-container {
         padding-bottom: 10%;
     }
@@ -589,35 +477,13 @@ footer {
     #background-video {
         display: none;
     }
-
 }
 
-/* ===== Mobile Styles ===== */
 @media screen and (max-width: 666px) {
     .masonry {
         grid-template-columns: 1fr;
         gap: 0.5rem;
     }
-
-    .navigator {
-        font-size: 3rem;
-    }
-    
-    .nav-item {
-        padding: 0.2rem;
-    }    
-
-    .nav-header {
-        padding: 1rem;
-        font-size: 5vw;
-        margin: auto;
-    }
-
-    .nav-item-big{
-        display: grid;        
-        text-align: right;
-    }
-
     .bio-container {
         flex-direction: column;
         padding: 1rem;
@@ -653,11 +519,6 @@ footer {
     .thumbnail-content {
         padding-left: 0;
         text-align: center;
-    }
-
-    .nav-header {
-        font-size: 5vw;
-        padding: 2rem;
     }
 
     footer {
