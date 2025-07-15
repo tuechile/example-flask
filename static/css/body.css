@@ -1,8 +1,6 @@
-/* for bio page */
 .video {
     padding: 3rem;
 }
-
 
 .contact-logo {
     text-decoration: none;
@@ -23,7 +21,7 @@
     opacity: 0.8;
 }
 
-/* Designs the About page */
+/* ========================================= About page ========================================= */
 .bio-container {
     background-repeat: no-repeat;
     background-size: 10rem auto;
@@ -48,16 +46,12 @@
     z-index: 2;
     /* Ensure text stays above the images */
     position: relative;
-}
+    max-width: 25rem;
+    /* Limit image width */
+    text-align: justify;
+    text-decoration: none;
+    /* Adds space between the text and the image */
 
-.bio-text h2 {
-    font-size: 1.5rem;
-    color: #ccc;
-}
-
-.bio-text p {
-    font-size: 1rem;
-    color: #888;
 }
 
 .bio-text a {
@@ -75,6 +69,22 @@
     animation: gradientHover 2s infinite linear;
 }
 
+.bio-text h2,
+.bio-text p {
+    font-family: 'Crimson Text', serif;
+    line-height: 1.8;
+    color: #777;
+}
+
+.bio-text h2 {
+    font-size: 1rem;
+    color: #ccc;
+}
+
+.bio-text p {
+    font-size: 0.75rem;
+    color: #888;
+}
 
 @keyframes gradientHover {
     0% {
@@ -147,21 +157,6 @@
     left: 600px;
 }
 
-.bio-text {
-    margin-bottom: 2rem;
-}
-
-.bio-text h2 {
-    font-size: 1.5rem;
-    color: #ccc;
-}
-
-.bio-text p {
-    font-size: 1rem;
-    color: #888;
-}
-
-
 /* Full-size pop-up styling */
 .popup-image {
     position: fixed;
@@ -200,34 +195,9 @@
     }
 }
 
-.bio-text {
-    max-width: 25rem;
-    /* Limit image width */
-    text-align: justify;
-    text-decoration: none;
-    /* Adds space between the text and the image */
-}
+/* Footer section design */
 
-.bio-text h2,
-.bio-text p {
-    font-family: 'Crimson Text', serif;
-    line-height: 1.8;
-    color: #777;
-}
-
-.bio-text h2 {
-    font-size: 1rem;
-    color: #ccc;
-}
-
-.bio-text p {
-    font-size: 0.75rem;
-    color: #888;
-}
-
-/* Foter section design */
-
-/* Thumbnail Styling */
+/* ========================================= Thumbnail Styling ========================================= */
 .thumbnail-container {
     font-family: "Crimson Text", serif;
     display: flex;
@@ -274,7 +244,7 @@
     color: #666;
 }
 
-/* Masonry Grid Styling */
+/* ========================================= Masonry Grid Styling ========================================= */
 .masonry {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -316,6 +286,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
+/* ========================================= Other small items ========================================= */
 /* Button Styling */
 .close-btn {
     position: absolute;

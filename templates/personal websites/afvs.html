@@ -2,7 +2,21 @@
 
 {% block title %}| Personal{% endblock %}
 {% block extra_css %} 
-                <link href="/static/css/body.css" rel="stylesheet">
+    <link href="/static/css/body.css" rel="stylesheet">
+    <style>
+        #sketch-container {
+            width: 100%;
+            height: auto;
+            position: relative;
+        }
+
+        canvas {
+            width: 100% ;
+            height: auto;
+            display: block;
+        }
+    </style>
+
 {% endblock %}
 
 {% block content %}
@@ -22,7 +36,7 @@
         let textArray = ["Cute", "What\nthey\ndoing?", "Ew", "That's\nnot it...", "YES", "HELP", "Actually...", "BYE!", "tsk,\ntsk", "Ủa alo", "Im", "Thôi đi", "Để\nyên!", "Ơ hay", "Kinh\nvãi", "Ê Ê Ê", "BYEEEE", "Chịu\nluôn", "Chillax", "Ồ OK", "Shhhh", "Hả?", "Huh?", "Not\nthis.", "Chuyện!"];
 
         function setup() {
-            let canvas = createCanvas(1000, 600);
+            let canvas = createCanvas(windowWidth, windowWidth*0.6);
             canvas.parent("sketch-container"); // Attach the canvas to the div with ID "sketch-container"
             background(255);
             noStroke();
@@ -95,5 +109,5 @@
     </script>
 
 <!--- Spacer to maintain page length --->
-    <div class="spacer" style="padding-bottom: 77.5rem;"> </div>
+    <div class="spacer" style="padding-bottom: 30rem;"> </div>
 {% endblock %}
