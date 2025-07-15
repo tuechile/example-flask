@@ -16,7 +16,7 @@ body {
     src: url("/static/asset/fonts/BHN_CINEMA.TTF") format("truetype");
 }
 
-/* general item */
+/* ========================================= Navigator panel ========================================= */
 .navigator {
     display: flex;
     font-size: 1.5rem;
@@ -64,6 +64,7 @@ body {
     filter: blur(1px);
 }
 
+/* ========================================= Footer and Header ========================================= */
 footer {
     font-family: "Crimson Text", serif;
     font-weight: 800;
@@ -80,6 +81,7 @@ footer {
     bottom: 0;
     z-index: 0;
 }
+
 .com-footer:hover {
     background: linear-gradient(45deg, #1ca591, #fff, #1ca591);
     background-size: 200%;
@@ -91,7 +93,7 @@ footer {
 }
 
 .header {
-    width: 95%;
+    width: 98%;
     font-family: "BHN Cinema";
     font-size: 7rem;
     display: flex;
@@ -109,18 +111,7 @@ footer {
     background-position: center;
 }
 
-#video-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 95vw;
-    height: 95vh;
-    position: fixed;
-    overflow: hidden;
-    z-index: -1;
-    padding-bottom: 0;
-}
-
+/* ========================================= General actions ========================================= */
 ::placeholder {
     color: white;
     opacity: 1;
@@ -140,6 +131,19 @@ footer {
 
 *:focus {
     outline: none;
+}
+
+/* ========================================= Video settings ========================================= */
+#video-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 95vw;
+    height: 95vh;
+    position: fixed;
+    overflow: hidden;
+    z-index: -1;
+    padding-bottom: 0;
 }
 
 #background-video {
@@ -208,9 +212,11 @@ footer {
         display: grid;        
         text-align: right;
     }
-        .header {
+
+    .header {
         font-size: 3rem;
-        background-size: 90%;
+        padding: 0rem;
+        background-size: 85%;
         background-image: url(/static/asset/images/other/homebackground.jpg);
     }
 
