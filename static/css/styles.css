@@ -210,7 +210,7 @@ footer {
         .header {
         font-size: 3rem;
         height: 40vh;
-        background-size: contain;
+        background-size: 90%;
         background-image: url(/static/asset/images/other/homebackground.jpg);
     }
 

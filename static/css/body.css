@@ -204,7 +204,6 @@
     max-width: 25rem;
     /* Limit image width */
     text-align: justify;
-    padding-left: 2rem;
     text-decoration: none;
     /* Adds space between the text and the image */
 }
