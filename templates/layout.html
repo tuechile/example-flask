@@ -1,51 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Pirenily {% block title %}{% endblock %}</title>
-        <!-- Import necessary fonts -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Libre+Caslon+Display&display=swap" rel="stylesheet">
-        <link href="/static/favicon.ico" rel="icon">
-        <link href="/static/css/styles.css" rel="stylesheet">
-        {% block extra_css %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pirenily {% block title %}{% endblock %}</title>
+    <!-- Import necessary fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Libre+Caslon+Display&display=swap"
+        rel="stylesheet">
+    <link href="/static/favicon.ico" rel="icon">
+    <link href="/static/css/styles.css" rel="stylesheet">
+    {% block extra_css %}
+    {% endblock %}
+</head>
+
+<body>
+    <!-- Loader -->
+    <div class="loader-container">
+        <img src="/static/asset/images/other/loader.gif" alt="Loading...">
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        <nav class="navigator">
+            <div class="nav-header">
+                <a class="nav-header" href="/"> Pirenily </a>
+            </div>
+            <div class="nav-item-big">
+                <a class="nav-item" href="about"> About </a>
+                <a class="nav-item" href="collab"> Collaborative Work </a>
+                <a class="nav-item" href="personal"> Personal Work </a>
+                <a class="nav-item" href="client"> Commissions </a>
+            </div>
+        </nav>
+        {% block content %}
         {% endblock %}
-    </head>
+    </main>
+    <footer>
+        {% block footer %}
+        {% endblock %}
+        <p></p>
+        Chi (Tue) Le | pirenily | Updated 2025
+    </footer>
 
-    <body>
-        <!-- Loader -->
-        <div class="loader-container">
-            <img src="/static/asset/images/other/loader.gif" alt="Loading...">
-        </div>
-
-        <!-- Main Content -->
-        <main>
-            <nav class="navigator">
-                <div class="nav-header">
-                    <a class="nav-header" href="/"> Pirenily </a>
-                </div>
-                <div class="nav-item-big">
-                    <a class="nav-item" href="about"> About </a>
-                    <a class="nav-item" href="collab"> Collaborative Work </a>
-                    <a class="nav-item" href="personal"> Personal Work </a>
-                    <a class="nav-item" href="client"> Commissions </a>
-                </div>
-            </nav>
-            {% block content %}
-            {% endblock %}
-        </main>
-        <footer>
-            {% block footer %}
-            {% endblock %}
-            <p></p>
-            Chi (Tue) Le | pirenily | Updated 2025
-        </footer>
-
-        <script src="{{ url_for('static', filename='loading.js') }}">
-        </script>
-    </body>
+    <script src="{{ url_for('static', filename='loading.js') }}">
+    </script>
+</body>
 
 </html>

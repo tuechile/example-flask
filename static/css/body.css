@@ -374,7 +374,7 @@
     .thumbnail-content {
         padding-left: 1.5rem;
     }
-        
+
 
 }
 
@@ -383,6 +383,7 @@
         grid-template-columns: 1fr;
         gap: 0.5rem;
     }
+
     .bio-container {
         flex-direction: column;
         padding: 1rem;
