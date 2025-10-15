@@ -118,6 +118,7 @@
     cursor: pointer;
     z-index: 1;
     filter: grayscale(100%);
+    top: random(0vw, 50vw, 5vw); left: random(0vw, 50vw, 5vw); 
 }
 
 /* Dim other images */
@@ -126,22 +127,22 @@
     /* Dim non-hovered images */
 }
 
-/* Set random positions for images */
+/* Set random positions for images
 .image:nth-child(1) { top: 50px; left: 0px; }
 .image:nth-child(2) { top: 200px; left: 200px; }
 .image:nth-child(3) { top: 100px; left: 400px; }
 .image:nth-child(4) { top: 300px; left: 50px; }
 .image:nth-child(5) { top: 400px; left: 100px; }
-.image:nth-child(6) { top: 200px; left: 350px; }
+.image:nth-child(6) { top: 200px; left: 350px; } */
 
 @media (max-width: 900px) {
     .bio-image { margin: auto;}
-    .image:nth-child(1) {top: 5vw; left: 15vw;}
+    /* .image:nth-child(1) {top: 5vw; left: 15vw;}
     .image:nth-child(2) {top: 50vw; left: 30vw;}
     .image:nth-child(3) {top: 10vw; left: 5vw;}
     .image:nth-child(4) {top: 30vw; left: 50vw;}
     .image:nth-child(5) {top: 65vw; left: 40vw;}
-    .image:nth-child(6) {top: 25vw; left: 10vw;}
+    .image:nth-child(6) {top: 25vw; left: 10vw;} */
 }
 
 /* Full-size pop-up styling */
