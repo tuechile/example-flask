@@ -157,6 +157,15 @@
     left: 600px;
 }
 
+@media (max-width: 900px) {
+    .image:nth-child(1) {top: 5vw; left: 10vw;}
+    .image:nth-child(2) {top: 20vw; left: 30vw;}
+    .image:nth-child(3) {top: 10vw; left: 50vw;}
+    .image:nth-child(4) {top: 30vw; left: 80vw;}
+    .image:nth-child(5) {top: 40vw; left: 40vw;}
+    .image:nth-child(6) {top: 25vw; left: 60vw;}
+}
+
 /* Full-size pop-up styling */
 .popup-image {
     position: fixed;
