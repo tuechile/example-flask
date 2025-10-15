@@ -17,8 +17,8 @@
             const MaxDisplacement = window.innerWidth > 600 ? -5 : 0;
             const randomTopDisplacement = Math.floor(Math.random() * MaxRange)+MaxDisplacement;
             const randomLeftDisplacement = Math.floor(Math.random() * MaxRange)+MaxDisplacement;
-            image.style.top = `(${randomTopDisplacement}vw)`;
-            image.style.left = `(${randomLeftDisplacement}vw)`;
+            image.style.top = `${randomTopDisplacement}vw`;
+            image.style.left = `${randomLeftDisplacement}vw`;
 
             image.addEventListener('mouseenter', () => {
                 // Create a new pop-up image
