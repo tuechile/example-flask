@@ -5,7 +5,7 @@
 <link href="/static/css/body.css" rel="stylesheet">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=BBH+Sans+Bartle&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=BBH+Sans+Bartle&family=Reem+Kufi+Fun&display=swap" rel="stylesheet">
 <style>
     #sketch-container {
         width: 90%;
@@ -27,7 +27,7 @@
 <!--- Subnavigation page for displaying project --->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.js"></script>
 
-<div id="sketch-container"></div>
+<div id="sketch-container" style="display: flex; justify-content: center; margin: auto; align-items: center;"></div>
 <!-- Import the script from Processing -->
 <script>
     let f;
@@ -111,7 +111,7 @@
         fill(255);
         textSize(50 * scaleX); // optionally use min(scaleX, scaleY)
         textAlign(CENTER, CENTER);
-        textFont("BBH Sans Bartle");
+        textFont("Reem Kufi Fun");
         text(textArray[counter], 560 * scaleX, 120 * scaleY);
     }
 
@@ -142,6 +142,7 @@
         textAlign(LEFT, CENTER);
         fill(0);
         textSize(50 * scaleX);
+        textFont("BBH Sans Bartle");
         text("MIND\nOTHERS'\nBUSINESS", 70 * scaleX, 400 * scaleY);
     }
 
