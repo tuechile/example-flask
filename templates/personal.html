@@ -46,6 +46,19 @@
     border-color: rgba(255,255,255,.3);
   }
 
+    /* --- Panels container keeps page from jumping --- */
+  .tabs__panels { min-height: 220px; }
+
+  /* Respect native hidden: don't override it (prevents clicking) */
+  [hidden] { display: none !important; }
+
+  /* Fade-in animation when panel becomes visible */
+  .tabpanel-in { animation: fadeInUp 200ms ease both; }
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
   /* ===== Panels (below) ===== */
   .tabs__panels { min-height: 220px; }
   [role="tabpanel"] { transition: opacity .2s ease, transform .2s ease; }
@@ -186,8 +199,16 @@
         });
         panels.forEach(p => {
           const isTarget = p.id === 'panel-' + which;
-          p.hidden = !isTarget;
-          p.classList.toggle('in', isTarget);
+          if (isTarget) {
+            p.hidden = false;
+            // restart fade-in animation
+            p.classList.remove('tabpanel-in');
+            void p.offsetWidth; // reflow
+            p.classList.add('tabpanel-in');
+          } else {
+            p.hidden = true;
+            p.classList.remove('tabpanel-in');
+          }
         });
         if (focusTab) document.getElementById('tab-' + which).focus();
         if (history.replaceState) history.replaceState(null, '', '#' + which);
