@@ -73,11 +73,13 @@
   }
   @media (max-width: 900px) {
     .card-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
-    [role="tab"] { font-size: clamp(16px, 1.2vw, 18px); }
+    .tabs__list { grid-template-columns: 1fr; }
+    [role="tab"] {font-size: clamp(20px, 1.8vw, 24px); }
   }
   @media (max-width: 600px) {
     .card-grid { grid-template-columns: 1fr; }
-    [role="tab"] { font-size: clamp(16px, 1.2vw, 18px); }
+    .tabs__list { grid-template-columns: 1fr; }
+    [role="tab"] {font-size: clamp(20px, 1.8vw, 24px); }
   }
 
   .card {
