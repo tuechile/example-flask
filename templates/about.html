@@ -13,12 +13,12 @@
         const body = document.body;
 
         images.forEach(image => {
-            const MaxRange = window.innerWidth > 600 ? 31 : 101;
+            const MaxRange = window.innerWidth > 600 ? 31 : 81;
             const MaxDisplacement = window.innerWidth > 600 ? -5 : 0;
-            const randomTopDisplacement = Math.floor(Math.random() * MaxRange)-MaxDisplacement;
-            const randomLeftDisplacement = Math.floor(Math.random() * MaxRange)-MaxDisplacement;
-            image.style.setProperty('--random-displacement-top', randomTopDisplacement);
-            image.style.setProperty('--random-displacement-left', randomLeftDisplacement);
+            const randomTopDisplacement = Math.floor(Math.random() * MaxRange)+MaxDisplacement;
+            const randomLeftDisplacement = Math.floor(Math.random() * MaxRange)+MaxDisplacement;
+            image.style.top = `(${randomTopDisplacement}vw)`;
+            image.style.left = `(${randomLeftDisplacement}vw)`;
 
             image.addEventListener('mouseenter', () => {
                 // Create a new pop-up image
@@ -83,12 +83,12 @@
     </div>
     <!-- Pictures on the right side -->
     <div class="image-container">
-        <div class="image" style="background-image: url('../static/asset/images/self/blackswan.jpg'); top: calc(var(--random-displacement-top) * 1vw); left: calc(var(--random-displacement-left) * 1vw)"></div>
-        <div class="image" style="background-image: url('../static/asset/images/self/glasses.jpg'); top: calc(var(--random-displacement-top) * 1vw); left: calc(var(--random-displacement-left) * 1vw)"></div>
-        <div class="image" style="background-image: url('../static/asset/images/self/rebel.jpg'); top: calc(var(--random-displacement-top) * 1vw); left: calc(var(--random-displacement-left) * 1vw)"></div>
-        <div class="image" style="background-image: url('../static/asset/images/self/sis.jpg'); top: calc(var(--random-displacement-top) * 1vw); left: calc(var(--random-displacement-left) * 1vw)"></div>
-        <div class="image" style="background-image: url('../static/asset/images/self/story.jpg'); top: calc(var(--random-displacement-top) * 1vw); left: calc(var(--random-displacement-left) * 1vw)"></div>
-        <div class="image" style="background-image: url('../static/asset/images/self/wow.jpg'); top: calc(var(--random-displacement-top) * 1vw); left: calc(var(--random-displacement-left) * 1vw)"></div>
+        <div class="image" style="background-image: url('../static/asset/images/self/blackswan.jpg');"></div>
+        <div class="image" style="background-image: url('../static/asset/images/self/glasses.jpg');"></div>
+        <div class="image" style="background-image: url('../static/asset/images/self/rebel.jpg');"></div>
+        <div class="image" style="background-image: url('../static/asset/images/self/sis.jpg');"></div>
+        <div class="image" style="background-image: url('../static/asset/images/self/story.jpg');"></div>
+        <div class="image" style="background-image: url('../static/asset/images/self/wow.jpg');"></div>
     </div>
 
 
