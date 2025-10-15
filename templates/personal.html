@@ -4,93 +4,87 @@
 {% block extra_css %}
 <link href="/static/css/body.css" rel="stylesheet">
 <style>
-  /* ---- 3-Category Mini Menu ---- */
-  .mini-nav { 
-    --ink: #fff; 
-    --panel-bg: rgba(0,0,0,.6);
-    --panel-border: rgba(255,255,255,.15);
-    --surface: rgba(255,255,255,.06);
-    --hover: rgba(255,255,255,.12);
-    --radius: 14px;
-    --shadow: 0 10px 30px rgba(0,0,0,.25);
-    margin: 24px auto 48px;
+  /* ===== Tabs (top) ===== */
+  .tabs {
     max-width: 1100px;
+    margin: 0 auto 48px;
     padding: 0 16px;
   }
+  .tabs__list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0,1fr));
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+  [role="tab"] {
+    font-family: 'BHN Cinema', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+    font-weight: 600;
+    font-size: clamp(18px, 1.6vw, 22px);
+    color: #fff;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.15);
+    border-radius: 14px;
+    padding: 14px 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.25);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .2s ease, border-color .2s ease, transform .06s ease;
+  }
+  [role="tab"]:hover, [role="tab"]:focus-visible {
+    background: rgba(255,255,255,.12); outline: none;
+  }
+  [role="tab"][aria-selected="true"] {
+    background: rgba(255,255,255,.16);
+    border-color: rgba(255,255,255,.3);
+  }
 
-  .mini-nav__row {
+  /* ===== Panels (below) ===== */
+  .tabs__panels {
+    min-height: 220px; /* keeps page from jumping when switching */
+  }
+  [role="tabpanel"] {
+    /* hidden panels use the hidden attribute set by JS */
+    transition: opacity .2s ease, transform .2s ease;
+  }
+  [role="tabpanel"][data-enter] { opacity: 0; transform: translateY(6px); }
+  [role="tabpanel"][data-enter].in { opacity: 1; transform: translateY(0); }
+
+  /* ===== Card grid ===== */
+  .card-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0,1fr));
     gap: 14px;
   }
+  @media (max-width: 900px) { .card-grid { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+  @media (max-width: 600px) { .card-grid { grid-template-columns: 1fr; } }
 
-  .mini-nav__group { position: relative; }
-
-  .mini-nav__button {
-    width: 100%;
-    font-family: 'BHN Cinema', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-    font-weight: 600;
-    font-size: clamp(18px, 1.6vw, 22px);
-    line-height: 1.1;
-    color: var(--ink);
-    background: var(--surface);
-    border: 1px solid var(--panel-border);
-    border-radius: var(--radius);
-    padding: 14px 16px;
-    display: flex; align-items: center; justify-content: space-between;
-    box-shadow: var(--shadow);
-    cursor: pointer;
-    transition: background .2s ease, transform .05s ease, border-color .2s ease;
+  .card {
+    position: relative;
+    display: block;
+    text-decoration: none;
+    color: #fff;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.15);
+    border-radius: 14px;
+    padding: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,.25);
+    transition: transform .08s ease, background .2s ease, border-color .2s ease;
   }
-  .mini-nav__button:hover,
-  .mini-nav__button:focus-visible { background: var(--hover); outline: none; }
-  .mini-nav__button:active { transform: translateY(1px); }
-  .mini-nav__chev { opacity: .8; }
-
-  /* Panels */
-  .mini-nav__panel {
-    position: absolute; left: 0; right: 0; top: calc(100% + 8px);
-    background: var(--panel-bg);
-    border: 1px solid var(--panel-border);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    padding: 10px;
-    opacity: 0; visibility: hidden; transform: translateY(6px);
-    transition: opacity .18s ease, transform .18s ease, visibility 0s linear .18s;
-    pointer-events: none;
-    z-index: 10;
-  }
-  .mini-nav__group:hover .mini-nav__panel,
-  .mini-nav__group:focus-within .mini-nav__panel,
-  .mini-nav__group[aria-open="true"] .mini-nav__panel {
-    opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto;
-  }
-
-  .mini-nav__grid { 
-    list-style: none; margin: 0; padding: 0; 
-    display: grid; grid-template-columns: 1fr; gap: 6px; 
-  }
-  .mini-nav__grid a {
-    display: block; width: 100%;
-    color: var(--ink); text-decoration: none;
-    border: 1px solid transparent;
-    border-radius: 10px;
-    padding: 10px 12px;
-    font-size: 15px;
-    background: transparent;
-    transition: background .15s ease, border-color .15s ease;
-  }
-  .mini-nav__grid a:hover, .mini-nav__grid a:focus-visible {
-    background: rgba(255,255,255,.09);
-    border-color: var(--panel-border);
+  .card:hover, .card:focus-visible {
+    background: rgba(255,255,255,.12);
+    border-color: rgba(255,255,255,.25);
     outline: none;
+    transform: translateY(-1px);
   }
-
-  /* Mobile */
-  @media (max-width: 800px) {
-    .mini-nav__row { grid-template-columns: 1fr; }
-    .mini-nav__panel { position: static; transform: none; margin-top: 8px; }
-    .mini-nav__group:not([aria-open="true"]) .mini-nav__panel { display: none; opacity: 1; visibility: visible; }
+  .card__title {
+    font-family: 'BHN Cinema', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+    font-size: clamp(18px, 1.4vw, 22px);
+    margin-bottom: 8px;
+  }
+  .card__desc {
+    color: #cfcfcf;
+    font-size: 14px;
+    line-height: 1.35;
   }
 </style>
 {% endblock %}
@@ -100,99 +94,140 @@
   Personal Work
 </h1>
 
-<!-- ===== 3-Category Hover/Tap Navigation ===== -->
-<section class="mini-nav" aria-label="Smaller projects navigation">
-  <div class="mini-nav__row">
+<section class="tabs" aria-label="Smaller projects">
+  <!-- Tabs -->
+  <div class="tabs__list" role="tablist" aria-label="Categories">
+    <button id="tab-art" role="tab" aria-selected="true" aria-controls="panel-art">Art</button>
+    <button id="tab-interactivity" role="tab" aria-selected="false" aria-controls="panel-interactivity">Interactivity</button>
+    <button id="tab-essays" role="tab" aria-selected="false" aria-controls="panel-essays">Essays</button>
+  </div>
+
+  <!-- Panels -->
+  <div class="tabs__panels">
     <!-- ART -->
-    <div class="mini-nav__group" data-group aria-open="false">
-      <button class="mini-nav__button" type="button" aria-expanded="false" aria-controls="panel-art">
-        Art <span class="mini-nav__chev" aria-hidden="true">▾</span>
-      </button>
-      <div class="mini-nav__panel" id="panel-art" role="region" aria-label="Art projects">
-        <ul class="mini-nav__grid">
-          <li><a href="street">Street Photography</a></li>
-          <li><a href="illustration">Illustrations</a></li>
-          <li><a href="superface">Superface</a></li>
-        </ul>
+    <div id="panel-art" role="tabpanel" aria-labelledby="tab-art">
+      <div class="card-grid">
+        <a class="card" href="street">
+          <div class="card__title">Street Photography</div>
+          <div class="card__desc">Through the lens of my Nikon D5100 since 2017 • Ongoing</div>
+        </a>
+        <a class="card" href="illustration">
+          <div class="card__title">Illustrations</div>
+          <div class="card__desc">Anime & cartoons (2018–2024) • Delayed after 2022</div>
+        </a>
+        <a class="card" href="superface">
+          <div class="card__title">Superface</div>
+          <div class="card__desc">Self-portraits as layered personas • Delayed after 2023</div>
+        </a>
       </div>
     </div>
 
     <!-- INTERACTIVITY -->
-    <div class="mini-nav__group" data-group aria-open="false">
-      <button class="mini-nav__button" type="button" aria-expanded="false" aria-controls="panel-interactivity">
-        Interactivity <span class="mini-nav__chev" aria-hidden="true">▾</span>
-      </button>
-      <div class="mini-nav__panel" id="panel-interactivity" role="region" aria-label="Interactive projects">
-        <ul class="mini-nav__grid">
-          <li><a href="afvs">Coding and Interactivity</a></li>
-        </ul>
+    <div id="panel-interactivity" role="tabpanel" aria-labelledby="tab-interactivity" hidden>
+      <div class="card-grid">
+        <a class="card" href="afvs">
+          <div class="card__title">Coding and Interactivity</div>
+          <div class="card__desc">Press a key to see how the face reacts • Ongoing</div>
+        </a>
       </div>
     </div>
 
     <!-- ESSAYS -->
-    <div class="mini-nav__group" data-group aria-open="false">
-      <button class="mini-nav__button" type="button" aria-expanded="false" aria-controls="panel-essays">
-        Essays <span class="mini-nav__chev" aria-hidden="true">▾</span>
-      </button>
-      <div class="mini-nav__panel" id="panel-essays" role="region" aria-label="Essays">
-        <ul class="mini-nav__grid">
-          <li><a href="portal">The Portal</a></li>
-          <li><a href="fysemr">The land of rivers: An imagined tea garden</a></li>
-          <li><a href="essays">(A) video essay(s)</a></li>
-        </ul>
+    <div id="panel-essays" role="tabpanel" aria-labelledby="tab-essays" hidden>
+      <div class="card-grid">
+        <a class="card" href="portal">
+          <div class="card__title">The Portal</div>
+          <div class="card__desc">A collection of poems & short stories • Discontinued in 2021</div>
+        </a>
+        <a class="card" href="fysemr">
+          <div class="card__title">The land of rivers</div>
+          <div class="card__desc">An imagined tea garden • Dec 2024</div>
+        </a>
+        <a class="card" href="essays">
+          <div class="card__title">(A) video essay(s)</div>
+          <div class="card__desc">A shortlist of ideas • May 2025</div>
+        </a>
       </div>
     </div>
   </div>
 </section>
 
 <script>
-  // Toggle for mobile/tap, close-on-Escape, and de-sticky hover
+  // Accessible tabs with arrow keys + deep links (#art/#interactivity/#essays)
   (function () {
-    const groups = document.querySelectorAll('.mini-nav [data-group]');
-    groups.forEach(group => {
-      const btn = group.querySelector('.mini-nav__button');
-      const panel = group.querySelector('.mini-nav__panel');
-      if (!btn || !panel) return;
+    const tabs = Array.from(document.querySelectorAll('[role="tab"]'));
+    const panels = Array.from(document.querySelectorAll('[role="tabpanel"]'));
+    const idToPanel = Object.fromEntries(panels.map(p => [p.id.replace('panel-',''), p]));
+    const keyOrder = ['art','interactivity','essays'];
 
-      btn.addEventListener('click', () => {
-        const isOpen = group.getAttribute('aria-open') === 'true';
-        if (window.matchMedia('(max-width: 800px)').matches) {
-          groups.forEach(g => {
-            if (g !== group) {
-              g.setAttribute('aria-open', 'false');
-              const obtn = g.querySelector('.mini-nav__button');
-              if (obtn) obtn.setAttribute('aria-expanded', 'false');
-            }
-          });
-        }
-        group.setAttribute('aria-open', String(!isOpen));
-        btn.setAttribute('aria-expanded', String(!isOpen));
+    function show(which, focusTab = false) {
+      tabs.forEach(t => {
+        const isSelected = t.id === 'tab-' + which;
+        t.setAttribute('aria-selected', String(isSelected));
+        t.tabIndex = isSelected ? 0 : -1;
       });
-
-      panel.addEventListener('keyup', (e) => {
-        if (e.key === 'Escape') {
-          group.setAttribute('aria-open', 'false');
-          btn.setAttribute('aria-expanded', 'false');
-          btn.focus();
+      panels.forEach(p => {
+        const isTarget = p.id === 'panel-' + which;
+        if (isTarget) {
+          p.hidden = false;
+          p.setAttribute('data-enter','');
+          // trigger transition
+          requestAnimationFrame(() => p.classList.add('in'));
+        } else {
+          p.hidden = true;
+          p.classList.remove('in');
         }
       });
+      if (focusTab) document.getElementById('tab-' + which).focus();
+      // update URL hash without jumping
+      if (history.replaceState) history.replaceState(null, '', '#' + which);
+    }
 
-      group.addEventListener('mouseleave', () => {
-        if (!window.matchMedia('(max-width: 800px)').matches) {
-          group.setAttribute('aria-open', 'false');
-          btn.setAttribute('aria-expanded', 'false');
+    function current() {
+      const sel = tabs.find(t => t.getAttribute('aria-selected') === 'true');
+      return sel ? sel.id.replace('tab-','') : 'art';
+    }
+
+    // Click handling
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const which = tab.id.replace('tab-','');
+        show(which);
+      });
+      tab.addEventListener('keydown', (e) => {
+        const idx = keyOrder.indexOf(current());
+        if (e.key === 'ArrowRight') {
+          const next = keyOrder[(idx + 1) % keyOrder.length];
+          show(next, true);
+          e.preventDefault();
+        } else if (e.key === 'ArrowLeft') {
+          const prev = keyOrder[(idx - 1 + keyOrder.length) % keyOrder.length];
+          show(prev, true);
+          e.preventDefault();
+        } else if (e.key === 'Home') {
+          show(keyOrder[0], true); e.preventDefault();
+        } else if (e.key === 'End') {
+          show(keyOrder[keyOrder.length - 1], true); e.preventDefault();
         }
       });
     });
+
+    // On load: respect hash if present
+    const hash = (location.hash || '').replace('#','');
+    if (hash && idToPanel[hash]) {
+      show(hash);
+    } else {
+      show('art'); // default
+    }
   })();
 </script>
 
 <!--
   ===== Original thumbnail grid (kept here, commented out). 
-  Delete this block once you're happy with the new menu. =====
+  Delete this once you’re happy. =====
 
 <div class="thumbnail-container">
-    ... original blocks ...
+  ... original blocks ...
 </div>
 -->
 
