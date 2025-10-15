@@ -3,6 +3,9 @@
 {% block title %}| Personal{% endblock %}
 {% block extra_css %}
 <link href="/static/css/body.css" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=BBH+Sans+Bartle&display=swap" rel="stylesheet">
 <style>
     #sketch-container {
         width: 90%;
@@ -60,6 +63,7 @@
         textAlign(LEFT, CENTER);
         fill(0);
         textSize(50 * scaleX);
+        textFont("BBH Sans Bartle");
         text("MIND\nOTHERS'\nBUSINESS", 70 * scaleX, 400 * scaleY);
     }
 
@@ -107,6 +111,7 @@
         fill(255);
         textSize(50 * scaleX); // optionally use min(scaleX, scaleY)
         textAlign(CENTER, CENTER);
+        textFont("BBH Sans Bartle");
         text(textArray[counter], 560 * scaleX, 120 * scaleY);
     }
 
