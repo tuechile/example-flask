@@ -71,8 +71,14 @@
     grid-template-columns: repeat(3, minmax(0,1fr));
     gap: 14px;
   }
-  @media (max-width: 900px) { .card-grid { grid-template-columns: repeat(2, minmax(0,1fr)); } }
-  @media (max-width: 600px) { .card-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 900px) {
+    .card-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    [role="tab"] { font-size: clamp(16px, 1.2vw, 18px); }
+  }
+  @media (max-width: 600px) {
+    .card-grid { grid-template-columns: 1fr; }
+    [role="tab"] { font-size: clamp(16px, 1.2vw, 18px); }
+  }
 
   .card {
     position: relative;
@@ -139,7 +145,7 @@
         </a>
         <a class="card" href="illustration">
           <div class="card__title">Illustrations</div>
-          <div class="card__desc">My journey in the world of anime and cartoons (2018–2024)</div>
+          <div class="card__desc">My journey in the world of anime and cartoons (2018-2024)</div>
           <div class="card__meta">Delayed after 2022</div>
         </a>
         <a class="card" href="superface">
@@ -171,11 +177,11 @@
         </a>
         <a class="card" href="fysemr">
           <div class="card__title">The land of rivers: An imagined tea garden</div>
-          <div class="card__desc">Final project for FYSEMR 65R — created with Clip Studio Paint and InDesign</div>
+          <div class="card__desc">Final project for FYSEMR 65R - created with Clip Studio Paint and InDesign</div>
           <div class="card__meta">December 2024</div>
         </a>
         <a class="card" href="essays">
-          <div class="card__title">(A) video essay(s)</div>
+          <div class="card__title">Video essays</div>
           <div class="card__desc">A list of possible video essays I might create</div>
           <div class="card__meta">May 2025</div>
         </a>
