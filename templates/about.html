@@ -13,6 +13,11 @@
         const body = document.body;
 
         images.forEach(image => {
+            const randomTopDisplacement = Math.floor(Math.random() * 11) * 5; 
+            const randomLeftDisplacement = Math.floor(Math.random() * 11) * 5;
+            image.style.setProperty('--random-displacement-top', randomTopDisplacement);
+            image.style.setProperty('--random-displacement-left', randomLeftDisplacement);
+            
             image.addEventListener('mouseenter', () => {
                 // Create a new pop-up image
                 const popup = document.createElement('div');
@@ -52,11 +57,6 @@
         });
     });
 
-    const image = document.querySelector('.image');
-    const randomTopDisplacement = Math.floor(Math.random() * 11) * 5; 
-    const randomLeftDisplacement = Math.floor(Math.random() * 11) * 5;
-    image.style.setProperty('--random-displacement-top', randomTopDisplacement);
-    image.style.setProperty('--random-displacement-left', randomLeftDisplacement);
 </script>
 <div class="bio-container">
     <!-- Picture on the left side -->
