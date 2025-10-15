@@ -127,43 +127,21 @@
 }
 
 /* Set random positions for images */
-.image:nth-child(1) {
-    top: 50px;
-    left: 100px;
-}
-
-.image:nth-child(2) {
-    top: 200px;
-    left: 300px;
-}
-
-.image:nth-child(3) {
-    top: 100px;
-    left: 500px;
-}
-
-.image:nth-child(4) {
-    top: 300px;
-    left: 150px;
-}
-
-.image:nth-child(5) {
-    top: 400px;
-    left: 400px;
-}
-
-.image:nth-child(6) {
-    top: 200px;
-    left: 600px;
-}
+.image:nth-child(1) { top: 50px; left: 50px; }
+.image:nth-child(2) { top: 200px; left: 250px; }
+.image:nth-child(3) { top: 100px; left: 450px; }
+.image:nth-child(4) { top: 300px; left: 100px; }
+.image:nth-child(5) { top: 400px; left: 350px; }
+.image:nth-child(6) { top: 200px; left: 500px; }
 
 @media (max-width: 900px) {
+    .bio-image { margin: auto;}
     .image:nth-child(1) {top: 5vw; left: 10vw;}
-    .image:nth-child(2) {top: 20vw; left: 30vw;}
-    .image:nth-child(3) {top: 10vw; left: 50vw;}
-    .image:nth-child(4) {top: 30vw; left: 80vw;}
-    .image:nth-child(5) {top: 40vw; left: 40vw;}
-    .image:nth-child(6) {top: 25vw; left: 60vw;}
+    .image:nth-child(2) {top: 50vw; left: 30vw;}
+    .image:nth-child(3) {top: 10vw; left: 15vw;}
+    .image:nth-child(4) {top: 30vw; left: 60vw;}
+    .image:nth-child(5) {top: 65vw; left: 40vw;}
+    .image:nth-child(6) {top: 25vw; left: 20vw;}
 }
 
 /* Full-size pop-up styling */
@@ -180,6 +158,7 @@
 
 .bio-image {
     flex: 0 0 auto;
+    margin-left: 1vw;
     /* Ensures the image stays its natural size */
     max-width: 300px;
     /* Limit image width */
