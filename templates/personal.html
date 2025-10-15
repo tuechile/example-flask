@@ -3,8 +3,6 @@
 {% block title %}| Personal{% endblock %}
 {% block extra_css %}
 <link href="/static/css/body.css" rel="stylesheet">
-<!-- Load Crimson Text for card descriptions -->
-<link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
   /* ===== Tabs (top) ===== */
   .tabs {
@@ -14,7 +12,7 @@
   }
   .tabs__list {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0,1fr));
+    grid-template-columns: repeat(3, minmax(0,1fr));
     gap: 12px;
     margin-bottom: 18px;
   }
@@ -51,8 +49,8 @@
   /* ===== Panels (below) ===== */
   .tabs__panels { min-height: 220px; }
   [role="tabpanel"] { transition: opacity .2s ease, transform .2s ease; }
-  [role="tabpanel"][data-enter] { opacity: 0; transform: translateY(6px); }
-  [role="tabpanel"][data-enter].in { opacity: 1; transform: translateY(0); }
+  [role="tabpanel"].in { opacity: 1; transform: translateY(0); }
+  [role="tabpanel"][hidden] { display: block; opacity: 0; transform: translateY(6px); }
 
   /* ===== Card grid ===== */
   .card-grid {
@@ -114,7 +112,6 @@
     <button id="tab-art" role="tab" aria-selected="true" aria-controls="panel-art">Art</button>
     <button id="tab-interactivity" role="tab" aria-selected="false" aria-controls="panel-interactivity">Interactivity</button>
     <button id="tab-essays" role="tab" aria-selected="false" aria-controls="panel-essays">Essays</button>
-    <button id="tab-nothing" role="tab" aria-selected="false" aria-controls="panel-nothing">Nothing</button>
   </div>
 
   <!-- Panels -->
@@ -171,73 +168,68 @@
         </a>
       </div>
     </div>
-
-    <!-- NOTHING -->
-    <div id="panel-nothing" role="tabpanel" aria-labelledby="tab-nothing" hidden>
-      <!-- Intentionally blank. Keep one line for screen readers only: -->
-      <span class="sr-only">This panel is intentionally left blank.</span>
-    </div>
   </div>
 </section>
 
 <script>
-  // Accessible tabs with arrow keys + deep links (#art/#interactivity/#essays)
-  (function () {
-    const tabs = Array.from(document.querySelectorAll('[role="tab"]'));
-    const panels = Array.from(document.querySelectorAll('[role="tabpanel"]'));
-    const idToPanel = Object.fromEntries(panels.map(p => [p.id.replace('panel-',''), p]));
-    const keyOrder = ['art','interactivity','essays','nothing'];
+    // Accessible tabs that start with NOTHING shown (no selection).
+    (function () {
+      const tabs   = Array.from(document.querySelectorAll('[role="tab"]'));
+      const panels = Array.from(document.querySelectorAll('[role="tabpanel"]'));
+      const order  = ['art','interactivity','essays'];
 
-    function show(which, focusTab = false) {
-      tabs.forEach(t => {
-        const isSelected = t.id === 'tab-' + which;
-        t.setAttribute('aria-selected', String(isSelected));
-        t.tabIndex = isSelected ? 0 : -1;
+      function show(which, focusTab = false) {
+        tabs.forEach(t => {
+          const isSelected = t.id === 'tab-' + which;
+          t.setAttribute('aria-selected', String(isSelected));
+          t.tabIndex = isSelected ? 0 : -1;
+        });
+        panels.forEach(p => {
+          const isTarget = p.id === 'panel-' + which;
+          p.hidden = !isTarget;
+          p.classList.toggle('in', isTarget);
+        });
+        if (focusTab) document.getElementById('tab-' + which).focus();
+        if (history.replaceState) history.replaceState(null, '', '#' + which);
+      }
+
+      function hideAll() {
+        tabs.forEach((t, i) => { t.setAttribute('aria-selected','false'); t.tabIndex = (i === 0 ? 0 : -1); });
+        panels.forEach(p => { p.hidden = true; p.classList.remove('in'); });
+        if (history.replaceState) history.replaceState(null, '', location.pathname + location.search);
+      }
+
+      // Click to activate
+      tabs.forEach((tab) => {
+        tab.addEventListener('click', () => show(tab.id.replace('tab-','')));
+        // Keyboard nav: arrows move focus; Enter/Space activates
+        tab.addEventListener('keydown', (e) => {
+          const i = tabs.indexOf(tab);
+          if (e.key === 'Enter' || e.key === ' ') {
+            show(tab.id.replace('tab-',''), true);
+            e.preventDefault();
+            return;
+          }
+          if (e.key === 'ArrowRight' || e.key === 'ArrowLeft' || e.key === 'Home' || e.key === 'End') {
+            let j = i;
+            if (e.key === 'ArrowRight') j = (i + 1) % tabs.length;
+            else if (e.key === 'ArrowLeft') j = (i - 1 + tabs.length) % tabs.length;
+            else if (e.key === 'Home') j = 0;
+            else if (e.key === 'End') j = tabs.length - 1;
+            tabs[j].focus();
+            e.preventDefault();
+          }
+        });
       });
-      panels.forEach(p => {
-        const isTarget = p.id === 'panel-' + which;
-        if (isTarget) {
-          p.hidden = false;
-          p.setAttribute('data-enter','');
-          requestAnimationFrame(() => p.classList.add('in'));
-        } else {
-          p.hidden = true;
-          p.classList.remove('in');
-        }
-      });
-      if (focusTab) document.getElementById('tab-' + which).focus();
-      if (history.replaceState) history.replaceState(null, '', '#' + which);
-    }
 
-    function current() {
-      const sel = document.querySelector('[role="tab"][aria-selected="true"]');
-      return sel ? sel.id.replace('tab-','') : 'art';
-    }
+      // On load: respect hash; otherwise show nothing
+      const hash = (location.hash || '').replace('#','');
+      if (hash && panels.some(p => p.id === 'panel-' + hash)) {
+        show(hash);
+      } else {
+        hideAll(); // default: nothing visible
+      }
+    })();
+  </script>
 
-    // Click + keyboard nav
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => show(tab.id.replace('tab-','')));
-      tab.addEventListener('keydown', (e) => {
-        const idx = keyOrder.indexOf(current());
-        if (e.key === 'ArrowRight') { show(keyOrder[(idx + 1) % keyOrder.length], true); e.preventDefault(); }
-        else if (e.key === 'ArrowLeft') { show(keyOrder[(idx - 1 + keyOrder.length) % keyOrder.length], true); e.preventDefault(); }
-        else if (e.key === 'Home') { show(keyOrder[0], true); e.preventDefault(); }
-        else if (e.key === 'End') { show(keyOrder[keyOrder.length - 1], true); e.preventDefault(); }
-      });
-    });
-
-    // On load: respect hash if present; otherwise default to 'art'
-    const hash = (location.hash || '').replace('#','');
-    if (hash && idToPanel[hash]) {
-      show(hash);
-    } else {
-      show('nothing'); // change here if you want a different default
-    }
-  })();
-</script>
-
-<!--
-  Original thumbnail grid (optional; remove when done)
-  <div class="thumbnail-container"> ... </div>
--->
 {% endblock %}
