@@ -118,7 +118,7 @@
     cursor: pointer;
     z-index: 1;
     filter: grayscale(100%);
-    top: random(0vw, 50vw, 5vw); left: random(0vw, 50vw, 5vw); 
+    /* top: random(0vw, 50vw, 5vw); left: random(0vw, 50vw, 5vw);  */
 }
 
 /* Dim other images */
