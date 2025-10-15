@@ -14,7 +14,7 @@
     display: grid;
     grid-template-columns: repeat(3, minmax(0,1fr));
     gap: 12px;
-    margin-bottom: 18px;
+    margin-bottom: 12px;
   }
   /* visually hidden but accessible text */
   .sr-only {
@@ -44,6 +44,7 @@
   [role="tab"][aria-selected="true"] {
     background: rgba(255,255,255,.16);
     border-color: rgba(255,255,255,.3);
+    box-shadow: 0 10px 30px rgba(0,0,0,.25), 0 10px 30px 1px rgba(28, 165, 145, 0.125);
   }
 
     /* --- Panels container keeps page from jumping --- */
@@ -73,12 +74,12 @@
   }
   @media (max-width: 900px) {
     .card-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
-    .tabs__list { grid-template-columns: 1fr; }
+    .tabs__list { grid-template-columns: 1fr; margin-bottom: 10px; }
     [role="tab"] {font-size: clamp(20px, 1.8vw, 24px); }
   }
   @media (max-width: 600px) {
     .card-grid { grid-template-columns: 1fr; }
-    .tabs__list { grid-template-columns: 1fr; }
+    .tabs__list { grid-template-columns: 1fr; margin-bottom: 8px; }
     [role="tab"] {font-size: clamp(20px, 1.8vw, 24px); }
   }
 
