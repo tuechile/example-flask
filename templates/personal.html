@@ -3,6 +3,8 @@
 {% block title %}| Personal{% endblock %}
 {% block extra_css %}
 <link href="/static/css/body.css" rel="stylesheet">
+<!-- Load Crimson Text for card descriptions -->
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
   /* ===== Tabs (top) ===== */
   .tabs {
@@ -12,9 +14,17 @@
   }
   .tabs__list {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0,1fr));
+    grid-template-columns: repeat(4, minmax(0,1fr));
     gap: 12px;
     margin-bottom: 18px;
+  }
+  /* visually hidden but accessible text */
+  .sr-only {
+    position: absolute !important;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0,0,0,0);
+    white-space: nowrap; border: 0;
   }
   [role="tab"] {
     font-family: 'BHN Cinema', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
@@ -39,13 +49,8 @@
   }
 
   /* ===== Panels (below) ===== */
-  .tabs__panels {
-    min-height: 220px; /* keeps page from jumping when switching */
-  }
-  [role="tabpanel"] {
-    /* hidden panels use the hidden attribute set by JS */
-    transition: opacity .2s ease, transform .2s ease;
-  }
+  .tabs__panels { min-height: 220px; }
+  [role="tabpanel"] { transition: opacity .2s ease, transform .2s ease; }
   [role="tabpanel"][data-enter] { opacity: 0; transform: translateY(6px); }
   [role="tabpanel"][data-enter].in { opacity: 1; transform: translateY(0); }
 
@@ -78,13 +83,22 @@
   }
   .card__title {
     font-family: 'BHN Cinema', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-    font-size: clamp(18px, 1.4vw, 22px);
+    font-size: clamp(14px, 1.1vw, 16px);
     margin-bottom: 8px;
   }
+  /* Smaller, readable descriptions in Crimson Text */
   .card__desc {
-    color: #cfcfcf;
-    font-size: 14px;
+    font-family: 'Crimson Text', serif;
+    font-size: clamp(14px, 1.1vw, 16px);
+    line-height: 1.4;
+    color: #e3e3e3;
+  }
+  .card__meta {
+    font-family: 'Crimson Text', serif;
+    font-size: 13px;
     line-height: 1.35;
+    color: #bdbdbd;
+    margin-top: 6px;
   }
 </style>
 {% endblock %}
@@ -100,6 +114,7 @@
     <button id="tab-art" role="tab" aria-selected="true" aria-controls="panel-art">Art</button>
     <button id="tab-interactivity" role="tab" aria-selected="false" aria-controls="panel-interactivity">Interactivity</button>
     <button id="tab-essays" role="tab" aria-selected="false" aria-controls="panel-essays">Essays</button>
+    <button id="tab-nothing" role="tab" aria-selected="false" aria-controls="panel-nothing">Nothing</button>
   </div>
 
   <!-- Panels -->
@@ -109,15 +124,18 @@
       <div class="card-grid">
         <a class="card" href="street">
           <div class="card__title">Street Photography</div>
-          <div class="card__desc">Through the lens of my Nikon D5100 since 2017 • Ongoing</div>
+          <div class="card__desc">Through the lens of my Nikon D5100 since 2017</div>
+          <div class="card__meta">Ongoing</div>
         </a>
         <a class="card" href="illustration">
           <div class="card__title">Illustrations</div>
-          <div class="card__desc">Anime & cartoons (2018–2024) • Delayed after 2022</div>
+          <div class="card__desc">My journey in the world of anime and cartoons (2018–2024)</div>
+          <div class="card__meta">Delayed after 2022</div>
         </a>
         <a class="card" href="superface">
           <div class="card__title">Superface</div>
-          <div class="card__desc">Self-portraits as layered personas • Delayed after 2023</div>
+          <div class="card__desc">Self-edited self-portraits exploring makeup and persona</div>
+          <div class="card__meta">Delayed after 2023</div>
         </a>
       </div>
     </div>
@@ -127,7 +145,8 @@
       <div class="card-grid">
         <a class="card" href="afvs">
           <div class="card__title">Coding and Interactivity</div>
-          <div class="card__desc">Press a key to see how the face reacts • Ongoing</div>
+          <div class="card__desc">Self-expression through code — press a key to see the face react</div>
+          <div class="card__meta">Ongoing</div>
         </a>
       </div>
     </div>
@@ -137,17 +156,26 @@
       <div class="card-grid">
         <a class="card" href="portal">
           <div class="card__title">The Portal</div>
-          <div class="card__desc">A collection of poems & short stories • Discontinued in 2021</div>
+          <div class="card__desc">A collection of poems and short stories</div>
+          <div class="card__meta">Discontinued in 2021</div>
         </a>
         <a class="card" href="fysemr">
-          <div class="card__title">The land of rivers</div>
-          <div class="card__desc">An imagined tea garden • Dec 2024</div>
+          <div class="card__title">The land of rivers: An imagined tea garden</div>
+          <div class="card__desc">Final project for FYSEMR 65R — created with Clip Studio Paint and InDesign</div>
+          <div class="card__meta">December 2024</div>
         </a>
         <a class="card" href="essays">
           <div class="card__title">(A) video essay(s)</div>
-          <div class="card__desc">A shortlist of ideas • May 2025</div>
+          <div class="card__desc">A list of possible video essays I might create</div>
+          <div class="card__meta">May 2025</div>
         </a>
       </div>
+    </div>
+
+    <!-- NOTHING -->
+    <div id="panel-nothing" role="tabpanel" aria-labelledby="tab-nothing" hidden>
+      <!-- Intentionally blank. Keep one line for screen readers only: -->
+      <span class="sr-only">This panel is intentionally left blank.</span>
     </div>
   </div>
 </section>
@@ -158,7 +186,7 @@
     const tabs = Array.from(document.querySelectorAll('[role="tab"]'));
     const panels = Array.from(document.querySelectorAll('[role="tabpanel"]'));
     const idToPanel = Object.fromEntries(panels.map(p => [p.id.replace('panel-',''), p]));
-    const keyOrder = ['art','interactivity','essays'];
+    const keyOrder = ['art','interactivity','essays','nothing'];
 
     function show(which, focusTab = false) {
       tabs.forEach(t => {
@@ -171,7 +199,6 @@
         if (isTarget) {
           p.hidden = false;
           p.setAttribute('data-enter','');
-          // trigger transition
           requestAnimationFrame(() => p.classList.add('in'));
         } else {
           p.hidden = true;
@@ -179,56 +206,38 @@
         }
       });
       if (focusTab) document.getElementById('tab-' + which).focus();
-      // update URL hash without jumping
       if (history.replaceState) history.replaceState(null, '', '#' + which);
     }
 
     function current() {
-      const sel = tabs.find(t => t.getAttribute('aria-selected') === 'true');
+      const sel = document.querySelector('[role="tab"][aria-selected="true"]');
       return sel ? sel.id.replace('tab-','') : 'art';
     }
 
-    // Click handling
+    // Click + keyboard nav
     tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        const which = tab.id.replace('tab-','');
-        show(which);
-      });
+      tab.addEventListener('click', () => show(tab.id.replace('tab-','')));
       tab.addEventListener('keydown', (e) => {
         const idx = keyOrder.indexOf(current());
-        if (e.key === 'ArrowRight') {
-          const next = keyOrder[(idx + 1) % keyOrder.length];
-          show(next, true);
-          e.preventDefault();
-        } else if (e.key === 'ArrowLeft') {
-          const prev = keyOrder[(idx - 1 + keyOrder.length) % keyOrder.length];
-          show(prev, true);
-          e.preventDefault();
-        } else if (e.key === 'Home') {
-          show(keyOrder[0], true); e.preventDefault();
-        } else if (e.key === 'End') {
-          show(keyOrder[keyOrder.length - 1], true); e.preventDefault();
-        }
+        if (e.key === 'ArrowRight') { show(keyOrder[(idx + 1) % keyOrder.length], true); e.preventDefault(); }
+        else if (e.key === 'ArrowLeft') { show(keyOrder[(idx - 1 + keyOrder.length) % keyOrder.length], true); e.preventDefault(); }
+        else if (e.key === 'Home') { show(keyOrder[0], true); e.preventDefault(); }
+        else if (e.key === 'End') { show(keyOrder[keyOrder.length - 1], true); e.preventDefault(); }
       });
     });
 
-    // On load: respect hash if present
+    // On load: respect hash if present; otherwise default to 'art'
     const hash = (location.hash || '').replace('#','');
     if (hash && idToPanel[hash]) {
       show(hash);
     } else {
-      show('art'); // default
+      show('nothing'); // change here if you want a different default
     }
   })();
 </script>
 
 <!--
-  ===== Original thumbnail grid (kept here, commented out). 
-  Delete this once you’re happy. =====
-
-<div class="thumbnail-container">
-  ... original blocks ...
-</div>
+  Original thumbnail grid (optional; remove when done)
+  <div class="thumbnail-container"> ... </div>
 -->
-
 {% endblock %}
