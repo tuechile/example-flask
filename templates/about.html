@@ -13,8 +13,10 @@
         const body = document.body;
 
         images.forEach(image => {
-            const randomTopDisplacement = Math.floor(Math.random() * 31)-5;
-            const randomLeftDisplacement = Math.floor(Math.random() * 31)-5;
+            const MaxRange = window.innerWidth > 600 ? 31 : 101;
+            const MaxDisplacement = window.innerWidth > 600 ? -5 : 0;
+            const randomTopDisplacement = Math.floor(Math.random() * MaxRange)-MaxDisplacement;
+            const randomLeftDisplacement = Math.floor(Math.random() * MaxRange)-MaxDisplacement;
             image.style.setProperty('--random-displacement-top', randomTopDisplacement);
             image.style.setProperty('--random-displacement-left', randomLeftDisplacement);
 
