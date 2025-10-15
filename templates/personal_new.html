@@ -1,0 +1,199 @@
+{% extends "layout.html" %}
+
+{% block title %}| Personal{% endblock %}
+{% block extra_css %}
+<link href="/static/css/body.css" rel="stylesheet">
+<style>
+  /* ---- 3-Category Mini Menu ---- */
+  .mini-nav { 
+    --ink: #fff; 
+    --panel-bg: rgba(0,0,0,.6);
+    --panel-border: rgba(255,255,255,.15);
+    --surface: rgba(255,255,255,.06);
+    --hover: rgba(255,255,255,.12);
+    --radius: 14px;
+    --shadow: 0 10px 30px rgba(0,0,0,.25);
+    margin: 24px auto 48px;
+    max-width: 1100px;
+    padding: 0 16px;
+  }
+
+  .mini-nav__row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0,1fr));
+    gap: 14px;
+  }
+
+  .mini-nav__group { position: relative; }
+
+  .mini-nav__button {
+    width: 100%;
+    font-family: 'BHN Cinema', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+    font-weight: 600;
+    font-size: clamp(18px, 1.6vw, 22px);
+    line-height: 1.1;
+    color: var(--ink);
+    background: var(--surface);
+    border: 1px solid var(--panel-border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    display: flex; align-items: center; justify-content: space-between;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: background .2s ease, transform .05s ease, border-color .2s ease;
+  }
+  .mini-nav__button:hover,
+  .mini-nav__button:focus-visible { background: var(--hover); outline: none; }
+  .mini-nav__button:active { transform: translateY(1px); }
+  .mini-nav__chev { opacity: .8; }
+
+  /* Panels */
+  .mini-nav__panel {
+    position: absolute; left: 0; right: 0; top: calc(100% + 8px);
+    background: var(--panel-bg);
+    border: 1px solid var(--panel-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 10px;
+    opacity: 0; visibility: hidden; transform: translateY(6px);
+    transition: opacity .18s ease, transform .18s ease, visibility 0s linear .18s;
+    pointer-events: none;
+    z-index: 10;
+  }
+  .mini-nav__group:hover .mini-nav__panel,
+  .mini-nav__group:focus-within .mini-nav__panel,
+  .mini-nav__group[aria-open="true"] .mini-nav__panel {
+    opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto;
+  }
+
+  .mini-nav__grid { 
+    list-style: none; margin: 0; padding: 0; 
+    display: grid; grid-template-columns: 1fr; gap: 6px; 
+  }
+  .mini-nav__grid a {
+    display: block; width: 100%;
+    color: var(--ink); text-decoration: none;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 15px;
+    background: transparent;
+    transition: background .15s ease, border-color .15s ease;
+  }
+  .mini-nav__grid a:hover, .mini-nav__grid a:focus-visible {
+    background: rgba(255,255,255,.09);
+    border-color: var(--panel-border);
+    outline: none;
+  }
+
+  /* Mobile */
+  @media (max-width: 800px) {
+    .mini-nav__row { grid-template-columns: 1fr; }
+    .mini-nav__panel { position: static; transform: none; margin-top: 8px; }
+    .mini-nav__group:not([aria-open="true"]) .mini-nav__panel { display: none; opacity: 1; visibility: visible; }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<h1 style="text-align: center; margin: 40px; font-family: 'BHN Cinema'; color: white; font-size: 4vw">
+  Personal Work
+</h1>
+
+<!-- ===== 3-Category Hover/Tap Navigation ===== -->
+<section class="mini-nav" aria-label="Smaller projects navigation">
+  <div class="mini-nav__row">
+    <!-- ART -->
+    <div class="mini-nav__group" data-group aria-open="false">
+      <button class="mini-nav__button" type="button" aria-expanded="false" aria-controls="panel-art">
+        Art <span class="mini-nav__chev" aria-hidden="true">▾</span>
+      </button>
+      <div class="mini-nav__panel" id="panel-art" role="region" aria-label="Art projects">
+        <ul class="mini-nav__grid">
+          <li><a href="street">Street Photography</a></li>
+          <li><a href="illustration">Illustrations</a></li>
+          <li><a href="superface">Superface</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- INTERACTIVITY -->
+    <div class="mini-nav__group" data-group aria-open="false">
+      <button class="mini-nav__button" type="button" aria-expanded="false" aria-controls="panel-interactivity">
+        Interactivity <span class="mini-nav__chev" aria-hidden="true">▾</span>
+      </button>
+      <div class="mini-nav__panel" id="panel-interactivity" role="region" aria-label="Interactive projects">
+        <ul class="mini-nav__grid">
+          <li><a href="afvs">Coding and Interactivity</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ESSAYS -->
+    <div class="mini-nav__group" data-group aria-open="false">
+      <button class="mini-nav__button" type="button" aria-expanded="false" aria-controls="panel-essays">
+        Essays <span class="mini-nav__chev" aria-hidden="true">▾</span>
+      </button>
+      <div class="mini-nav__panel" id="panel-essays" role="region" aria-label="Essays">
+        <ul class="mini-nav__grid">
+          <li><a href="portal">The Portal</a></li>
+          <li><a href="fysemr">The land of rivers: An imagined tea garden</a></li>
+          <li><a href="essays">(A) video essay(s)</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Toggle for mobile/tap, close-on-Escape, and de-sticky hover
+  (function () {
+    const groups = document.querySelectorAll('.mini-nav [data-group]');
+    groups.forEach(group => {
+      const btn = group.querySelector('.mini-nav__button');
+      const panel = group.querySelector('.mini-nav__panel');
+      if (!btn || !panel) return;
+
+      btn.addEventListener('click', () => {
+        const isOpen = group.getAttribute('aria-open') === 'true';
+        if (window.matchMedia('(max-width: 800px)').matches) {
+          groups.forEach(g => {
+            if (g !== group) {
+              g.setAttribute('aria-open', 'false');
+              const obtn = g.querySelector('.mini-nav__button');
+              if (obtn) obtn.setAttribute('aria-expanded', 'false');
+            }
+          });
+        }
+        group.setAttribute('aria-open', String(!isOpen));
+        btn.setAttribute('aria-expanded', String(!isOpen));
+      });
+
+      panel.addEventListener('keyup', (e) => {
+        if (e.key === 'Escape') {
+          group.setAttribute('aria-open', 'false');
+          btn.setAttribute('aria-expanded', 'false');
+          btn.focus();
+        }
+      });
+
+      group.addEventListener('mouseleave', () => {
+        if (!window.matchMedia('(max-width: 800px)').matches) {
+          group.setAttribute('aria-open', 'false');
+          btn.setAttribute('aria-expanded', 'false');
+        }
+      });
+    });
+  })();
+</script>
+
+<!--
+  ===== Original thumbnail grid (kept here, commented out). 
+  Delete this block once you're happy with the new menu. =====
+
+<div class="thumbnail-container">
+    ... original blocks ...
+</div>
+-->
+
+{% endblock %}
