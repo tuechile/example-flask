@@ -402,9 +402,20 @@
     max-width: 80vw;
 }
 
+.recit-image {
+    height: 35vh;
+    width: auto;
+}
+
 @media screen and (max-width: 600px) {
     .fb-video {
         margin: auto;
         float: none;
+        max-width: 480px;
+    }
+
+    .recit-image {
+        height: auto;
+        width: 80vw;
     }
 }
