@@ -399,7 +399,7 @@
 .fb-video {
     float:right;
     margin-left: 10vw;
-    max-width: 100vw;
+    max-width: 80vw;
 }
 
 @media screen and (max-width: 600px) {
