@@ -409,13 +409,12 @@
 @media screen and (max-width: 600px) {
     .fb-video {
         float: none;
-        width: 80vw;
+        width: 100vw;
         margin-left: 0;
-        transform: scale(0.8);
     }
 
     .recit-image {
         height: auto;
-        width: 80vw;
+        width: 100vw;
     }
 }
