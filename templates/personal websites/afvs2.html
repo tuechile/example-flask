@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block title %}| Collaborations{% endblock %}
+{% block extra_css %}
+<link href="/static/css/body.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<!--- Subnavigation page for displaying project --->
+<div class="bio-container">
+    
+    <img class="image" src="../static/asset/images/processing/output.gif" alt="gif">
+
+    <div class="bio-text" style="text-align:left; max-width: 100vw;">
+        <h2>What Brings You Here</h2>
+        <p>This piece was my first ever homework submission at Harvard. It was created using Processing, 
+            a Java-based programming language that accommodates interactive visual arts. I wanted to create
+            an input-based program that suggests different activities for other first-year college students, 
+            given the plethora of options available like the colors of candies in a jar. There is a sense 
+            of randomness and surprise, which might seem contradictory to the meticulous planning that most 
+            of us do when thinking about our future.
+
+            This project is supposed to be interactive, but I have only included a gif of what it looks like
+            when different inputs are entered.
+        </p>
+    </div>
+    <img class="image" src="../static/asset/images/processing/output.gif" alt="gif" style="filter:greyscale(100%)">
+</div>
+
+
+{% endblock %}
+{% block footer %}
+<!-- Contact information for the studio -->
+<a href="https://www.instagram.com/recit.stu/" target="_blank" style="text-decoration: none">
+    <img src="../static/asset/images/other/ig.png" alt="Instagram" class="contact-logo">
+</a>
+
+<a href="mailto:recitfilmmaking@gmail.com" target="_blank" style="text-decoration: none">
+    <img src="../static/asset/images/other/mail.png" alt="Gmail" class="contact-logo">
+</a>
+
+<a href="https://www.facebook.com/recit.stu" target="_blank" style="text-decoration: none">
+    <img src="../static/asset/images/other/fb.png" alt="Facebok" class="contact-logo">
+</a>
+{% endblock %}
