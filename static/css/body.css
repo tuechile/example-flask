@@ -127,6 +127,16 @@
     /* Dim non-hovered images */
 }
 
+.gif-image {
+    position: relative;
+    width: 25vw;
+    height: auto;
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+    z-index: 1;
+}
+
 /* Set random positions for images
 .image:nth-child(1) { top: 50px; left: 0px; }
 .image:nth-child(2) { top: 200px; left: 200px; }
