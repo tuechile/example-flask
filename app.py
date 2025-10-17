@@ -14,7 +14,7 @@ def home():
 
         # Validate the input against allowed templates (the exact names and similar names)
         personal_websites = ["afvs", "essays", "fysemr", "illustration", "portal", "street", "superface"] 
-        collab_websites = ["highlander", "recit", "olympics"]
+        collab_websites = ["highlander", "recit", "olympics", "gifafvs"]
         flat = ["about", "client", "collab", "personal"]
         # Add valid template names
         if finder.lower() in flat:
@@ -28,7 +28,7 @@ def home():
             return render_template("about.html")
         elif finder.lower() in ["commission", "client work", "commissioned work", "commissions", "client"]:
             return render_template("client.html")
-        elif finder.lower() in ["collaborative work", "collaborations", "collaboration", "member", "film", "direction", "director"]:
+        elif finder.lower() in ["collaborative work", "collaborations", "collaboration", "member", "film", "direction", "director", "collab"]:
             return render_template("collab.html")
         elif finder.lower() in ["personal work", "self", "person", "mine", "free", "journey"]:
             return render_template("personal.html")
@@ -81,10 +81,13 @@ def street():
 def superface():
     return render_template("personal websites/superface.html")
 
-
 @app.route("/afvs")
 def afvs():
     return render_template("personal websites/afvs.html")
+
+@app.route("/gifafvs")
+def gifafvs():
+    return render_template("personal websites/gifafvs.html")
 
 @app.route("/fysemr")
 def fysemr():
