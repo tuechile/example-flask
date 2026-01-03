@@ -12,7 +12,6 @@ body {
 }
 /* ===== Landing footer stays on screen ===== */
 .home-footer{
-  position: fixed;
   left: 0;
   right: 0;
   bottom: 1.5rem;
@@ -29,8 +28,8 @@ body {
 
 /* ===== Below-fold section (starts after 1 viewport) ===== */
 .below-fold{
-  min-height: 100vh;
-  padding-top: 110vh;   /* THIS is what makes it only appear after scrolling */
+  min-height: 65vh;
+  padding-top: 25vh;   /* THIS is what makes it only appear after scrolling */
   padding-bottom: 6rem; /* so it doesn't clash with the fixed footer */
   display: flex;
   justify-content: center;

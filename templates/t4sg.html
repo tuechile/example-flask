@@ -4,6 +4,253 @@
 
 {% block extra_css %}
 <link href="/static/css/body.css" rel="stylesheet">
+<style>
+    /* ===== Interview Insights Explorer ===== */
+    .insights-card {
+        border: 1px solid rgba(255, 255, 255, .12);
+        border-radius: 18px;
+        padding: 18px;
+        background: rgba(255, 255, 255, .04);
+        backdrop-filter: blur(10px);
+    }
+
+    .insights-head {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 8px;
+        margin-bottom: 12px;
+        padding-bottom: 14px;
+        /* gives room for the button to sit lower */
+    }
+
+    .insights-head>div {
+        max-width: 62ch;
+        /* keeps subtitle from spanning too wide */
+    }
+
+    .insights-title {
+        margin: 0;
+    }
+
+    .insights-subtitle {
+        margin: 6px 0 0;
+        opacity: .85;
+    }
+
+    .insights-head .mini-btn {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        /* “lower” — sits at bottom of header */
+        transform: translateY(40%);
+        /* nudges it slightly below the header line */
+    }
+
+
+    .insights-title {
+        margin: 0;
+        font-size: 1.1rem;
+    }
+
+    .insights-subtitle {
+        margin: 6px 0 0;
+        opacity: .85;
+        max-width: 52ch;
+    }
+
+    .tabs,
+    .chips {
+        justify-content: center;
+    }
+
+    .so-what {
+        justify-items: center;
+        text-align: center;
+    }
+
+    .insights-grid {
+        justify-content: center;
+    }
+
+    .insight {
+        text-align: center;
+    }
+
+    .insight .meta {
+        justify-content: center;
+    }
+
+    .insights-head .mini-btn {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        /* “lower” — sits at bottom of header */
+        transform: translateY(40%);
+        /* nudges it slightly below the header line */
+    }
+
+    .mini-btn {
+        border: 1px solid rgba(255, 255, 255, .18);
+        background: rgba(255, 255, 255, .06);
+        color: inherit;
+        border-radius: 999px;
+        padding: 10px 12px;
+        cursor: pointer;
+        white-space: nowrap;
+    }
+
+    .tabs,
+    .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 10px 0;
+    }
+
+    .tab,
+    .chip {
+        border: 1px solid rgba(255, 255, 255, .14);
+        background: rgba(255, 255, 255, .05);
+        color: inherit;
+        border-radius: 999px;
+        padding: 8px 12px;
+        cursor: pointer;
+        font-size: .9rem;
+    }
+
+    .tab.active,
+    .chip.active {
+        border-color: rgba(255, 255, 255, .28);
+        background: rgba(255, 255, 255, .10);
+    }
+
+    .so-what {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+        margin: 14px 0 16px;
+    }
+
+    .so-what-item {
+        border: 1px dashed rgba(255, 255, 255, .18);
+        border-radius: 14px;
+        padding: 12px;
+        background: rgba(255, 255, 255, .03);
+    }
+
+    .kicker {
+        font-size: .75rem;
+        opacity: .7;
+        margin-bottom: 6px;
+    }
+
+    .big {
+        font-size: .98rem;
+        line-height: 1.2;
+    }
+
+    .insights-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .insight {
+        border: 1px solid rgba(255, 255, 255, .12);
+        border-radius: 16px;
+        padding: 14px;
+        background: rgba(255, 255, 255, .03);
+    }
+
+    .meta {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .pill {
+        border: 1px solid rgba(255, 255, 255, .16);
+        border-radius: 999px;
+        padding: 4px 10px;
+        font-size: .78rem;
+        opacity: .9;
+    }
+
+    .tag-mini {
+        font-size: .78rem;
+        opacity: .7;
+    }
+
+    .insight h4 {
+        margin: 0 0 8px;
+        font-size: 1rem;
+    }
+
+    .insight p {
+        margin: 0 0 10px;
+        opacity: .86;
+    }
+
+    /* Keeps grid positions stable when filtering */
+    .insight.is-hidden {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+    }
+
+    /* Smooth transitions (optional) */
+    .insight {
+        transition: opacity .18s ease, transform .18s ease;
+    }
+
+    /* Prevent the grid from “collapsing” height when many are hidden */
+    .insights-grid {
+        align-items: start;
+    }
+
+    .expand {
+        border: 0;
+        background: transparent;
+        color: inherit;
+        opacity: .9;
+        cursor: pointer;
+        text-decoration: underline;
+        padding: 0;
+    }
+
+    .more {
+        display: none;
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1px solid rgba(255, 255, 255, .10);
+        opacity: .92;
+    }
+
+    .insight.open .more {
+        display: block;
+    }
+
+    @media (max-width: 860px) {
+        .so-what {
+            grid-template-columns: 1fr;
+        }
+
+        .insights-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .insights-head .mini-btn {
+            position: static;
+            transform: none;
+            margin-top: 8px;
+        }
+
+    }
+</style>
 
 {% endblock %}
 
@@ -41,7 +288,8 @@
     </div>
 </div>
 <p class="img-caption">
-    <strong>Image instruction:</strong> This is your “hero preview.” Keep it clean (no sensitive data) — it sets the vibe.
+    <strong>Image instruction:</strong> This is your “hero preview.” Keep it clean (no sensitive data) — it sets the
+    vibe.
 </p>
 
 <!-- ===================== TL;DR ===================== -->
@@ -49,8 +297,10 @@
     <div class="callout">
         <h3>TL;DR</h3>
         <p>• One prosthetic fitting requires ~9+ components. One missing part = the patient goes home without a leg.</p>
-        <p>• 2ft’s inventory lived across spreadsheets/Notion/manual cross-checks — fragile under turnover and low Wi-Fi.</p>
-        <p>• We designed an offline-first system with clear logistics vs technical separation and low cognitive load.</p>
+        <p>• 2ft’s inventory lived across spreadsheets/Notion/manual cross-checks — fragile under turnover and low
+            Wi-Fi.</p>
+        <p>• We designed an offline-first system with clear logistics vs technical separation and low cognitive load.
+        </p>
     </div>
 </div>
 
@@ -60,12 +310,15 @@
         <h2>Context</h2>
         <p><strong>A Prosthetic Is Never Just One Thing</strong></p>
         <p>
-            A prosthetic leg isn’t a single object — it’s a system. On average, nine separate components must come together
+            A prosthetic leg isn’t a single object — it’s a system. On average, nine separate components must come
+            together
             for one fitting. If even one part is missing, delayed, or mislabeled, a patient goes home without a leg.
         </p>
         <p>
-            2ft Prosthetics works across 10 countries, redistributing donated prosthetic components from U.S. manufacturers
-            and clinics to underserved amputees worldwide. The work is powered largely by volunteers — students, clinicians,
+            2ft Prosthetics works across 10 countries, redistributing donated prosthetic components from U.S.
+            manufacturers
+            and clinics to underserved amputees worldwide. The work is powered largely by volunteers — students,
+            clinicians,
             and prosthetists — operating across time zones, languages, and unreliable internet access.
         </p>
         <p>
@@ -75,24 +328,14 @@
     </div>
 </div>
 
-<div class="bio-container reveal">
-    <div class="media-card">
-        <img class="lightboxable" src="/static/asset/images/ux/t4sg/placeholder-components-system.png"
-            alt="Placeholder: prosthetic components ecosystem diagram">
-    </div>
-</div>
-<p class="img-caption">
-    <strong>Image instruction:</strong> Add a simple “prosthetic = system” visual (labeled component collage or diagram).
-    Title idea: “One fitting, many parts.”
-</p>
-
 <!-- ===================== CURRENT PROBLEM ===================== -->
 <div class="bio-container reveal">
     <div class="bio-text" style="text-align:left; max-width:920px;">
         <h2>The Current Problem</h2>
         <p><strong>Good Intentions, Fragile Systems</strong></p>
         <p>
-            Inventory at 2ft Prosthetics lived in spreadsheets, Notion pages, and manual cross-checks. On paper, everything existed.
+            Inventory at 2ft Prosthetics lived in spreadsheets, Notion pages, and manual cross-checks. On paper,
+            everything existed.
             In reality, volunteers struggled to answer basic questions:
         </p>
         <p>
@@ -102,11 +345,13 @@
             — Who donated this — and how do we report impact back?
         </p>
         <p>
-            The system broke down most often when new volunteers joined, internet access dropped, multiple people updated the same record,
+            The system broke down most often when new volunteers joined, internet access dropped, multiple people
+            updated the same record,
             or components moved faster than documentation.
         </p>
         <p>
-            This wasn’t just inefficient — it was risky. Every breakdown increased the chance that a usable component would sit idle while a patient waited.
+            This wasn’t just inefficient — it was risky. Every breakdown increased the chance that a usable component
+            would sit idle while a patient waited.
         </p>
     </div>
 </div>
@@ -118,8 +363,7 @@
                 alt="Placeholder: Spreadsheet General inventory view">
         </div>
         <div class="item">
-            <img class="lightboxable" src="/static/asset/images/ux/t4sg/sheet2.png"
-                alt="Placeholder: Keep track">
+            <img class="lightboxable" src="/static/asset/images/ux/t4sg/sheet2.png" alt="Placeholder: Keep track">
         </div>
         <div class="item">
             <img class="lightboxable" src="/static/asset/images/ux/t4sg/sheet3.png"
@@ -153,22 +397,160 @@
     </div>
 </div>
 
+<!-- ===================== INTERVIEW NOTES (INTERACTIVE) ===================== -->
+<!-- ===================== INTERVIEW NOTES (INTERACTIVE) ===================== -->
 <div class="bio-container reveal">
-    <div class="media-card">
-        <!-- Replace this with your affinity mapping screenshot (you uploaded one) -->
-        <img class="lightboxable" src="/static/asset/images/ux/t4sg/placeholder-affinity-map.png"
-            alt="Placeholder: interview notes / affinity mapping board">
+    <div class="insights-card">
+
+        <div class="insights-head">
+            <div>
+                <h3 class="insights-title">Interview Highlights</h3>
+                <p class="insights-subtitle">
+                    Five conversations, one pattern: the inventory system only works when everything goes right — and
+                    real life
+                    almost never does.
+                </p>
+            </div>
+
+            <button class="mini-btn" type="button" id="openAffinity">
+                View raw affinity board
+            </button>
+        </div>
+
+        <!-- Persona tabs -->
+        <div class="tabs" role="tablist" aria-label="Interview personas">
+            <button class="tab active" type="button" data-persona="all" role="tab">All</button>
+            <button class="tab" type="button" data-persona="president" role="tab">President</button>
+            <button class="tab" type="button" data-persona="treasurer" role="tab">Treasurer</button>
+            <button class="tab" type="button" data-persona="volunteer" role="tab">Volunteers</button>
+        </div>
+
+        <!-- Theme chips -->
+        <div class="chips" aria-label="Theme filters">
+            <button class="chip active" type="button" data-theme="all">All themes</button>
+            <button class="chip" type="button" data-theme="offline">Offline reality</button>
+            <button class="chip" type="button" data-theme="onboarding">Onboarding + language</button>
+            <button class="chip" type="button" data-theme="traceability">Trust + accountability</button>
+            <button class="chip" type="button" data-theme="inventory">Inventory clarity</button>
+            <button class="chip" type="button" data-theme="reporting">Reporting</button>
+        </div>
+
+        <!-- Quick “so what” strip -->
+        <div class="so-what">
+            <div class="so-what-item">
+                <div class="kicker">The real bottleneck</div>
+                <div class="big">Updating is harder than tracking</div>
+            </div>
+            <div class="so-what-item">
+                <div class="kicker">The default environment</div>
+                <div class="big">Internet is unreliable (or absent)</div>
+            </div>
+            <div class="so-what-item">
+                <div class="kicker">The trust requirement</div>
+                <div class="big">“Who changed this?” must be obvious</div>
+            </div>
+        </div>
+
+        <!-- Cards grid -->
+        <div class="insights-grid" id="insightsGrid">
+
+            <!-- OFFLINE -->
+            <article class="insight" data-persona="volunteer" data-theme="offline">
+                <div class="meta">
+                    <span class="pill">Volunteer</span>
+                    <span class="tag-mini">Offline reality</span>
+                </div>
+                <h4>“I’ll write it down and update later.”</h4>
+                <p>
+                    Components move in clinics and during travel — but documentation only happens once Wi-Fi returns.
+                </p>
+                <button class="expand" type="button">Why this mattered</button>
+                <div class="more">
+                    <p><strong>Design implication:</strong> offline-first capture with clear sync states (draft →
+                        pending → synced), plus safe edits when connection returns.</p>
+                </div>
+            </article>
+
+            <!-- ONBOARDING -->
+            <article class="insight" data-persona="volunteer" data-theme="onboarding">
+                <div class="meta">
+                    <span class="pill">Volunteer</span>
+                    <span class="tag-mini">Onboarding + language</span>
+                </div>
+                <h4>“I don’t know what half these labels mean.”</h4>
+                <p>
+                    Acronyms and inconsistent categories slow onboarding and increase the chance of mislabeling parts.
+                </p>
+                <button class="expand" type="button">Why this mattered</button>
+                <div class="more">
+                    <p><strong>Design implication:</strong> plain-language fields, tooltips, and dropdowns that match
+                        how volunteers actually describe components.</p>
+                </div>
+            </article>
+
+            <!-- INVENTORY CLARITY -->
+            <article class="insight" data-persona="president" data-theme="inventory">
+                <div class="meta">
+                    <span class="pill">President</span>
+                    <span class="tag-mini">Inventory clarity</span>
+                </div>
+                <h4>“What do we have right now — today?”</h4>
+                <p>
+                    The current inventory picture gets buried across tabs, versions, and side notes.
+                </p>
+                <button class="expand" type="button">Why this mattered</button>
+                <div class="more">
+                    <p><strong>Design implication:</strong> a dedicated “Current Inventory” view, fast filters, and
+                        last-updated context (who/when) to reduce second-guessing.</p>
+                </div>
+            </article>
+
+            <!-- REPORTING -->
+            <article class="insight" data-persona="treasurer" data-theme="reporting">
+                <div class="meta">
+                    <span class="pill">Treasurer</span>
+                    <span class="tag-mini">Reporting</span>
+                </div>
+                <h4>“We need year-over-year numbers for donors.”</h4>
+                <p>
+                    Reporting is a real recurring workflow — and the data isn’t clean enough to export confidently.
+                </p>
+                <button class="expand" type="button">Why this mattered</button>
+                <div class="more">
+                    <p><strong>Design implication:</strong> standardized donor fields + consistent IDs so reports are
+                        generated, not hand-assembled.</p>
+                </div>
+            </article>
+
+            <!-- TRACEABILITY -->
+            <article class="insight" data-persona="volunteer" data-theme="traceability">
+                <div class="meta">
+                    <span class="pill">Volunteer</span>
+                    <span class="tag-mini">Trust + accountability</span>
+                </div>
+                <h4>“I’m scared I’ll overwrite something important.”</h4>
+                <p>
+                    When multiple people edit the same record, uncertainty creates hesitation — or duplicate
+                    spreadsheets.
+                </p>
+                <button class="expand" type="button">Why this mattered</button>
+                <div class="more">
+                    <p><strong>Design implication:</strong> edit history + comments + visible save confirmation so
+                        people can act quickly without fear.</p>
+                </div>
+            </article>
+
+        </div>
     </div>
 </div>
-<p class="img-caption">
-    <strong>Image instruction:</strong> Replace with your interview notes board (the “Jocelyn / Easton / Jon” sticky note screenshot).
-    Crop to keep it readable; optionally add a tiny legend: “President / Treasurer / Volunteers.”
-</p>
+
+
 
 <div class="bio-container reveal">
     <div class="callout">
         <h3>What we learned quickly</h3>
-        <p>Most existing tools failed in the same ways: assumed stable internet, visual density overload, unclear separation between logistics and technical data, and a steep learning curve for new volunteers.</p>
+        <p>Most existing tools failed in the same ways: assumed stable internet, visual density overload, unclear
+            separation between logistics and technical data, and a steep learning curve for new volunteers.</p>
     </div>
 </div>
 
@@ -187,12 +569,6 @@
             The system wasn’t failing because people didn’t care.
             It was failing because it assumed perfect conditions.
         </p>
-    </div>
-</div>
-
-<!-- ===================== DESIGN GOALS ===================== -->
-<div class="bio-container reveal">
-    <div class="bio-text" style="text-align:left; max-width:920px;">
         <h2>Design Goals</h2>
         <p><strong>What We Optimized For (and What We Didn’t)</strong></p>
         <p>
@@ -202,44 +578,38 @@
             — Low cognitive load for new volunteers<br>
             — Traceability without visual overload
         </p>
-        <p>Every screen had to answer one question clearly — or it didn’t belong.</p>
+
+
     </div>
 </div>
 
+<!-- ===================== IDEATION (EFFORT × IMPACT) ===================== -->
+
 <div class="bio-container reveal">
-    <div class="media-card">
-        <img class="lightboxable" src="/static/asset/images/ux/t4sg/placeholder-goals.png"
-            alt="Placeholder: design principles / goals">
+    <div class="split">
+        <div class="media-card" style="width: 400px;">
+        <img class="lightboxable" src="/static/asset/images/ux/t4sg/affmap.png"
+            alt="Impact vs effort matrix">
+        </div>
+        <div class="bio-container reveal">
+            <div class="bio-text" style="text-align:left; max-width:920px;">
+                <h2>Ideation</h2>
+                <p><strong>Feature decisions by Impact × Effort</strong></p>
+                <p>
+                    We prioritized what would reduce uncertainty the fastest. Using an impact × effort map, we shipped
+                    “low-hanging fruit” first,
+                    then layered in more powerful features once the core flows worked.
+                </p>
+                <p>
+                    This kept the product usable for new volunteers while still leaving space for advanced functionality as 2ft
+                    scales.
+                </p>
+            </div>
+        </div>
     </div>
 </div>
+
 <p class="img-caption">
-    <strong>Image instruction:</strong> Add a simple goals card graphic (your principles as 5 bullets) or a screenshot from your slide deck.
-</p>
-
-<!-- ===================== IDEATION (EFFORT × IMPACT) ===================== -->
-<div class="bio-container reveal">
-    <div class="bio-text" style="text-align:left; max-width:920px;">
-        <h2>Ideation</h2>
-        <p><strong>Feature decisions by Impact × Effort</strong></p>
-        <p>
-            We prioritized what would reduce uncertainty the fastest. Using an impact × effort map, we shipped “low-hanging fruit” first,
-            then layered in more powerful features once the core flows worked.
-        </p>
-        <p>
-            This kept the product usable for new volunteers while still leaving space for advanced functionality as 2ft scales.
-        </p>
-    </div>
-</div>
-
-<div class="bio-container reveal">
-    <div class="media-card">
-        <!-- Replace with your Impact x Effort screenshot -->
-        <img class="lightboxable" src="/static/asset/images/ux/t4sg/placeholder-impact-effort.png"
-            alt="Placeholder: impact vs effort matrix">
-    </div>
-</div>
-<p class="img-caption">
-    <strong>Image instruction:</strong> Replace with your impact × effort slide screenshot. Optional: add a small caption overlay:
     “We started with clarity + offline reliability, then added power features later.”
 </p>
 
@@ -251,6 +621,46 @@
         <p>Phase 3: scalability features (dashboards, reports, advanced filters, onboarding helpers).</p>
     </div>
 </div>
+
+
+<!-- ===================== MY SCOPE: VIEW / EDIT / ADD FLOW ===================== -->
+<div class="bio-container reveal">
+    <div class="bio-text" style="text-align:left; max-width:920px;">
+        <h2>My Contribution</h2>
+        <p><strong>View / Edit / Add Component Flow</strong></p>
+        <p>
+            I owned the end-to-end flow for how a volunteer <strong>views</strong> a component, makes a safe
+            <strong>edit</strong>,
+            and <strong>adds</strong> a new component without breaking traceability.
+        </p>
+        <p>
+            Design decisions I focused on:
+            <br>— Keep primary actions always accessible (view history / edit / add)
+            <br>— Prevent accidental edits (inline popups, clear save states)
+            <br>— Standardize technical inputs (dropdowns + placeholders, not free text)
+            <br>— Make accountability visible (edit history + who/when)
+        </p>
+    </div>
+</div>
+
+<div class="bio-container reveal">
+    <div class="split">
+        <div class="media-card">
+        <img class="lightboxable" src="/static/asset/images/ux/t4sg/userflow.png" alt="User flow: View Component">
+        </div>
+        <div class="bio-text" style="text-align:left;">
+            <h2>Flow Breakdown</h2>
+            <p><strong>View Component</strong></p>
+            <p>
+                The component page is structured so volunteers understand the “state” first (logistics),
+                then drill into technical details only when needed. Collapsible sections reduce overload.
+            </p>
+            <p><strong>Image instruction:</strong> Put your “View Component Flow” slide here (the one describing sticky
+                profile, logistics→technical→manufacturer, comments, tooltips).</p>
+        </div>
+    </div>
+</div>
+
 
 <!-- ===================== LO-FI ===================== -->
 <div class="bio-container reveal">
@@ -267,21 +677,24 @@
 <div class="bio-container reveal">
     <div class="masonry">
         <div class="item">
-            <img class="lightboxable" src="/static/asset/images/ux/t4sg/placeholder-lofi-view.png"
+            <img class="lightboxable" src="/static/asset/images/ux/t4sg/lofi view.png"
                 alt="Placeholder: Lo-fi view component screen (B&W)">
         </div>
+
         <div class="item">
-            <img class="lightboxable" src="/static/asset/images/ux/t4sg/placeholder-lofi-edit.png"
-                alt="Placeholder: Lo-fi edit component screen (B&W)">
+                    <img class="lightboxable" src="/static/asset/images/ux/t4sg/lofi view2.png"
+                alt="Placeholder: Lo-fi view component screen (B&W)">
+
         </div>
         <div class="item">
-            <img class="lightboxable" src="/static/asset/images/ux/t4sg/placeholder-lofi-add.png"
+            <img class="lightboxable" src="/static/asset/images/ux/t4sg/lofi add.png"
                 alt="Placeholder: Lo-fi add component flow (B&W)">
         </div>
     </div>
 </div>
 <p class="img-caption">
-    <strong>Image instruction:</strong> Add 3 lo-fi (B&W) screenshots that specifically show your scope: View → Edit → Add component.
+    <strong>Comment:</strong> Understandably there is a lot to track on each specific component. Maybe instead of trying to have various areas with multiple columns, we just have one column with all of the fields. This way it is easily extensible, e.g. some components can have 20 fields (feet) while others only have a couple (male pyramid adapters)
+
 </p>
 
 <!-- ===================== HI-FI ===================== -->
@@ -300,93 +713,68 @@
 <div class="bio-container reveal">
     <div class="masonry">
         <div class="item">
-            <img class="lightboxable" src="/static/asset/images/ux/t4sg/placeholder-hifi-view.png"
+            <img class="lightboxable" src="/static/asset/images/ux/t4sg/hifi view.png"
                 alt="Placeholder: Hi-fi view component (blue/yellow)">
         </div>
         <div class="item">
-            <img class="lightboxable" src="/static/asset/images/ux/t4sg/placeholder-hifi-edit.png"
+            <img class="lightboxable" src="/static/asset/images/ux/t4sg/hifi edit.png"
                 alt="Placeholder: Hi-fi edit component inline popup (blue/yellow)">
         </div>
         <div class="item">
-            <img class="lightboxable" src="/static/asset/images/ux/t4sg/placeholder-hifi-history.png"
+            <img class="lightboxable" src="/static/asset/images/ux/t4sg/hifi add.png"
                 alt="Placeholder: Hi-fi history/comments (blue/yellow)">
         </div>
     </div>
 </div>
 <p class="img-caption">
-    <strong>Image instruction:</strong> Add 3 hi-fi screenshots: (1) View component screen, (2) Inline edit popup, (3) History/comments UI.
+    <strong>Image instruction:</strong> Add 3 hi-fi screenshots: (1) View component screen, (2) Inline edit popup, (3)
+    History/comments UI.
 </p>
-
-<!-- ===================== MY SCOPE: VIEW / EDIT / ADD FLOW ===================== -->
-<div class="bio-container reveal">
-    <div class="bio-text" style="text-align:left; max-width:920px;">
-        <h2>My Contribution</h2>
-        <p><strong>View / Edit / Add Component Flow</strong></p>
-        <p>
-            I owned the end-to-end flow for how a volunteer <strong>views</strong> a component, makes a safe <strong>edit</strong>,
-            and <strong>adds</strong> a new component without breaking traceability.
-        </p>
-        <p>
-            Design decisions I focused on:
-            <br>— Keep primary actions always accessible (view history / edit / add)
-            <br>— Prevent accidental edits (inline popups, clear save states)
-            <br>— Standardize technical inputs (dropdowns + placeholders, not free text)
-            <br>— Make accountability visible (edit history + who/when)
-        </p>
-    </div>
-</div>
-
-<div class="bio-container reveal">
-    <div class="media-card">
-        <img class="lightboxable" src="/static/asset/images/ux/t4sg/userflow.png"
-            alt="User flow: Add Component">
-    </div>
-</div>
-
-<div class="bio-container reveal">
-    <div class="split">
-        <div class="media-card">
-            <img class="lightboxable" src="/static/asset/images/ux/t4sg/placeholder-view-flow-slide.png"
-                alt="Placeholder: View Component flow breakdown slide">
-        </div>
-        <div class="bio-text" style="text-align:left;">
-            <h2>Flow Breakdown</h2>
-            <p><strong>View Component</strong></p>
-            <p>
-                The component page is structured so volunteers understand the “state” first (logistics),
-                then drill into technical details only when needed. Collapsible sections reduce overload.
-            </p>
-            <p><strong>Image instruction:</strong> Put your “View Component Flow” slide here (the one describing sticky profile, logistics→technical→manufacturer, comments, tooltips).</p>
-        </div>
-    </div>
-</div>
 
 <!-- ===================== TESTING & FEEDBACK ===================== -->
 <div class="bio-container reveal">
-    <div class="bio-text" style="text-align:left; max-width:920px;">
-        <h2>Testing & Feedback</h2>
-        <p><strong>When Real Use Shaped the System</strong></p>
-        <p>
-            Stakeholder feedback reinforced key choices:
-            one extensible column over dense tables, inline editing reduced hesitation, edit history increased trust,
-            and clearer terminology reduced onboarding time.
-        </p>
-        <p>
-            The biggest validation:
-            <br><em>“I don’t feel like I’m going to break anything.”</em>
-        </p>
-    </div>
-</div>
+  <div class="bio-text" style="text-align:left; max-width:920px;">
+    <h2>Testing & Feedback</h2>
+    <p><strong>Where the Design Got Smarter (Fast)</strong></p>
 
-<div class="bio-container reveal">
-    <div class="media-card">
-        <img class="lightboxable" src="/static/asset/images/ux/t4sg/placeholder-feedback.png"
-            alt="Placeholder: feedback screenshot / quote card">
-    </div>
+    <p>
+      Once we put the prototype in front of stakeholders, the feedback was less about “looks” and more about
+      <em>trust</em>: can volunteers move quickly without accidentally creating chaos?
+    </p>
+
+    <p><strong>What stakeholders pushed us toward</strong></p>
+    <p>
+        <p> More speed with less typing: ideas like autofill, stock image autofill
+        (when no photo exists), and even <strong>adding fields</strong> on the fly came up as ways to reduce friction.</p>
+              <p>
+        A reality check on implementation: we flagged open questions about the backend —
+        like whether field management needs its own admin page, and what “autofill” would actually pull from
+        (model number? manufacturer database? past entries?).
+              </p>
+      <p>
+        Permissions matter: stakeholders emphasized that changing fields can cause organization-wide
+        mixups, so we needed clearer role-based privileges (e.g., who can edit fields vs. who can only edit values).
+      </p>
+      <p>
+        Type-first workflow was a win: starting from component types (since each type has its own
+        properties) felt far more natural than exposing every possible spreadsheet field and forcing volunteers to guess.
+      </p>
+    </p>
+
+    <p><strong>What we changed because of it</strong></p>
+    <p>
+      <p>
+        We moved away from a <strong>patient-centered component page</strong> in the lo-fi. That structure was misleading for
+        inventory work, so the hi-fi removed it entirely and refocused the experience around the component itself.
+      </p>
+    </p>
+
+    <p>
+      The biggest validation came from a single sentence:
+      <br><em>“I don’t feel like I’m going to break anything.”</em>
+    </p>
+  </div>
 </div>
-<p class="img-caption">
-    <strong>Image instruction:</strong> Add the feedback screenshot/quote (blur if needed) that supports the “one column extensible” decision + the trust/traceability angle.
-</p>
 
 <!-- ===================== OUTCOME ===================== -->
 <div class="bio-container reveal">
@@ -416,39 +804,48 @@
     </div>
 </div>
 
+<div class="bio-container reveal">
+  <div class="bio-text" style="text-align:left; max-width:920px;">
+    <h2>Try It Yourself</h2>
+    <p><strong>Explore the prototype the way a volunteer would</strong></p>
+    <p>
+      This interactive prototype reflects the hi-fi design shown above.
+      It’s best experienced by clicking through the component workflow,
+      starting from type selection and moving into detailed edits.
+    </p>
+
+    <a href="https://www.figma.com/proto/dWSwmnPwX50N8TKSQIPS5S/Lo-fi---%3E-Hi-fi--Copy-?t=UO7WjHeEBFCJ3JlO-1"
+       target="_blank"
+       class="cta-button">
+       Open Interactive Prototype →
+    </a>
+
+    <p style="margin-top:12px; font-size:0.9rem; opacity:0.8;">
+      Tip: Try editing a component to see how fields, history, and permissions are surfaced.
+    </p>
+  </div>
+</div>
+
+
 <!-- ===================== REFLECTION ===================== -->
 <div class="bio-container reveal">
     <div class="bio-text" style="text-align:left; max-width:920px;">
         <h2>Reflection</h2>
         <p><strong>What This Project Taught Me</strong></p>
         <p>
+            This is my first exposure to UX Design, so there were many new frameworks and mindsets to internalize.
             Designing for social impact isn’t about adding features.
-            It’s about removing uncertainty.
+            It’s about removing uncertainty as much as possible and box everything together.
+        </p>
+        <p>
+            As this is a work from scratch, we did experiment a lot with different flows and structures in an entirely
+            new field of expertise.
+            The biggest challenge was balancing complexity (lots of fields, edge cases, offline states) with
+            usability (clear flows, low cognitive load, fast entry).
         </p>
     </div>
 </div>
 
-<!-- ===================== RECEIPTS ===================== -->
-<div class="bio-container reveal">
-    <div class="accordion">
-        <button class="acc-btn" type="button">
-            <span>Receipts (process artifacts + feature backlog)</span>
-            <span class="chev">⌄</span>
-        </button>
-        <div class="acc-panel">
-            <div class="acc-inner">
-                <p><strong>What to drop in here later:</strong></p>
-                <p>
-                    • Anonymized interview questions + key quotes (President/Treasurer/Volunteers)<br>
-                    • Terminology cleanup map (acronyms → plain language)<br>
-                    • Offline states (edited/saved/synced/pending) diagram<br>
-                    • “Later features” list tied back to impact×effort<br>
-                    • Edge cases: duplicate IDs, partial data, shipping updates without Wi-Fi
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
 
 <!-- Lightbox overlay (your body.css already styles .lightbox-overlay / .close-btn) -->
 <div class="lightbox-overlay" id="lightbox">
@@ -522,6 +919,67 @@
         close.addEventListener("click", shut);
         overlay.addEventListener("click", (e) => { if (e.target === overlay) shut(); });
         window.addEventListener("keydown", (e) => { if (e.key === "Escape") shut(); });
+    })();
+</script>
+<script>
+    // ===== Interview Insights Explorer =====
+    (function () {
+        const tabs = document.querySelectorAll(".tab");
+        const chips = document.querySelectorAll(".chip");
+        const cards = document.querySelectorAll(".insight");
+        const openAffinity = document.getElementById("openAffinity");
+
+        let activePersona = "all";
+        let activeTheme = "all";
+
+        function applyFilters() {
+            cards.forEach(card => {
+                const p = card.dataset.persona;
+                const t = card.dataset.theme;
+
+                const personaOK = (activePersona === "all" || p === activePersona);
+                const themeOK = (activeTheme === "all" || t === activeTheme);
+
+                const show = (personaOK && themeOK);
+                card.classList.toggle("is-hidden", !show);
+            });
+        }
+
+        tabs.forEach(btn => btn.addEventListener("click", () => {
+            tabs.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            activePersona = btn.dataset.persona;
+            applyFilters();
+        }));
+
+        chips.forEach(btn => btn.addEventListener("click", () => {
+            chips.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            activeTheme = btn.dataset.theme;
+            applyFilters();
+        }));
+
+        // Expand/collapse on each card
+        cards.forEach(card => {
+            const toggle = card.querySelector(".expand");
+            if (!toggle) return;
+            toggle.addEventListener("click", () => card.classList.toggle("open"));
+        });
+
+        // Hook into your existing lightbox to open the raw board
+        if (openAffinity) {
+            openAffinity.addEventListener("click", () => {
+                const overlay = document.getElementById("lightbox");
+                const img = document.getElementById("lightboxImg");
+                if (!overlay || !img) return;
+
+                img.src = "/static/asset/images/ux/t4sg/interview.png";
+                img.alt = "Affinity mapping board (raw notes)";
+                overlay.style.display = "flex";
+            });
+        }
+
+        applyFilters();
     })();
 </script>
 

@@ -128,9 +128,8 @@
     }
 
     .media-card {
-        width: min(1100px, 95vw);
+        width: min(900px, 85vw);
         margin: 0 auto;
-        padding: 0.75rem;
         border-radius: 16px;
         border: 1px solid var(--border);
         background: var(--panel);
