@@ -1,0 +1,368 @@
+{% extends "layout.html" %}
+
+{% block title %}| Unicode Data Story{% endblock %}
+
+{% block extra_css %}
+<link href="/static/css/ux.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+<!-- Sticky progress bar (same pattern as t4sg.html) -->
+<div class="progress-wrap">
+  <div class="progress-bar" id="progressBar"></div>
+</div>
+
+<!-- ===================== HERO ===================== -->
+<div class="bio-container reveal">
+  <div class="case-hero">
+    <p class="case-subtitle" style="margin:0;font-size: var(--fs-1);">
+      CS 1710 · Final Project: Visualization
+    </p>
+
+    <h1 class="case-title">The Story of Unicode</h1>
+
+    <p class="case-subtitle" style="font-size: var(--fs-1);">
+      A scrollytelling website that turns “invisible infrastructure” into an interactive narrative: ASCII → Unicode → emoji → writing systems.
+    </p>
+
+    <div class="tag-row">
+      <div class="tag">Role: UX / Visual Design / Story Structure</div>
+      <div class="tag">Team: The Typos</div>
+      <div class="tag">Deliverable: Interactive narrative site</div>
+      <div class="tag">Methods: Sketching · Prototyping · Think-aloud testing</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== HERO MEDIA ===================== -->
+<div class="bio-container reveal">
+  <div class="media-card">
+    <img
+      src="/static/asset/images/ux/unicode/preview.png"
+      alt="Final project preview showing the Unicode data story interface with interactive sections"
+    >
+  </div>
+</div>
+
+<!-- ===================== TL;DR ===================== -->
+<div class="bio-container reveal">
+  <div class="callout">
+    <h3 style="font-family: 'BHN Cinema';">TL;DR</h3>
+    <p>• Built a data story from scratch and converged from broad typography ideas into a clear Unicode narrative for non-technical audiences.</p>
+    <p>• Designed each section around a “learn by exploring” interaction (filters, hover details, timelines, and guided views).</p>
+    <p>• Testing showed the biggest UX risks were terminology + cognitive load, so we simplified copy, standardized UI patterns, and added micro-definitions/tooltips.</p>
+  </div>
+</div>
+
+<!-- ===================== GOALS / SUCCESS ===================== -->
+<div class="bio-container reveal">
+  <div class="callout">
+    <h3 style="font-family: 'BHN Cinema';">Goals & Success Criteria</h3>
+    <p>• A non-technical reader can explain what Unicode is after the first two sections.</p>
+    <p>• Each section teaches one idea through one primary interaction (no “wall of text” slides).</p>
+    <p>• Users can move through the story without getting stuck on labels or navigation.</p>
+  </div>
+</div>
+
+<div class="t4sg-page">
+
+  <!-- ===================== CONTEXT ===================== -->
+  <div class="bio-container reveal">
+    <div class="bio-text" style="text-align:left; max-width:920px;">
+      <h2>Context</h2>
+      <p style="color: var(--text-primary)"><strong>Unicode is everywhere—so why does it feel invisible?</strong></p>
+      <p>
+        Unicode is the standard that allows text, symbols, and emoji to display consistently across devices and platforms.
+        Because it’s “always on,” most people never think about it—until something breaks or a character can’t be represented.
+      </p>
+      <p>
+        Our project goal was to make Unicode legible and interesting through a narrative that people can explore without prior knowledge.
+      </p>
+    </div>
+  </div>
+
+  <!-- ===================== DESIGN CHALLENGE ===================== -->
+  <div class="bio-container reveal">
+    <div class="bio-text" style="text-align:left; max-width:920px;">
+      <h2>Design Challenge</h2>
+      <p style="color: var(--text-primary)"><strong>How do you visualize a technical standard without losing people?</strong></p>
+      <p>
+        The hard part wasn’t only the data—it was the UX: terminology, pacing, and motivation.
+        If the story felt too technical, users would bounce. If it was too simplified, it would feel shallow.
+      </p>
+      <p>
+        We designed for clarity-first onboarding, low-friction exploration, and a consistent interaction language across sections.
+      </p>
+    </div>
+  </div>
+
+  <!-- ===================== EXPLORATION ===================== -->
+  <div class="bio-container reveal">
+    <div class="split">
+      <div class="media-card" style="width: 520px;">
+        <img class="lightboxable"
+          src="/static/asset/images/ux/unicode/mindmap.png"
+          alt="Early project mindmap exploring audience, datasets, and visualization directions"
+        >
+      </div>
+
+      <div class="bio-text" style="text-align:left;">
+        <h2>Exploration</h2>
+        <p style="color: var(--text-primary)"><strong>Starting from scratch meant testing the question before the interface</strong></p>
+        <p>
+          We began with wide exploration—possible audiences, datasets, and story angles. Early concepts leaned toward typography and fonts,
+          but we kept asking what a general reader would actually want to learn and explore.
+        </p>
+        <p>
+          The exploration phase helped us identify which ideas were “cool” versus which ones could become a coherent narrative experience.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== CONVERGENCE / PIVOT ===================== -->
+  <div class="bio-container reveal">
+    <div class="split">
+      <div class="media-card" style="width: 520px;">
+        <img class="lightboxable"
+          src="/static/asset/images/ux/unicode/storyboard.png"
+          alt="Storyboard sketch showing the narrative arc and planned interactive slides for the data story"
+        >
+      </div>
+
+      <div class="bio-text" style="text-align:left;">
+        <h2>Convergence</h2>
+        <p style="color: var(--text-primary)"><strong>We narrowed to Unicode to create clearer stakes and stronger interactions</strong></p>
+        <p>
+          Unicode gave us a strong arc (ASCII → Unicode → emoji → writing systems) and a built-in reason to care: representation and interoperability.
+          Constraining the topic made the story easier to understand and made the interaction design more intentional.
+        </p>
+        <p>
+          The storyboard let us plan pacing and “interaction beats” so users would learn by doing, not just reading.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== RESEARCH ===================== -->
+  <div class="bio-container reveal">
+    <div class="bio-text" style="text-align:left; max-width:920px;">
+      <h2>Research</h2>
+      <p style="color: var(--text-primary)"><strong>Translating technical history into usable story units</strong></p>
+      <p>
+        We collected sources and datasets around ASCII limitations, Unicode growth, emoji adoption, and the diversity of writing systems.
+        Then we translated that research into sections with clear takeaways and lightweight interactions.
+      </p>
+      <p>
+        Our guiding rule: if we can’t explain a concept in one sentence, we need a better label, a better visual, or both.
+      </p>
+    </div>
+  </div>
+
+  <!-- ===================== DESIGN PRINCIPLES ===================== -->
+  <div class="bio-container reveal">
+    <div class="callout" style="max-width:920px; margin: 0 auto;">
+      <h3 style="font-family: 'BHN Cinema';">Design Principles</h3>
+      <p>• Define jargon in context (micro-definitions, tooltips, examples).</p>
+      <p>• One main interaction per section (reduce cognitive load).</p>
+      <p>• Reuse UI patterns (filters, toggles, hover details) so users don’t relearn controls.</p>
+    </div>
+  </div>
+
+  <!-- ===================== PROTOTYPING ===================== -->
+  <div class="bio-container reveal">
+    <div class="bio-text" style="text-align:left; max-width:920px;">
+      <h2>Prototyping</h2>
+      <p style="color: var(--text-primary)"><strong>We prototyped early to find what “clicks”</strong></p>
+      <p>
+        We created quick prototypes to validate both narrative flow and interaction design.
+        The focus was less “pixel perfect” and more: can a user understand what to do next, and does the interaction teach something?
+      </p>
+    </div>
+  </div>
+
+  <!-- ===================== PROTOTYPE SNAPSHOTS GRID ===================== -->
+  <div class="bio-container reveal">
+    <div class="bio-text" style="text-align:left; max-width:920px;">
+      <h2>Prototype Snapshots</h2>
+      <p style="color: var(--text-primary)"><strong>Key screens we iterated on</strong></p>
+      <p>Click to expand.</p>
+    </div>
+  </div>
+
+  <div class="bio-container reveal">
+    <div class="masonry">
+      <div class="item">
+        <img class="lightboxable"
+          src="/static/asset/images/ux/unicode/proto-ascii.png"
+          alt="Prototype screenshot of ASCII frequency visualization with toggles and sorting controls"
+        >
+      </div>
+      <div class="item">
+        <img class="lightboxable"
+          src="/static/asset/images/ux/unicode/proto-emoji.png"
+          alt="Prototype screenshot of emoji exploration with filters by category and version"
+        >
+      </div>
+      <div class="item">
+        <img class="lightboxable"
+          src="/static/asset/images/ux/unicode/proto-universe.png"
+          alt="Prototype screenshot of Unicode Universe exploration showing scripts list, metadata panel, and character sampling"
+        >
+      </div>
+    </div>
+  </div>
+
+  <p class="img-caption">
+    These snapshots show our iteration focus: consistent controls, clearer labels, and interactions that teach one idea at a time.
+  </p>
+
+  <!-- ===================== TESTING & ITERATION ===================== -->
+  <div class="bio-container reveal">
+    <div class="bio-text" style="text-align:left; max-width:920px;">
+      <h2>Testing & Iteration</h2>
+      <p style="color: var(--text-primary)"><strong>Think-aloud sessions helped us reduce friction fast</strong></p>
+      <p>
+        We ran think-aloud testing to see where users hesitated, misunderstood labels, or lost the story thread.
+        The most common issue wasn’t “the data is too hard”—it was UI clarity: what does this control do, what does this term mean,
+        and why is this section here?
+      </p>
+    </div>
+  </div>
+
+  <div class="bio-container reveal">
+    <div class="split">
+      <div class="callout" style="flex:1;">
+        <h3 style="font-family: 'BHN Cinema';">What we observed</h3>
+        <p>• Users skimmed long paragraphs and missed key definitions.</p>
+        <p>• Some terms felt technical without examples.</p>
+        <p>• When sections changed interaction styles, users slowed down.</p>
+      </div>
+
+      <div class="callout" style="flex:1;">
+        <h3 style="font-family: 'BHN Cinema';">What we changed</h3>
+        <p>• Shorter copy + stronger headings per section.</p>
+        <p>• Micro-definitions/tooltips near charts.</p>
+        <p>• Standardized controls (filters/toggles/hover details) across views.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== OUTCOME ===================== -->
+  <div class="bio-container reveal">
+    <div class="bio-text" style="text-align:left; max-width:920px;">
+      <h2>Outcome</h2>
+      <p style="color: var(--text-primary)"><strong>A narrative that makes infrastructure feel personal</strong></p>
+      <p>
+        The final story guides users from a familiar starting point (ASCII constraints) into scale (Unicode growth),
+        culture (emoji), and representation (writing systems). The goal is for users to leave with a clearer mental model:
+        Unicode isn’t just “code”—it shapes what can be expressed digitally.
+      </p>
+    </div>
+  </div>
+
+  <!-- ===================== FINAL MEDIA (OPTIONAL) ===================== -->
+  <div class="bio-container reveal">
+    <div class="media-card">
+      <img
+        src="/static/asset/images/ux/unicode/final-highlights.png"
+        alt="Collage of final screens highlighting ASCII, Unicode growth, emoji exploration, and writing system views"
+      >
+    </div>
+  </div>
+
+  <!-- ===================== LINKS ===================== -->
+  <div class="bio-container reveal">
+    <div class="bio-text" style="text-align:left; max-width:920px;">
+      <h2>Try It</h2>
+      <p style="color: var(--text-primary)"><strong>Explore the site</strong></p>
+      <p>
+        Replace the link below with your deployed project link (and optionally add a GitHub repo link).
+      </p>
+
+      <a href="REPLACE_WITH_PROJECT_LINK" target="_blank" class="cta-button">
+        <strong>Open the live project →</strong>
+      </a>
+
+      <p style="margin-top:12px; font-size:0.9rem; opacity:0.85;">
+        Optional: add a second button for GitHub, or a short note about what to click first.
+      </p>
+    </div>
+  </div>
+
+  <!-- ===================== REFLECTION ===================== -->
+  <div class="bio-container reveal">
+    <div class="bio-text" style="text-align:left; max-width:920px;">
+      <h2>Reflection</h2>
+      <p style="color: var(--text-primary)"><strong>What I’d improve next</strong></p>
+      <p>
+        Next iteration, I’d strengthen onboarding even further: a short guided “tour,” clearer transitions that explain why each section matters,
+        and more progressive disclosure (show basics first, advanced controls second) to keep first-time users confident.
+      </p>
+    </div>
+  </div>
+
+  <!-- ===================== LIGHTBOX OVERLAY ===================== -->
+  <div class="lightbox-overlay" id="lightbox">
+    <div class="close-btn" id="lightboxClose">&times;</div>
+    <img id="lightboxImg" src="" alt="Expanded image">
+  </div>
+
+</div>
+
+<!-- ===== Scroll progress bar ===== -->
+<script>
+(function () {
+  const bar = document.getElementById("progressBar");
+  function onScroll() {
+    const doc = document.documentElement;
+    const scrollTop = doc.scrollTop || document.body.scrollTop;
+    const scrollHeight = doc.scrollHeight - doc.clientHeight;
+    const pct = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+    bar.style.width = pct.toFixed(2) + "%";
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+})();
+</script>
+
+<!-- ===== Reveal on scroll ===== -->
+<script>
+(function () {
+  const els = document.querySelectorAll(".reveal");
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add("show");
+    });
+  }, { threshold: 0.12 });
+  els.forEach(el => obs.observe(el));
+})();
+</script>
+
+<!-- ===== Lightbox ===== -->
+<script>
+(function () {
+  const overlay = document.getElementById("lightbox");
+  const img = document.getElementById("lightboxImg");
+  const close = document.getElementById("lightboxClose");
+  const items = document.querySelectorAll(".lightboxable");
+
+  function open(src, alt) {
+    img.src = src;
+    img.alt = alt || "Expanded image";
+    overlay.style.display = "flex";
+  }
+  function shut() {
+    overlay.style.display = "none";
+    img.src = "";
+  }
+
+  items.forEach(i => i.addEventListener("click", () => open(i.src, i.alt)));
+  close.addEventListener("click", shut);
+  overlay.addEventListener("click", (e) => { if (e.target === overlay) shut(); });
+  window.addEventListener("keydown", (e) => { if (e.key === "Escape") shut(); });
+})();
+</script>
+
+{% endblock %}

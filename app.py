@@ -14,7 +14,7 @@ def home():
         finder = request.form.get("finder", "").strip().lower()
 
         personal_websites = ["afvs", "essays", "fysemr", "illustration", "portal", "street", "superface"]
-        collab_websites = ["highlander", "recit", "olympics", "gifafvs"]
+        collab_websites = ["highlander", "recit", "olympics", "gifafvs","cs171"]
         flat = ["about", "client", "collab", "personal"]
 
         # ✅ If user types "t4sg" (or similar), send them to the password page
@@ -142,6 +142,10 @@ def recit():
 @app.route("/olympics")
 def olympics():
     return render_template("collab websites/olympics.html")
+
+@app.route("/cs1710")
+def cs171():
+    return render_template("cs171.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
