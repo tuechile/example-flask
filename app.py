@@ -1,41 +1,44 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for, session
 import random
 
 app = Flask(__name__)
+app.secret_key = "change-this-to-a-long-random-string"  # required for sessions
 
+T4SG_PASSWORD = "chit4sgx2feetchi"
 
 @app.route("/", methods=["GET", "POST"])
 def home():
     if request.method == "GET":
         return render_template("index.html")
     elif request.method == "POST":
-        # Get the user input from the form
-        finder = request.form.get("finder")
+        finder = request.form.get("finder", "").strip().lower()
 
-        # Validate the input against allowed templates (the exact names and similar names)
-        personal_websites = ["afvs", "essays", "fysemr", "illustration", "portal", "street", "superface"] 
+        personal_websites = ["afvs", "essays", "fysemr", "illustration", "portal", "street", "superface"]
         collab_websites = ["highlander", "recit", "olympics", "gifafvs"]
         flat = ["about", "client", "collab", "personal"]
-        # Add valid template names
-        if finder.lower() in flat:
+
+        # ✅ If user types "t4sg" (or similar), send them to the password page
+        if finder in ["t4sg", "t4sg.html", "t4sg case study", "2feet", "t4sg x 2feet"]:
+            return redirect(url_for("t4sg_gate"))
+
+        if finder in flat:
             return render_template(f"{finder}.html")
-        elif finder.lower() in personal_websites:
+        elif finder in personal_websites:
             return render_template(f"personal websites/{finder}.html")
-        elif finder.lower() in collab_websites:
+        elif finder in collab_websites:
             return render_template(f"collab websites/{finder}.html")
-        
-        elif finder.lower() in ["chi", "pirenily", "me", "chi le", "emily", "iron pig", "chi bell", "myself", "i", "artist"]:
+
+        elif finder in ["chi", "pirenily", "me", "chi le", "emily", "iron pig", "chi bell", "myself", "i", "artist"]:
             return render_template("about.html")
-        elif finder.lower() in ["commission", "client work", "commissioned work", "commissions", "client"]:
+        elif finder in ["commission", "client work", "commissioned work", "commissions", "client"]:
             return render_template("client.html")
-        elif finder.lower() in ["collaborative work", "collaborations", "collaboration", "member", "film", "direction", "director", "collab"]:
+        elif finder in ["collaborative work", "collaborations", "collaboration", "member", "film", "direction", "director", "collab"]:
             return render_template("collab.html")
-        elif finder.lower() in ["personal work", "self", "person", "mine", "free", "journey"]:
+        elif finder in ["personal work", "self", "person", "mine", "free", "journey"]:
             return render_template("personal.html")
-        
+
         else:
             finder = random.choice(personal_websites + collab_websites + flat)
-            # Abort with a 404 error if the template is not allowed
             if finder in personal_websites:
                 return render_template(f"personal websites/{finder}.html")
             elif finder in collab_websites:
@@ -43,31 +46,62 @@ def home():
             else:
                 return render_template(f"{finder}.html")
 
-# Generate template for each html page
+
+# ---------------------------
+# ✅ T4SG password gate
+# ---------------------------
+@app.route("/t4sg", methods=["GET", "POST"])
+def t4sg_gate():
+    # If already authenticated, go straight to page
+    if session.get("t4sg_authed"):
+        return redirect(url_for("t4sg_page"))
+
+    if request.method == "GET":
+        return render_template("t4sg_password.html")
+
+    # POST: check password
+    pw = request.form.get("password", "")
+    if pw == T4SG_PASSWORD:
+        session["t4sg_authed"] = True
+        return redirect(url_for("t4sg_page"))
+
+    # wrong password -> re-render with error
+    return render_template("t4sg_password.html", error="Wrong password.")
+
+
+@app.route("/t4sg/page")
+def t4sg_page():
+    if not session.get("t4sg_authed"):
+        return redirect(url_for("t4sg_gate"))
+    return render_template("t4sg.html")
+
+
+@app.route("/t4sg/logout")
+def t4sg_logout():
+    session.pop("t4sg_authed", None)
+    return redirect(url_for("t4sg_gate"))
+
+
+# ---- your existing routes ----
 @app.route("/about")
 def about():
     return render_template("about.html")
-
 
 @app.route("/client")
 def client():
     return render_template("client.html")
 
-
 @app.route("/personal")
 def personal():
     return render_template("personal.html")
-
 
 @app.route("/collab")
 def collab():
     return render_template("collab.html")
 
-
 @app.route("/illustration")
 def illustration():
     return render_template("personal websites/illustration.html")
-
 
 @app.route("/portal")
 def portal():
