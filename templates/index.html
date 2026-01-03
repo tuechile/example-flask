@@ -8,31 +8,26 @@
     <link href="/static/css/styles.css" rel="stylesheet">
     <title>Pirenily</title>
     <script type="text/javascript">
-        // Change the placeholder text every 3 seconds
         function changePlaceholder() {
             const items = ["Pirenily", "Chi Le", "Iron Pig", "Emily", "Chi Bell"];
             const inputField = document.getElementById("newtodo");
             let index = 0;
-
-            // Update placeholder in an interval
             setInterval(() => {
                 inputField.placeholder = items[index];
-                index = (index + 1) % items.length; // Loop through the array
-            }, 400); // 3 seconds interval
+                index = (index + 1) % items.length;
+            }, 400);
         }
 
-        // Automatically submit form on Enter key press
         function setupFormSubmit() {
             const inputField = document.getElementById("newtodo");
             inputField.addEventListener("keypress", function (event) {
                 if (event.key === "Enter") {
-                    event.preventDefault(); // Prevent default form submission
-                    this.form.submit(); // Submit the form programmatically
+                    event.preventDefault();
+                    this.form.submit();
                 }
             });
         }
 
-        // Ensure all scripts run after the DOM is loaded
         window.onload = function () {
             changePlaceholder();
             setupFormSubmit();
@@ -51,20 +46,35 @@
     </nav>
 
     <div id="video-container">
-        <!--- Video will be used if the screen is big enough, otherwise a static image --->
         <video autoplay muted loop id="background-video">
             <source src="/static/asset/images/other/BG.mp4" type="video/mp4">
         </video>
     </div>
 
-    <!--- Pseudonavigator that takes visitor to a random page if input string does not match any known page well enough --->
     <form method="POST">
         <input autocomplete="off" type="text" class="header" id="newtodo" placeholder="Pirenily" name="finder">
     </form>
 
-    <footer>
-        Chi (Tue) Le | Pirenily | Updated 2025
+    <!-- Landing footer stays visible on first screen -->
+    <footer class="home-footer">
+        <div class="home-footer-meta">Chi (Tue) Le | Pirenily | Updated 2025</div>
+        <div class="home-footer-hint">Scroll down to see my portfolio</div>
     </footer>
+
+    <!-- BELOW THE FOLD: thumbnail appears only when you scroll down -->
+    <main class="below-fold">
+        <a class="project-thumb" href="/t4sg" aria-label="Open T4SG × 2ft (Password)">
+            <!-- swap src to any thumbnail you want -->
+            <img class="project-thumb-img"
+                 src="/static/asset/images/ux/t4sg/preview.png"
+                 alt="T4SG × 2ft inventory system preview">
+
+            <div class="project-thumb-meta">
+                <div class="project-thumb-title">T4SG × 2ft Prosthetics</div>
+                <div class="project-thumb-sub">Offline-first inventory system (protected)</div>
+            </div>
+        </a>
+    </main>
 </body>
 
 </html>

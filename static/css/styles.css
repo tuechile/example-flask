@@ -10,6 +10,73 @@ body {
     /* Ensure footer is always at the bottom */
     height: 100%;
 }
+/* ===== Landing footer stays on screen ===== */
+.home-footer{
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  background: transparent;
+  z-index: 5;
+}
+
+.home-footer-meta{ opacity: 0.9; }
+.home-footer-hint{ opacity: 0.75; }
+
+/* ===== Below-fold section (starts after 1 viewport) ===== */
+.below-fold{
+  min-height: 100vh;
+  padding-top: 110vh;   /* THIS is what makes it only appear after scrolling */
+  padding-bottom: 6rem; /* so it doesn't clash with the fixed footer */
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* ===== Thumbnail card ===== */
+.project-thumb{
+  width: min(720px, 86vw);
+  display: block;
+  text-decoration: none;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(180,180,180,0.35);
+  background: rgba(0,0,0,0.25);
+  backdrop-filter: blur(2px);
+}
+
+.project-thumb-img{
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.project-thumb-meta{
+  padding: 0.9rem 1rem 1rem;
+}
+
+.project-thumb-title{
+  font-family: "Crimson Text", serif;
+  font-style: italic;
+  font-size: 1.2rem;
+  color: rgba(240,240,240,0.95);
+}
+
+.project-thumb-sub{
+  margin-top: 0.25rem;
+  font-family: "Crimson Text", serif;
+  font-style: italic;
+  font-size: 0.95rem;
+  color: rgba(220,220,220,0.75);
+}
+
+.project-thumb:hover{
+  border-color: rgba(255,255,255,0.6);
+}
 
 @font-face {
     font-family: 'BHN Cinema';

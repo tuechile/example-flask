@@ -85,7 +85,7 @@
 
     .tag {
         font-family: "Crimson Text", serif;
-        font-size: 0.75rem;
+        font-size: 0.8rem;
         color: #ddd;
         border: 1px solid var(--border);
         padding: 0.35rem 0.6rem;
@@ -153,7 +153,7 @@
     .img-caption {
         font-family: "Crimson Text", serif;
         color: var(--text);
-        font-size: 0.75rem;
+        font-size: 0.8rem;
         line-height: 1.6;
         max-width: 920px;
         margin: 0.6rem auto 0 auto;
@@ -304,7 +304,7 @@
 }
 
 .bio-text p {
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     color: #888;
 }
 
@@ -443,7 +443,7 @@
 }
 
 .thumbnail-description {
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     color: #666;
 }
 
