@@ -56,6 +56,7 @@
 
     /* Type */
     --font-serif: "Crimson Text", serif;
+    --fs-0: 0.5rem;
     --fs-1: 0.8rem;
     /* small */
     --fs-2: 1rem;
@@ -118,6 +119,7 @@ html {
 }
 
 .pill {
+    color: var(--accent);
     padding: 4px 10px;
     font-size: var(--fs-1);
     opacity: 0.95;
@@ -230,7 +232,6 @@ html {
     font-family: var(--font-serif);
     font-size: var(--fs-1);
     color: var(--text-primary);
-    border: 1px solid rgba(28, 165, 145, 0.35);
     /* always visible */
     padding: 0.35rem 0.6rem;
     background: var(--bg-panel);
@@ -256,7 +257,7 @@ html {
 }
 
 .callout {
-    border: 1px dashed rgba(28, 165, 145, 0.55);
+    border: 1px solid var(--accent);
     padding: var(--s-4) var(--s-5);
     background: rgba(28, 165, 145, 0.06);
     max-width: 500px;
@@ -776,7 +777,6 @@ html {
    Interview Insights Explorer (uniform + inclusive)
    ========================================================= */
 .insights-card {
-    border: 1px solid rgba(255, 255, 255, 0.12);
     padding: var(--s-5);
     background: rgba(255, 255, 255, 0.04);
     backdrop-filter: blur(10px);
@@ -830,7 +830,6 @@ html {
 /* Optional: if your HTML uses .mini-btn, make it match .btn */
 .mini-btn {
     /* fallback */
-    border: 1px solid rgba(255, 255, 255, 0.18);
     background: rgba(255, 255, 255, 0.06);
     color: inherit;
     padding: 10px 12px;
@@ -852,7 +851,6 @@ html {
 
 .tab,
 .chip {
-    border: 1px solid rgba(255, 255, 255, 0.16);
     background: rgba(255, 255, 255, 0.05);
     color: var(--text-primary);
     padding: 8px 12px;
@@ -880,7 +878,6 @@ html {
 }
 
 .so-what-item {
-    border: 1px dashed rgba(255, 255, 255, 0.18);
     padding: var(--s-4);
     background: rgba(255, 255, 255, 0.03);
     max-width: 32ch;
@@ -911,7 +908,6 @@ html {
 }
 
 .insight {
-    border: 1px solid rgba(255, 255, 255, 0.12);
     padding: var(--s-4);
     background: rgba(255, 255, 255, 0.03);
     text-align: center;
@@ -943,7 +939,7 @@ html {
     margin: 0 0 var(--s-3);
     color: var(--text-secondary);
     font-family: var(--font-serif);
-    font-size: var(--fs-1);
+    font-size: var(--fs-0);
     line-height: var(--lh);
 }
 
