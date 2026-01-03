@@ -61,7 +61,7 @@
     }
 
     .case-title {
-        font-family: "Libre Caslon Display", serif;
+        font-family: "Crimson Text", serif;
         color: var(--title);
         margin: 0.25rem 0 0.25rem 0;
         letter-spacing: 0.3px;
@@ -641,3 +641,4 @@
         width: 100vw;
     }
 }
+

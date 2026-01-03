@@ -3,255 +3,7 @@
 {% block title %}| T4SG × 2ft Prosthetics{% endblock %}
 
 {% block extra_css %}
-<link href="/static/css/body.css" rel="stylesheet">
-<style>
-    /* ===== Interview Insights Explorer ===== */
-    .insights-card {
-        border: 1px solid rgba(255, 255, 255, .12);
-        border-radius: 18px;
-        padding: 18px;
-        background: rgba(255, 255, 255, .04);
-        backdrop-filter: blur(10px);
-    }
-
-    .insights-head {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        gap: 8px;
-        margin-bottom: 12px;
-        padding-bottom: 14px;
-        /* gives room for the button to sit lower */
-    }
-
-    .insights-head>div {
-        max-width: 62ch;
-        /* keeps subtitle from spanning too wide */
-    }
-
-    .insights-title {
-        margin: 0;
-    }
-
-    .insights-subtitle {
-        margin: 6px 0 0;
-        opacity: .85;
-    }
-
-    .insights-head .mini-btn {
-        position: absolute;
-        right: 0;
-        bottom: 0;
-        /* “lower” — sits at bottom of header */
-        transform: translateY(40%);
-        /* nudges it slightly below the header line */
-    }
-
-
-    .insights-title {
-        margin: 0;
-        font-size: 1.1rem;
-    }
-
-    .insights-subtitle {
-        margin: 6px 0 0;
-        opacity: .85;
-        max-width: 52ch;
-    }
-
-    .tabs,
-    .chips {
-        justify-content: center;
-    }
-
-    .so-what {
-        justify-items: center;
-        text-align: center;
-    }
-
-    .insights-grid {
-        justify-content: center;
-    }
-
-    .insight {
-        text-align: center;
-    }
-
-    .insight .meta {
-        justify-content: center;
-    }
-
-    .insights-head .mini-btn {
-        position: absolute;
-        right: 0;
-        bottom: 0;
-        /* “lower” — sits at bottom of header */
-        transform: translateY(40%);
-        /* nudges it slightly below the header line */
-    }
-
-    .mini-btn {
-        border: 1px solid rgba(255, 255, 255, .18);
-        background: rgba(255, 255, 255, .06);
-        color: inherit;
-        border-radius: 999px;
-        padding: 10px 12px;
-        cursor: pointer;
-        white-space: nowrap;
-    }
-
-    .tabs,
-    .chips {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        margin: 10px 0;
-    }
-
-    .tab,
-    .chip {
-        border: 1px solid rgba(255, 255, 255, .14);
-        background: rgba(255, 255, 255, .05);
-        color: inherit;
-        border-radius: 999px;
-        padding: 8px 12px;
-        cursor: pointer;
-        font-size: .9rem;
-    }
-
-    .tab.active,
-    .chip.active {
-        border-color: rgba(255, 255, 255, .28);
-        background: rgba(255, 255, 255, .10);
-    }
-
-    .so-what {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 10px;
-        margin: 14px 0 16px;
-    }
-
-    .so-what-item {
-        border: 1px dashed rgba(255, 255, 255, .18);
-        border-radius: 14px;
-        padding: 12px;
-        background: rgba(255, 255, 255, .03);
-    }
-
-    .kicker {
-        font-size: .75rem;
-        opacity: .7;
-        margin-bottom: 6px;
-    }
-
-    .big {
-        font-size: .98rem;
-        line-height: 1.2;
-    }
-
-    .insights-grid {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 12px;
-    }
-
-    .insight {
-        border: 1px solid rgba(255, 255, 255, .12);
-        border-radius: 16px;
-        padding: 14px;
-        background: rgba(255, 255, 255, .03);
-    }
-
-    .meta {
-        display: flex;
-        gap: 8px;
-        align-items: center;
-        margin-bottom: 10px;
-    }
-
-    .pill {
-        border: 1px solid rgba(255, 255, 255, .16);
-        border-radius: 999px;
-        padding: 4px 10px;
-        font-size: .78rem;
-        opacity: .9;
-    }
-
-    .tag-mini {
-        font-size: .78rem;
-        opacity: .7;
-    }
-
-    .insight h4 {
-        margin: 0 0 8px;
-        font-size: 1rem;
-    }
-
-    .insight p {
-        margin: 0 0 10px;
-        opacity: .86;
-    }
-
-    /* Keeps grid positions stable when filtering */
-    .insight.is-hidden {
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
-    }
-
-    /* Smooth transitions (optional) */
-    .insight {
-        transition: opacity .18s ease, transform .18s ease;
-    }
-
-    /* Prevent the grid from “collapsing” height when many are hidden */
-    .insights-grid {
-        align-items: start;
-    }
-
-    .expand {
-        border: 0;
-        background: transparent;
-        color: inherit;
-        opacity: .9;
-        cursor: pointer;
-        text-decoration: underline;
-        padding: 0;
-    }
-
-    .more {
-        display: none;
-        margin-top: 10px;
-        padding-top: 10px;
-        border-top: 1px solid rgba(255, 255, 255, .10);
-        opacity: .92;
-    }
-
-    .insight.open .more {
-        display: block;
-    }
-
-    @media (max-width: 860px) {
-        .so-what {
-            grid-template-columns: 1fr;
-        }
-
-        .insights-grid {
-            grid-template-columns: 1fr;
-        }
-
-        .insights-head .mini-btn {
-            position: static;
-            transform: none;
-            margin-top: 8px;
-        }
-
-    }
-</style>
-
+<link href="/static/css/ux.css" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
@@ -287,10 +39,6 @@
         <img src="/static/asset/images/ux/t4sg/preview.png" alt="2ft inventory system preview">
     </div>
 </div>
-<p class="img-caption">
-    <strong>Image instruction:</strong> This is your “hero preview.” Keep it clean (no sensitive data) — it sets the
-    vibe.
-</p>
 
 <!-- ===================== TL;DR ===================== -->
 <div class="bio-container reveal">
@@ -303,7 +51,7 @@
         </p>
     </div>
 </div>
-
+<div class="t4sg-page">
 <!-- ===================== CONTEXT ===================== -->
 <div class="bio-container reveal">
     <div class="bio-text" style="text-align:left; max-width:920px;">
@@ -450,97 +198,154 @@
                 <div class="big">“Who changed this?” must be obvious</div>
             </div>
         </div>
+<!-- Cards grid -->
+<div class="insights-grid" id="insightsGrid">
 
-        <!-- Cards grid -->
-        <div class="insights-grid" id="insightsGrid">
-
-            <!-- OFFLINE -->
-            <article class="insight" data-persona="volunteer" data-theme="offline">
-                <div class="meta">
-                    <span class="pill">Volunteer</span>
-                    <span class="tag-mini">Offline reality</span>
-                </div>
-                <h4>“I’ll write it down and update later.”</h4>
-                <p>
-                    Components move in clinics and during travel — but documentation only happens once Wi-Fi returns.
-                </p>
-                <button class="expand" type="button">Why this mattered</button>
-                <div class="more">
-                    <p><strong>Design implication:</strong> offline-first capture with clear sync states (draft →
-                        pending → synced), plus safe edits when connection returns.</p>
-                </div>
-            </article>
-
-            <!-- ONBOARDING -->
-            <article class="insight" data-persona="volunteer" data-theme="onboarding">
-                <div class="meta">
-                    <span class="pill">Volunteer</span>
-                    <span class="tag-mini">Onboarding + language</span>
-                </div>
-                <h4>“I don’t know what half these labels mean.”</h4>
-                <p>
-                    Acronyms and inconsistent categories slow onboarding and increase the chance of mislabeling parts.
-                </p>
-                <button class="expand" type="button">Why this mattered</button>
-                <div class="more">
-                    <p><strong>Design implication:</strong> plain-language fields, tooltips, and dropdowns that match
-                        how volunteers actually describe components.</p>
-                </div>
-            </article>
-
-            <!-- INVENTORY CLARITY -->
-            <article class="insight" data-persona="president" data-theme="inventory">
-                <div class="meta">
-                    <span class="pill">President</span>
-                    <span class="tag-mini">Inventory clarity</span>
-                </div>
-                <h4>“What do we have right now — today?”</h4>
-                <p>
-                    The current inventory picture gets buried across tabs, versions, and side notes.
-                </p>
-                <button class="expand" type="button">Why this mattered</button>
-                <div class="more">
-                    <p><strong>Design implication:</strong> a dedicated “Current Inventory” view, fast filters, and
-                        last-updated context (who/when) to reduce second-guessing.</p>
-                </div>
-            </article>
-
-            <!-- REPORTING -->
-            <article class="insight" data-persona="treasurer" data-theme="reporting">
-                <div class="meta">
-                    <span class="pill">Treasurer</span>
-                    <span class="tag-mini">Reporting</span>
-                </div>
-                <h4>“We need year-over-year numbers for donors.”</h4>
-                <p>
-                    Reporting is a real recurring workflow — and the data isn’t clean enough to export confidently.
-                </p>
-                <button class="expand" type="button">Why this mattered</button>
-                <div class="more">
-                    <p><strong>Design implication:</strong> standardized donor fields + consistent IDs so reports are
-                        generated, not hand-assembled.</p>
-                </div>
-            </article>
-
-            <!-- TRACEABILITY -->
-            <article class="insight" data-persona="volunteer" data-theme="traceability">
-                <div class="meta">
-                    <span class="pill">Volunteer</span>
-                    <span class="tag-mini">Trust + accountability</span>
-                </div>
-                <h4>“I’m scared I’ll overwrite something important.”</h4>
-                <p>
-                    When multiple people edit the same record, uncertainty creates hesitation — or duplicate
-                    spreadsheets.
-                </p>
-                <button class="expand" type="button">Why this mattered</button>
-                <div class="more">
-                    <p><strong>Design implication:</strong> edit history + comments + visible save confirmation so
-                        people can act quickly without fear.</p>
-                </div>
-            </article>
-
+    <!-- PRESIDENT — SYSTEM FRAGMENTATION -->
+    <article class="insight" data-persona="president" data-theme="inventory">
+        <div class="meta">
+            <span class="pill">President</span>
+            <span class="tag-mini">Fragmented inventory</span>
         </div>
+        <h4>“The same part exists in three different places.”</h4>
+        <p>
+            Inventory lives across multiple spreadsheets, tabs, and naming conventions, making it hard to know
+            whether a component is available, used, or misplaced.
+        </p>
+        <button class="expand" type="button">Why this mattered</button>
+        <div class="more">
+            <p><strong>Design implication:</strong> one canonical inventory source with consistent component IDs and
+                clear status states (in storage, on trip, fitted, returned).</p>
+        </div>
+    </article>
+
+    <!-- PRESIDENT — CONFUSING STATUS LABELS -->
+    <article class="insight" data-persona="president" data-theme="onboarding">
+        <div class="meta">
+            <span class="pill">President</span>
+            <span class="tag-mini">Labeling + clarity</span>
+        </div>
+        <h4>“You have to already know the system to use it.”</h4>
+        <p>
+            Status labels and categories are inconsistent, undocumented, and difficult for new volunteers to
+            understand without direct guidance.
+        </p>
+        <button class="expand" type="button">Why this mattered</button>
+        <div class="more">
+            <p><strong>Design implication:</strong> standardized terminology, inline definitions, and guardrails that
+                prevent mislabeling during data entry.</p>
+        </div>
+    </article>
+
+    <!-- PRESIDENT — NO REAL-TIME SNAPSHOT -->
+    <article class="insight" data-persona="president" data-theme="visibility">
+        <div class="meta">
+            <span class="pill">President</span>
+            <span class="tag-mini">Operational visibility</span>
+        </div>
+        <h4>“I just want to know what we have right now.”</h4>
+        <p>
+            There is no reliable real-time snapshot of inventory — checking availability means digging through
+            spreadsheets and asking people directly.
+        </p>
+        <button class="expand" type="button">Why this mattered</button>
+        <div class="more">
+            <p><strong>Design implication:</strong> a default dashboard showing current inventory counts with
+                last-updated timestamps and editor attribution.</p>
+        </div>
+    </article>
+
+    <!-- VOLUNTEER — OFFLINE WORK -->
+    <article class="insight" data-persona="volunteer" data-theme="offline">
+        <div class="meta">
+            <span class="pill">Volunteer</span>
+            <span class="tag-mini">Offline reality</span>
+        </div>
+        <h4>“I usually write it down and update it later.”</h4>
+        <p>
+            Clinics, travel days, and storage sites often lack reliable internet, forcing volunteers to track parts
+            on paper or in personal notes.
+        </p>
+        <button class="expand" type="button">Why this mattered</button>
+        <div class="more">
+            <p><strong>Design implication:</strong> offline-first data entry with visible sync states and safe conflict
+                resolution when reconnecting.</p>
+        </div>
+    </article>
+
+    <!-- VOLUNTEER — FEAR OF EDITING -->
+    <article class="insight" data-persona="volunteer" data-theme="trust">
+        <div class="meta">
+            <span class="pill">Volunteer</span>
+            <span class="tag-mini">Edit anxiety</span>
+        </div>
+        <h4>“I’m worried I’ll mess something up.”</h4>
+        <p>
+            Volunteers hesitate to update records because it’s unclear who edited what last, or whether changes can
+            be undone.
+        </p>
+        <button class="expand" type="button">Why this mattered</button>
+        <div class="more">
+            <p><strong>Design implication:</strong> edit history, change previews, and clear save confirmation to
+                support confident collaboration.</p>
+        </div>
+    </article>
+
+    <!-- VOLUNTEER — NAVIGATION PAIN -->
+    <article class="insight" data-persona="volunteer" data-theme="usability">
+        <div class="meta">
+            <span class="pill">Volunteer</span>
+            <span class="tag-mini">Navigation</span>
+        </div>
+        <h4>“I never know where to look.”</h4>
+        <p>
+            Information is spread across tabs and columns with no clear hierarchy, making even simple lookups slow.
+        </p>
+        <button class="expand" type="button">Why this mattered</button>
+        <div class="more">
+            <p><strong>Design implication:</strong> task-oriented navigation (search, add, move, review) instead of
+                spreadsheet-style layouts.</p>
+        </div>
+    </article>
+
+    <!-- TREASURER — REPORTING BURDEN -->
+    <article class="insight" data-persona="treasurer" data-theme="reporting">
+        <div class="meta">
+            <span class="pill">Treasurer</span>
+            <span class="tag-mini">Reporting</span>
+        </div>
+        <h4>“We rebuild reports every year.”</h4>
+        <p>
+            Donor and inventory reports are assembled manually because fields aren’t consistent or comparable across
+            years.
+        </p>
+        <button class="expand" type="button">Why this mattered</button>
+        <div class="more">
+            <p><strong>Design implication:</strong> normalized donor fields, timestamps, and export-ready reports for
+                year-over-year comparison.</p>
+        </div>
+    </article>
+
+    <!-- TREASURER — FINANCIAL VISIBILITY -->
+    <article class="insight" data-persona="treasurer" data-theme="accountability">
+        <div class="meta">
+            <span class="pill">Treasurer</span>
+            <span class="tag-mini">Financial accountability</span>
+        </div>
+        <h4>“I don’t directly manage inventory — but I’m responsible for it.”</h4>
+        <p>
+            Components represent real financial value, yet inventory tracking doesn’t clearly support auditing or
+            accountability.
+        </p>
+        <button class="expand" type="button">Why this mattered</button>
+        <div class="more">
+            <p><strong>Design implication:</strong> traceability from donor → component → usage to support financial
+                oversight without extra manual work.</p>
+        </div>
+    </article>
+
+</div>
+
     </div>
 </div>
 
@@ -616,9 +421,9 @@
 <div class="bio-container reveal">
     <div class="callout">
         <h3>Feature rollout (how it evolved)</h3>
-        <p>Phase 1: core inventory reliability (offline states, simple viewing, consistent terminology).</p>
-        <p>Phase 2: deeper traceability (edit history, comments, donor reporting, richer categorization).</p>
-        <p>Phase 3: scalability features (dashboards, reports, advanced filters, onboarding helpers).</p>
+        <p><strong>Phase 1:</strong> Core Inventory Reliability (simple viewing, terminology, edit component).</p>
+        <p><strong>Phase 2:</strong> Deeper Traceability (edit history, comments, richer categorization).</p>
+        <p><strong>Phase 3:</strong> Scalability Features (add component flow, filters, helpers).</p>
     </div>
 </div>
 
@@ -645,7 +450,7 @@
 
 <div class="bio-container reveal">
     <div class="split">
-        <div class="media-card">
+        <div class="media-card" style="width: 600px;">
         <img class="lightboxable" src="/static/asset/images/ux/t4sg/userflow.png" alt="User flow: View Component">
         </div>
         <div class="bio-text" style="text-align:left;">
@@ -655,8 +460,9 @@
                 The component page is structured so volunteers understand the “state” first (logistics),
                 then drill into technical details only when needed. Collapsible sections reduce overload.
             </p>
-            <p><strong>Image instruction:</strong> Put your “View Component Flow” slide here (the one describing sticky
-                profile, logistics→technical→manufacturer, comments, tooltips).</p>
+            <p><strong>Clear Flow Needed:</strong> 4 distinct areas of information are central to a cognitive flow: sticky
+                profile, logistics→technical→manufacturer.</p>
+            
         </div>
     </div>
 </div>
@@ -667,34 +473,61 @@
     <div class="bio-text" style="text-align:left; max-width:920px;">
         <h2>Lo-Fi Prototyping</h2>
         <p><strong>Stripping It Down Until It Made Sense</strong></p>
+                <div class="media-card" style="width: 800px;">
+
+            <img class="lightboxable" src="/static/asset/images/ux/t4sg/lofi up.png"
+                alt="Placeholder: Lo-fi Ideation">
+        </div>
         <p>
             The black & white prototypes focused purely on information hierarchy, navigation clarity,
             and reducing visual density. If a field didn’t earn its place, it was removed.
         </p>
     </div>
 </div>
-
-<div class="bio-container reveal">
-    <div class="masonry">
-        <div class="item">
+<div class="t4sg-mockups">
             <img class="lightboxable" src="/static/asset/images/ux/t4sg/lofi view.png"
                 alt="Placeholder: Lo-fi view component screen (B&W)">
-        </div>
-
-        <div class="item">
-                    <img class="lightboxable" src="/static/asset/images/ux/t4sg/lofi view2.png"
-                alt="Placeholder: Lo-fi view component screen (B&W)">
-
-        </div>
-        <div class="item">
             <img class="lightboxable" src="/static/asset/images/ux/t4sg/lofi add.png"
                 alt="Placeholder: Lo-fi add component flow (B&W)">
-        </div>
-    </div>
 </div>
-<p class="img-caption">
-    <strong>Comment:</strong> Understandably there is a lot to track on each specific component. Maybe instead of trying to have various areas with multiple columns, we just have one column with all of the fields. This way it is easily extensible, e.g. some components can have 20 fields (feet) while others only have a couple (male pyramid adapters)
+<!-- ===================== ITERATION BRIDGE ===================== -->
+<div class="bio-container reveal">
+  <div class="bio-text" style="text-align:left; max-width:920px;">
+    <h2>Iteration: Lo-Fi → Hi-Fi</h2>
+    <p><strong>What we learned, what we changed, and why it worked</strong></p>
+    <p>
+      Lo-fi helped us prove the hierarchy. But once stakeholders interacted with it, the feedback wasn’t about visual design —
+      it was about <strong>speed, trust, and reducing “I might break something” anxiety</strong>.
+    </p>
+  </div>
+</div>
 
+<div class="bio-container reveal">
+  <div class="split">
+    <div class="callout" style="flex:1;">
+      <h3>What wasn’t working </h3>
+        <p>• There exists a hierarchy of information that wasn’t clearly represented</p>
+      <p>• Too many fields visible at once → scanning felt heavy</p>
+      <p>• Edits felt risky (no clear confirmation / history surfaced)</p>
+      <p>• Logistics + technical details blended together</p>
+      <p>• New volunteers still had to “guess” terminology</p>
+            <p>• Patient-centered categorization makes components' relationship complex</p>
+
+    </div>
+
+    <div class="callout" style="flex:1;">
+      <h3>What changed (Hi-Fi)</h3>
+      <p>• Collapsible sections → reveal complexity only when needed</p>
+      <p>• Clear save states → safer changes</p>
+      <p>• Strong separation: <strong>Logistics → Technical → Manufacturer</strong></p>
+      <p>• Dropdowns + defaults + helper text → less typing, fewer errors</p>
+      <p>• Flow of work in Add Components established more properly</p>
+    </div>
+  </div>
+</div>
+
+<p class="img-caption">
+  <strong>Designer note:</strong> The goal wasn’t to “add UI polish” — it was to make the same work feel <em>lighter</em> and more reliable.
 </p>
 
 <!-- ===================== HI-FI ===================== -->
@@ -710,25 +543,17 @@
     </div>
 </div>
 
-<div class="bio-container reveal">
-    <div class="masonry">
-        <div class="item">
+<div class="t4sg-mockups">
             <img class="lightboxable" src="/static/asset/images/ux/t4sg/hifi view.png"
                 alt="Placeholder: Hi-fi view component (blue/yellow)">
-        </div>
-        <div class="item">
             <img class="lightboxable" src="/static/asset/images/ux/t4sg/hifi edit.png"
                 alt="Placeholder: Hi-fi edit component inline popup (blue/yellow)">
-        </div>
-        <div class="item">
             <img class="lightboxable" src="/static/asset/images/ux/t4sg/hifi add.png"
                 alt="Placeholder: Hi-fi history/comments (blue/yellow)">
         </div>
-    </div>
-</div>
 <p class="img-caption">
-    <strong>Image instruction:</strong> Add 3 hi-fi screenshots: (1) View component screen, (2) Inline edit popup, (3)
-    History/comments UI.
+    (1) View component, (2) Edit Component, (3)
+    Add Component
 </p>
 
 <!-- ===================== TESTING & FEEDBACK ===================== -->
@@ -758,14 +583,6 @@
       <p>
         Type-first workflow was a win: starting from component types (since each type has its own
         properties) felt far more natural than exposing every possible spreadsheet field and forcing volunteers to guess.
-      </p>
-    </p>
-
-    <p><strong>What we changed because of it</strong></p>
-    <p>
-      <p>
-        We moved away from a <strong>patient-centered component page</strong> in the lo-fi. That structure was misleading for
-        inventory work, so the hi-fi removed it entirely and refocused the experience around the component itself.
       </p>
     </p>
 
@@ -852,7 +669,7 @@
     <div class="close-btn" id="lightboxClose">&times;</div>
     <img id="lightboxImg" src="" alt="Expanded image">
 </div>
-
+</div>
 <script>
     // ===== Scroll progress bar =====
     (function () {
