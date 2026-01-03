@@ -75,6 +75,7 @@ body {
 
 .project-thumb:hover{
   border-color: rgba(255,255,255,0.6);
+  filter: blur(1px);
 }
 
 @font-face {

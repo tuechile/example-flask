@@ -37,8 +37,6 @@
 
     --bg-panel: rgba(255, 255, 255, 0.03);
     --bg-panel-2: rgba(255, 255, 255, 0.04);
-    --border: rgba(255, 255, 255, 0.10);
-    --border-2: rgba(255, 255, 255, 0.14);
 
     --text-primary: #eaeaea;
     --text-secondary: #9a9a9a;
@@ -91,7 +89,6 @@ html {
 
 /* ---------- Shared patterns ---------- */
 .card {
-    border: 1px solid var(--border);
     background: var(--bg-panel);
     box-shadow: var(--shadow);
 }
@@ -102,7 +99,6 @@ html {
 }
 
 .btn {
-    border: 1px solid var(--border-2);
     background: rgba(255, 255, 255, 0.06);
     filter: blur(1px) grayscale(100%);
 
@@ -122,7 +118,6 @@ html {
 }
 
 .pill {
-    border: 1px solid var(--border-2);
     padding: 4px 10px;
     font-size: var(--fs-1);
     opacity: 0.95;
@@ -199,7 +194,6 @@ html {
     max-width: 920px;
     margin: 0 auto;
     padding: var(--s-6);
-    border: 1px solid var(--border);
     background:
         radial-gradient(circle at 18% 20%, rgba(28, 165, 145, 0.18), transparent 42%),
         radial-gradient(circle at 82% 10%, rgba(255, 255, 255, 0.07), transparent 40%),
@@ -287,9 +281,8 @@ html {
 }
 
 .media-card {
-    width: min(800px, 85vw);
+    width: min(750px, 85vw);
     margin: 0 auto;
-    border: 1px solid var(--border);
     background: var(--bg-panel);
     box-shadow: var(--shadow);
     overflow: hidden;
@@ -342,7 +335,6 @@ html {
     width: 100%;
     max-width: 920px;
     margin: 0 auto;
-    border: 1px solid var(--border);
     overflow: hidden;
     background: rgba(0, 0, 0, 0.12);
 }
@@ -376,7 +368,6 @@ html {
     max-height: 0;
     overflow: hidden;
     transition: max-height 350ms ease;
-    border-top: 1px solid var(--border);
 }
 
 .acc-inner {
@@ -563,7 +554,6 @@ html {
 .thumbnail {
     display: flex;
     overflow: hidden;
-    border: 1px solid var(--border);
     background: var(--bg-panel);
     box-shadow: var(--shadow);
     transition: box-shadow 200ms ease, transform 200ms ease, border-color 200ms ease;
@@ -912,7 +902,7 @@ html {
 /* Insights grid */
 .insights-grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: var(--s-3);
     justify-content: center;
     align-items: start;
