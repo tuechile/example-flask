@@ -444,6 +444,30 @@
     color: #666;
 }
 
+/* Only thumbnails that CONTAIN a link are interactive */
+.thumbnail:has(a) {
+  cursor: pointer;
+}
+
+/* Blur ONLY interactive thumbnails */
+.thumbnail:has(a):hover img,
+.thumbnail:has(a):hover .thumbnail-content {
+  filter: blur(1px);
+}
+
+/* Smoothness */
+.thumbnail img,
+.thumbnail .thumbnail-content {
+  transition: filter 0.2s ease;
+}
+.thumbnail > a {
+  display: flex;
+  width: 100%;
+  text-decoration: none;
+  color: inherit;
+}
+
+
 /* ========================================= Masonry Grid Styling ========================================= */
 .masonry {
     display: grid;
