@@ -1,86 +1,76 @@
 {% extends "layout.html" %}
 
 {% block title %}| Personal{% endblock %}
+
 {% block extra_css %}
 <link href="/static/css/body.css" rel="stylesheet">
 <style>
-  /* ===== Tabs (top) ===== */
-  .tabs {
+  /* ========= FILTER BAR (multi-select, no reflow) ========= */
+  .filters {
     max-width: 1100px;
     margin: 0 auto 48px;
     padding: 0 12px;
   }
-  .tabs__list {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0,1fr));
-    gap: 12px;
-    margin-bottom: 12px;
+
+  .filters__row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 10px;
   }
-  /* visually hidden but accessible text */
-  .sr-only {
-    position: absolute !important;
-    width: 1px; height: 1px;
-    padding: 0; margin: -1px;
-    overflow: hidden; clip: rect(0,0,0,0);
-    white-space: nowrap; border: 0;
-  }
-  [role="tab"] {
+
+  .filter-pill {
     font-family: 'BHN Cinema', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
     font-weight: 600;
-    font-size: clamp(18px, 1.6vw, 22px);
+    font-size: 16px;
     color: #fff;
-    background: rgba(255,255,255,.06);
-    border: 1px solid rgba(255,255,255,.15);
-    border-radius: 14px;
-    padding: 16px 16px 10px 16px;
-    box-shadow: 0 10px 30px rgba(0,0,0,.25);
     cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
+
+    padding: 10px 14px;
+
+    background: rgba(255,255,255,.06);
+    box-shadow: 0 10px 30px rgba(0,0,0,.25);
+
     transition: background .2s ease, border-color .2s ease, transform .06s ease;
   }
-  [role="tab"]:hover, [role="tab"]:focus-visible {
-    background: rgba(255,255,255,.12); outline: none;
+
+  .filter-pill:hover,
+  .filter-pill:focus-visible {
+    background: rgba(255,255,255,.12);
+    outline: none;
   }
-  [role="tab"][aria-selected="true"] {
+
+  .filter-pill.is-active {
     background: rgba(255,255,255,.16);
-    border-color: rgba(255,255,255,.3);
-    box-shadow: 0 10px 30px rgba(0,0,0,.25), 0 10px 30px 1px rgba(28, 165, 145, 0.125);
+    box-shadow:
+      0 10px 30px rgba(0,0,0,.25),
+      0 10px 30px 1px rgba(28, 165, 145, 0.14);
   }
 
-    /* --- Panels container keeps page from jumping --- */
-  .tabs__panels { min-height: 220px; }
-
-  /* Respect native hidden: don't override it (prevents clicking) */
-  [hidden] { display: none !important; }
-
-  /* Fade-in animation when panel becomes visible */
-  .tabpanel-in { animation: fadeInUp 200ms ease both; }
-  @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(6px); }
-    to   { opacity: 1; transform: translateY(0); }
+  .filters__meta {
+    display: flex;
+    justify-content: center;
+    margin: 8px 0 18px;
+    font-family: 'Crimson Text', serif;
+    color: #bdbdbd;
+    font-size: 14px;
   }
 
-  /* ===== Panels (below) ===== */
-  .tabs__panels { min-height: 220px; }
-  [role="tabpanel"] { transition: opacity .2s ease, transform .2s ease; }
-  [role="tabpanel"].in { opacity: 1; transform: translateY(0); }
-  [role="tabpanel"][hidden] { display: block; opacity: 0; transform: translateY(6px); }
-
-  /* ===== Card grid ===== */
+  /* ========= GRID (same as yours) ========= */
   .card-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0,1fr));
     gap: 14px;
   }
+
   @media (max-width: 900px) {
     .card-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
-    .tabs__list { grid-template-columns: 1fr; margin-bottom: 10px; }
-    [role="tab"] {font-size: clamp(20px, 1.8vw, 24px); }
   }
+
   @media (max-width: 600px) {
     .card-grid { grid-template-columns: 1fr; }
-    .tabs__list { grid-template-columns: 1fr; margin-bottom: 8px; }
-    [role="tab"] {font-size: clamp(20px, 1.8vw, 24px); }
+    .filter-pill { font-size: 15px; padding: 10px 12px; }
   }
 
   .card {
@@ -89,30 +79,29 @@
     text-decoration: none;
     color: #fff;
     background: rgba(255,255,255,.06);
-    border: 1px solid rgba(255,255,255,.15);
-    border-radius: 14px;
     padding: 16px;
     box-shadow: 0 8px 24px rgba(0,0,0,.25);
-    transition: transform .08s ease, background .2s ease, border-color .2s ease;
   }
+
   .card:hover, .card:focus-visible {
     background: rgba(255,255,255,.12);
-    border-color: rgba(255,255,255,.25);
     outline: none;
     transform: translateY(-1px);
   }
+
   .card__title {
     font-family: 'BHN Cinema', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
     font-size: clamp(14px, 1.1vw, 16px);
     margin-bottom: 8px;
   }
-  /* Smaller, readable descriptions in Crimson Text */
+
   .card__desc {
     font-family: 'Crimson Text', serif;
     font-size: clamp(14px, 1.1vw, 16px);
     line-height: 1.4;
     color: #e3e3e3;
   }
+
   .card__meta {
     font-family: 'Crimson Text', serif;
     font-size: 13px;
@@ -120,6 +109,16 @@
     color: #bdbdbd;
     margin-top: 6px;
   }
+
+  /* ========= IMPORTANT: "HIDE" WITHOUT RE-FLOW =========
+     This keeps each card's original grid cell.
+     (No jumping / repacking to top-left.) */
+  .card.is-hidden {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+  }
+
 </style>
 {% endblock %}
 
@@ -128,143 +127,175 @@
   Personal Work
 </h1>
 
-<section class="tabs" aria-label="Smaller projects">
-  <!-- Tabs -->
-  <div class="tabs__list" role="tablist" aria-label="Categories">
-    <button id="tab-art" role="tab" aria-selected="true" aria-controls="panel-art">Art</button>
-    <button id="tab-interactivity" role="tab" aria-selected="false" aria-controls="panel-interactivity">Interactivity</button>
-    <button id="tab-essays" role="tab" aria-selected="false" aria-controls="panel-essays">Essays</button>
+<section class="filters" aria-label="Personal work filters">
+  <!-- Multi-select filter pills -->
+  <div class="filters__row" role="group" aria-label="Category filter">
+    <!-- "All" resets selections -->
+    <button class="filter-pill is-active" type="button" data-filter="all" aria-pressed="true">All</button>
+    <button class="filter-pill" type="button" data-filter="art" aria-pressed="false">Art</button>
+    <button class="filter-pill" type="button" data-filter="interactivity" aria-pressed="false">Interactivity</button>
+    <button class="filter-pill" type="button" data-filter="essays" aria-pressed="false">Essays</button>
   </div>
 
-  <!-- Panels -->
-  <div class="tabs__panels">
+  <!-- Count label -->
+  <div class="filters__meta" aria-live="polite">
+    <span id="filter-count"></span>
+  </div>
+
+  <!-- Cards (MUST have data-category matching pills) -->
+  <div class="card-grid" id="work-grid">
+
     <!-- ART -->
-    <div id="panel-art" role="tabpanel" aria-labelledby="tab-art">
-      <div class="card-grid">
-        <a class="card" href="street">
-          <div class="card__title">Street Photography</div>
-          <div class="card__desc">Through the lens of my Nikon D5100 since 2017</div>
-          <div class="card__meta">Ongoing</div>
-        </a>
-        <a class="card" href="illustration">
-          <div class="card__title">Illustrations</div>
-          <div class="card__desc">My journey in the world of drawing cartoons (2018-2024)</div>
-          <div class="card__meta">Delayed after 2022</div>
-        </a>
-        <a class="card" href="superface">
-          <div class="card__title">Superface</div>
-          <div class="card__desc">Self-edited self-portraits exploring makeup and persona</div>
-          <div class="card__meta">Delayed after 2023</div>
-        </a>
-      </div>
-    </div>
+    <a class="card" href="street" data-category="art">
+      <div class="card__title">Street Photography</div>
+      <div class="card__desc">Through the lens of my Nikon D5100 since 2017</div>
+      <div class="card__meta">Ongoing</div>
+    </a>
+
+    <a class="card" href="illustration" data-category="art">
+      <div class="card__title">Illustrations</div>
+      <div class="card__desc">My journey in the world of drawing cartoons (2018-2024)</div>
+      <div class="card__meta">Delayed after 2022</div>
+    </a>
+
+    <a class="card" href="superface" data-category="art">
+      <div class="card__title">Superface</div>
+      <div class="card__desc">Self-edited self-portraits exploring makeup and persona</div>
+      <div class="card__meta">Delayed after 2023</div>
+    </a>
 
     <!-- INTERACTIVITY -->
-    <div id="panel-interactivity" role="tabpanel" aria-labelledby="tab-interactivity" hidden>
-      <div class="card-grid">
-        <a class="card" href="afvs">
-          <div class="card__title">Coding and Interactivity</div>
-          <div class="card__desc">Self-expression through code — press a key to see the face react</div>
-          <div class="card__meta">Ongoing</div>
-        </a>
-        <a class="card" href="gifafvs">
-          <div class="card__title">What Brings You Here</div>
-          <div class="card__desc">Do you wish someone would tell you what to do?</div>
-          <div class="card__meta">Oct 2024</div>
-        </a>
-      </div>
-    </div>
+    <a class="card" href="afvs" data-category="interactivity">
+      <div class="card__title">Coding and Interactivity</div>
+      <div class="card__desc">Self-expression through code — press a key to see the face react</div>
+      <div class="card__meta">Ongoing</div>
+    </a>
+
+    <a class="card" href="gifafvs" data-category="interactivity">
+      <div class="card__title">What Brings You Here</div>
+      <div class="card__desc">Do you wish someone would tell you what to do?</div>
+      <div class="card__meta">Oct 2024</div>
+    </a>
 
     <!-- ESSAYS -->
-    <div id="panel-essays" role="tabpanel" aria-labelledby="tab-essays" hidden>
-      <div class="card-grid">
-        <a class="card" href="portal">
-          <div class="card__title">The Portal</div>
-          <div class="card__desc">A collection of poems and short stories</div>
-          <div class="card__meta">Discontinued in 2021</div>
-        </a>
-        <a class="card" href="fysemr">
-          <div class="card__title">The land of rivers: An imagined tea garden</div>
-          <div class="card__desc">Final project for FYSEMR 65R - created with Clip Studio Paint and InDesign</div>
-          <div class="card__meta">December 2024</div>
-        </a>
-        <a class="card" href="essays">
-          <div class="card__title">Video essays</div>
-          <div class="card__desc">A list of possible video essays I might create</div>
-          <div class="card__meta">May 2025</div>
-        </a>
-      </div>
-    </div>
+    <a class="card" href="portal" data-category="essays">
+      <div class="card__title">The Portal</div>
+      <div class="card__desc">A collection of poems and short stories</div>
+      <div class="card__meta">Discontinued in 2021</div>
+    </a>
+
+    <a class="card" href="fysemr" data-category="essays">
+      <div class="card__title">The land of rivers: An imagined tea garden</div>
+      <div class="card__desc">Final project for FYSEMR 65R - created with Clip Studio Paint and InDesign</div>
+      <div class="card__meta">December 2024</div>
+    </a>
+
+    <a class="card" href="essays" data-category="essays">
+      <div class="card__title">Video essays</div>
+      <div class="card__desc">A list of possible video essays I might create</div>
+      <div class="card__meta">May 2025</div>
+    </a>
+
   </div>
 </section>
 
 <script>
-    // Accessible tabs that start with NOTHING shown (no selection).
-    (function () {
-      const tabs   = Array.from(document.querySelectorAll('[role="tab"]'));
-      const panels = Array.from(document.querySelectorAll('[role="tabpanel"]'));
-      const order  = ['art','interactivity','essays'];
+  // Multi-select filters + NO reflow hiding (keeps original card positions)
+  document.addEventListener('DOMContentLoaded', () => {
+    const pills = Array.from(document.querySelectorAll('.filter-pill'));
+    const grid  = document.getElementById('work-grid');
+    const cards = grid ? Array.from(grid.querySelectorAll('.card')) : [];
+    const countEl = document.getElementById('filter-count');
 
-      function show(which, focusTab = false) {
-        tabs.forEach(t => {
-          const isSelected = t.id === 'tab-' + which;
-          t.setAttribute('aria-selected', String(isSelected));
-          t.tabIndex = isSelected ? 0 : -1;
-        });
-        panels.forEach(p => {
-          const isTarget = p.id === 'panel-' + which;
-          if (isTarget) {
-            p.hidden = false;
-            // restart fade-in animation
-            p.classList.remove('tabpanel-in');
-            void p.offsetWidth; // reflow
-            p.classList.add('tabpanel-in');
-          } else {
-            p.hidden = true;
-            p.classList.remove('tabpanel-in');
-          }
-        });
-        if (focusTab) document.getElementById('tab-' + which).focus();
-        if (history.replaceState) history.replaceState(null, '', '#' + which);
-      }
+    // Selected filters (multi-select). Empty = show all.
+    const selected = new Set();
 
-      function hideAll() {
-        tabs.forEach((t, i) => { t.setAttribute('aria-selected','false'); t.tabIndex = (i === 0 ? 0 : -1); });
-        panels.forEach(p => { p.hidden = true; p.classList.remove('in'); });
-        if (history.replaceState) history.replaceState(null, '', location.pathname + location.search);
-      }
+    function setPillState(pill, on) {
+      pill.classList.toggle('is-active', on);
+      pill.setAttribute('aria-pressed', String(on));
+    }
 
-      // Click to activate
-      tabs.forEach((tab) => {
-        tab.addEventListener('click', () => show(tab.id.replace('tab-','')));
-        // Keyboard nav: arrows move focus; Enter/Space activates
-        tab.addEventListener('keydown', (e) => {
-          const i = tabs.indexOf(tab);
-          if (e.key === 'Enter' || e.key === ' ') {
-            show(tab.id.replace('tab-',''), true);
-            e.preventDefault();
-            return;
-          }
-          if (e.key === 'ArrowRight' || e.key === 'ArrowLeft' || e.key === 'Home' || e.key === 'End') {
-            let j = i;
-            if (e.key === 'ArrowRight') j = (i + 1) % tabs.length;
-            else if (e.key === 'ArrowLeft') j = (i - 1 + tabs.length) % tabs.length;
-            else if (e.key === 'Home') j = 0;
-            else if (e.key === 'End') j = tabs.length - 1;
-            tabs[j].focus();
-            e.preventDefault();
-          }
-        });
+    function syncPills() {
+      const allPill = pills.find(p => p.dataset.filter === 'all');
+
+      // "All" is active iff nothing else is selected
+      if (allPill) setPillState(allPill, selected.size === 0);
+
+      pills.forEach(p => {
+        const f = (p.dataset.filter || '').toLowerCase();
+        if (f === 'all') return;
+        setPillState(p, selected.has(f));
+      });
+    }
+
+    function applyFilter() {
+      let shown = 0;
+
+      cards.forEach(card => {
+        const cat = (card.dataset.category || '').toLowerCase();
+        const match = (selected.size === 0) || selected.has(cat);
+
+        card.classList.toggle('is-hidden', !match);
+
+        if (match) {
+          shown++;
+          // optional: animate only when showing
+          card.classList.remove('card-in');
+          void card.offsetWidth;
+          card.classList.add('card-in');
+        } else {
+          card.classList.remove('card-in');
+        }
       });
 
-      // On load: respect hash; otherwise show nothing
-      const hash = (location.hash || '').replace('#','');
-      if (hash && panels.some(p => p.id === 'panel-' + hash)) {
-        show(hash);
-      } else {
-        hideAll(); // default: nothing visible
+      if (countEl) {
+        const label = selected.size === 0 ? 'All projects' : Array.from(selected).join(', ');
+        countEl.textContent = `${label} • ${shown} shown`;
       }
-    })();
-  </script>
+
+      // optional hash: #art,interactivity (empty clears)
+      if (history.replaceState) {
+        const hash = selected.size ? '#' + Array.from(selected).join(',') : '';
+        history.replaceState(null, '', location.pathname + location.search + hash);
+      }
+    }
+
+    function resetAll() {
+      selected.clear();
+      syncPills();
+      applyFilter();
+    }
+
+    // Click behavior:
+    // - "All" resets
+    // - other pills toggle on/off (multi-select)
+    pills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        const f = (pill.dataset.filter || '').toLowerCase();
+        if (!f) return;
+
+        if (f === 'all') {
+          resetAll();
+          return;
+        }
+
+        if (selected.has(f)) selected.delete(f);
+        else selected.add(f);
+
+        syncPills();
+        applyFilter();
+      });
+    });
+
+    // Init from hash: #art,essays
+    const hash = (location.hash || '').replace('#', '').toLowerCase().trim();
+    if (hash) {
+      hash.split(',').map(s => s.trim()).filter(Boolean).forEach(f => selected.add(f));
+    }
+
+    syncPills();
+    applyFilter();
+  });
+</script>
 
 {% endblock %}
