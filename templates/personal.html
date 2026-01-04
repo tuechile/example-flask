@@ -6,6 +6,26 @@
 <link href="/static/css/body.css" rel="stylesheet">
 <style>
   /* ========= FILTER BAR (multi-select, no reflow) ========= */
+  .filter-pill{
+  /* kill default button look */
+  appearance: none;
+  -webkit-appearance: none;
+
+  background: transparent !important;
+  border: none !important;
+
+  /* keep your typography + spacing */
+  font-family: "Crimson Text", serif;
+  font-weight: 600;
+  font-size: 16px;
+  color: #fff;
+  cursor: pointer;
+  padding: 10px 14px;
+
+  /* optional: remove your old drop shadow if you want it flat */
+  box-shadow: none !important;
+}
+
   .filters {
     max-width: 1100px;
     margin: 0 auto 48px;
@@ -47,15 +67,6 @@
       0 10px 30px 1px rgba(28, 165, 145, 0.14);
   }
 
-  .filters__meta {
-    display: flex;
-    justify-content: center;
-    margin: 8px 0 18px;
-    font-family: 'Crimson Text', serif;
-    color: #bdbdbd;
-    font-size: 14px;
-  }
-
   /* ========= GRID (same as yours) ========= */
   .card-grid {
     display: grid;
@@ -77,7 +88,6 @@
     display: block;
     text-decoration: none;
     color: #fff;
-    background: rgba(255,255,255,.06);
     padding: 16px;
     box-shadow: 0 8px 24px rgba(0,0,0,.25);
   }
