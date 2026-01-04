@@ -29,7 +29,6 @@
 
     padding: 10px 14px;
 
-    background: rgba(255,255,255,.06);
     box-shadow: 0 10px 30px rgba(0,0,0,.25);
 
     transition: background .2s ease, border-color .2s ease, transform .06s ease;
@@ -42,7 +41,7 @@
   }
 
   .filter-pill.is-active {
-    background: rgba(255,255,255,.16);
+    color: var(--accent);
     box-shadow:
       0 10px 30px rgba(0,0,0,.25),
       0 10px 30px 1px rgba(28, 165, 145, 0.14);
@@ -135,64 +134,59 @@
     <button class="filter-pill" type="button" data-filter="interactivity" aria-pressed="false">Interactivity</button>
     <button class="filter-pill" type="button" data-filter="essays" aria-pressed="false">Essays</button>
   </div>
+<div style ="padding:2vh"> </div>
 
-  <!-- Count label -->
-  <div class="filters__meta" aria-live="polite">
-    <span id="filter-count"></span>
-  </div>
-
-  <!-- Cards (MUST have data-category matching pills) -->
   <div class="card-grid" id="work-grid">
 
     <!-- ART -->
     <a class="card" href="street" data-category="art">
-      <div class="card__title">Street Photography</div>
-      <div class="card__desc">Through the lens of my Nikon D5100 since 2017</div>
-      <div class="card__meta">Ongoing</div>
+      <div class="thumbnail-header">Street Photography</div>
+      <div class="thumbnail-description">Through the lens of my Nikon D5100 since 2017</div>
+      <div class="thumbnail-description" style="color:#bbb;">Ongoing</div>
     </a>
 
     <a class="card" href="illustration" data-category="art">
-      <div class="card__title">Illustrations</div>
-      <div class="card__desc">My journey in the world of drawing cartoons (2018-2024)</div>
-      <div class="card__meta">Delayed after 2022</div>
+      <div class="thumbnail-header">Illustrations</div>
+      <div class="thumbnail-description">My journey in the world of drawing cartoons (2018-2024)</div>
+      <div class="thumbnail-description" style="color:#bbb;">Delayed after 2022</div>
     </a>
 
     <a class="card" href="superface" data-category="art">
-      <div class="card__title">Superface</div>
-      <div class="card__desc">Self-edited self-portraits exploring makeup and persona</div>
-      <div class="card__meta">Delayed after 2023</div>
+      <div class="thumbnail-header">Superface</div>
+      <div class="thumbnail-description">Self-edited self-portraits exploring makeup and persona</div>
+      <div class="thumbnail-description" style="color:#bbb;">Delayed after 2023</div>
     </a>
 
     <!-- INTERACTIVITY -->
     <a class="card" href="afvs" data-category="interactivity">
-      <div class="card__title">Coding and Interactivity</div>
-      <div class="card__desc">Self-expression through code — press a key to see the face react</div>
-      <div class="card__meta">Ongoing</div>
+      <div class="thumbnail-header">Coding and Interactivity</div>
+      <div class="thumbnail-description">Self-expression through code — press a key to see the face react</div>
+      <div class="thumbnail-description" style="color:#bbb;">Ongoing</div>
     </a>
 
     <a class="card" href="gifafvs" data-category="interactivity">
-      <div class="card__title">What Brings You Here</div>
-      <div class="card__desc">Do you wish someone would tell you what to do?</div>
-      <div class="card__meta">Oct 2024</div>
+      <div class="thumbnail-header">What Brings You Here</div>
+      <div class="thumbnail-description">Do you wish someone would tell you what to do?</div>
+      <div class="thumbnail-description" style="color:#bbb;">Oct 2024</div>
     </a>
 
     <!-- ESSAYS -->
     <a class="card" href="portal" data-category="essays">
-      <div class="card__title">The Portal</div>
-      <div class="card__desc">A collection of poems and short stories</div>
-      <div class="card__meta">Discontinued in 2021</div>
+      <div class="thumbnail-header">The Portal</div>
+      <div class="thumbnail-description">A collection of poems and short stories</div>
+      <div class="thumbnail-description" style="color:#bbb;">Discontinued in 2021</div>
     </a>
 
     <a class="card" href="fysemr" data-category="essays">
-      <div class="card__title">The land of rivers: An imagined tea garden</div>
-      <div class="card__desc">Final project for FYSEMR 65R - created with Clip Studio Paint and InDesign</div>
-      <div class="card__meta">December 2024</div>
+      <div class="thumbnail-header">The land of rivers: An imagined tea garden</div>
+      <div class="thumbnail-description">Final project for FYSEMR 65R - created with Clip Studio Paint and InDesign</div>
+      <div class="thumbnail-description" style="color:#bbb;">December 2024</div>
     </a>
 
     <a class="card" href="essays" data-category="essays">
-      <div class="card__title">Video essays</div>
-      <div class="card__desc">A list of possible video essays I might create</div>
-      <div class="card__meta">May 2025</div>
+      <div class="thumbnail-header">Video essays</div>
+      <div class="thumbnail-description">A list of possible video essays I might create</div>
+      <div class="thumbnail-description" style="color:#bbb;">May 2025</div>
     </a>
 
   </div>
