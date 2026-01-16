@@ -24,7 +24,22 @@ body {
 }
 
 .home-footer-meta{ opacity: 0.9; }
-.home-footer-hint{ opacity: 0.75; }
+.home-footer-hint {
+    opacity: 0.75;
+    animation: fadeInOut 5s infinite;
+}
+
+@keyframes fadeInOut {
+    0%, 100% {
+        opacity: 0.75;
+    }
+    25%, 75%{
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 1;
+    }
+}
 
 /* ===== Below-fold section (starts after 1 viewport) ===== */
 .below-fold{
