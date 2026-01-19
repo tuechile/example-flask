@@ -51,36 +51,36 @@ def home():
 # ---------------------------
 # ✅ T4SG password gate
 # ---------------------------
-@app.route("/t4sg", methods=["GET", "POST"])
-def t4sg_gate():
-    # If already authenticated, go straight to page
-    if session.get("t4sg_authed"):
-        return redirect(url_for("t4sg_page"))
+# @app.route("/t4sg", methods=["GET", "POST"])
+# def t4sg_gate():
+#     # If already authenticated, go straight to page
+#     if session.get("t4sg_authed"):
+#         return redirect(url_for("t4sg_page"))
 
-    if request.method == "GET":
-        return render_template("t4sg_password.html")
+#     if request.method == "GET":
+#         return render_template("t4sg_password.html")
 
-    # POST: check password
-    pw = request.form.get("password", "")
-    if pw == T4SG_PASSWORD:
-        session["t4sg_authed"] = True
-        return redirect(url_for("t4sg_page"))
+#     # POST: check password
+#     pw = request.form.get("password", "")
+#     if pw == T4SG_PASSWORD:
+#         session["t4sg_authed"] = True
+#         return redirect(url_for("t4sg_page"))
 
-    # wrong password -> re-render with error
-    return render_template("t4sg_password.html", error="Wrong password.")
+#     # wrong password -> re-render with error
+#     return render_template("t4sg_password.html", error="Wrong password.")
 
 
-@app.route("/t4sg/page")
+@app.route("/t4sg")
 def t4sg_page():
     if not session.get("t4sg_authed"):
         return redirect(url_for("t4sg_gate"))
     return render_template("t4sg.html")
 
 
-@app.route("/t4sg/logout")
-def t4sg_logout():
-    session.pop("t4sg_authed", None)
-    return redirect(url_for("t4sg_gate"))
+# @app.route("/t4sg/logout")
+# def t4sg_logout():
+#     session.pop("t4sg_authed", None)
+#     return redirect(url_for("t4sg_gate"))
 
 
 # ---- your existing routes ----
