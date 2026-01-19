@@ -71,9 +71,9 @@ def home():
 
 
 @app.route("/t4sg")
-def t4sg_page():
-    if not session.get("t4sg_authed"):
-        return redirect(url_for("t4sg_gate"))
+def t4sg():
+    # if not session.get("t4sg_authed"):
+    #     return redirect(url_for("t4sg_gate"))
     return render_template("t4sg.html")
 
 
