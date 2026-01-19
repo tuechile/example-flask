@@ -19,7 +19,7 @@ def home():
 
         # ✅ If user types "t4sg" (or similar), send them to the password page
         if finder in ["t4sg", "t4sg.html", "t4sg case study", "2feet", "t4sg x 2feet","2feet prosthetics", "tech 4 social good", "2ft"]:
-            return render_template("t4sg_password.html")
+            return render_template("t4sg.html")
             #return redirect(url_for("t4sg_gate"))
 
         if finder in flat:
