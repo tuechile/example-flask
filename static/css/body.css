@@ -650,9 +650,8 @@
 /* Iframe wrapper */
 .iframe-wrapper {
     width: 100%;
-    max-width: 1000px;      /* desktop limit */
+    max-width: 1000vw;      /* desktop limit */
     margin: auto;
-    aspect-ratio: 22 / 17;   /* keeps proportions */
   }
   
   .iframe-wrapper iframe {
@@ -661,3 +660,9 @@
     border: 0;
   }
   
+  @media (max-width: 768px) {
+    .iframe-wrapper {
+      max-width: 100%;
+      aspect-ratio: 17 / 22;
+    }
+  }  
