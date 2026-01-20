@@ -268,7 +268,7 @@
     z-index: 2;
     /* Ensure text stays above the images */
     position: relative;
-    max-width: 50rem;
+    width: 75vw;
     /* Limit image width */
     text-align: justify;
     text-decoration: none;
@@ -650,7 +650,8 @@
 /* Iframe wrapper */
 .iframe-wrapper {
     width: 100%;
-    max-width: 1000vw;      /* desktop limit */
+    max-width: 1000vw;
+    aspect-ratio: 22 / 17;
     margin: auto;
   }
   
