@@ -8,10 +8,15 @@
 {% block content %}
 <!--- Subnavigation page for displaying project --->
 <div class="bio-container">
-    <div style="display: flex; justify-content: center; margin: auto; align-items: center; flex-direction: column;">
-        <iframe src="https://drive.google.com/file/d/1HbtgJBMA1PF065dIGyaITdW0obwVOD39/preview" width="1000vw" height="600vh" allow="autoplay"></iframe>
+    <div class="iframe-wrapper">
+      <iframe
+        src="https://drive.google.com/file/d/1HbtgJBMA1PF065dIGyaITdW0obwVOD39/preview"
+        allow="autoplay"
+        loading="lazy">
+      </iframe>
     </div>
-</div>
+  </div>
+
 <div class="bio-container">
     <image height="300px" src="../static/asset/images/fish/fish outline.jpg"></image>
     <div class="bio-text" style="text-align:left;">
