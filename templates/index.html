@@ -33,6 +33,10 @@
             setupFormSubmit();
         };
     </script>
+    <style>
+        /* Enable smooth scrolling when jumping to anchors */
+        html { scroll-behavior: smooth; }
+    </style>
 </head>
 
 <body>
@@ -42,6 +46,7 @@
             <a class="nav-item" href="collab"> Collaborative Work </a>
             <a class="nav-item" href="personal"> Personal Work </a>
             <a class="nav-item" href="client"> Commissions </a>
+            <a class="nav-item" href="#portfolio" id="portfolio_scroll"> Portfolio </a>
         </div>
     </nav>
 
@@ -62,7 +67,7 @@
     </footer>
 
     <!-- BELOW THE FOLD: thumbnail appears only when you scroll down -->
-    <main class="below-fold">
+    <main id="portfolio" class="below-fold">
         <a class="project-thumb" href="/t4sg" aria-label="Open T4SG × 2ft (Password)">
             <!-- swap src to any thumbnail you want -->
             <img class="project-thumb-img"
