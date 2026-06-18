@@ -148,9 +148,9 @@ def olympics():
 def cs171():
     return render_template("cs171.html")
 
-@app.route("/am111")
-def am111():
-    return render_template("am111.html")
+# @app.route("/am111")
+# def am111():
+#     return render_template("am111.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
