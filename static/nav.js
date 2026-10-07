@@ -13,9 +13,13 @@
             if (!item) { line.classList.remove("on"); return; }
             // first placement snaps; later moves slide
             if (!animate) line.style.transition = "none";
-            var pad = parseFloat(getComputedStyle(item).paddingLeft);
-            line.style.width = (item.offsetWidth - pad * 2) + "px";
-            line.style.transform = "translateX(" + (item.offsetLeft + pad) + "px)";
+            // measure the text itself, not the padded link, so it works in every nav layout
+            var range = document.createRange();
+            range.selectNodeContents(item);
+            var r = range.getBoundingClientRect();
+            var b = bar.getBoundingClientRect();
+            line.style.width = r.width + "px";
+            line.style.transform = "translate(" + (r.left - b.left) + "px," + (r.bottom - b.top + 2) + "px)";
             if (!animate) { line.offsetWidth; line.style.transition = ""; }
             line.classList.add("on");
         }

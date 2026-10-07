@@ -31,7 +31,7 @@
                 color var(--dur-1) var(--ease-out), border-color var(--dur-1) var(--ease-out);
 }
 
-.nav-item:active, .view-btn:active, .side-tab:active {
+.view-btn:active, .side-tab:active {
     transform: var(--press);
 }
 
@@ -333,39 +333,22 @@ a.project-thumb:hover{
 
 .nav-item-big {
     position: relative;
-    display: flex;
-    align-items: center;
-    gap: 0.15rem;
-    align-self: center;
-    margin: 1rem 1.5rem;
-    padding: 0.3rem;
     font-family: 'Crimson Text';
     font-size: 1rem;
     font-weight: 200;
+    padding: 1.5rem 1.5rem 1.5rem 1.5rem;
     color: #fff;
-    background: var(--glass);
-    border: 1px solid var(--hairline);
-    border-radius: var(--r-pill);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-}
-
-/* Landing page: the capsule floats centered at the top */
-body > nav > .nav-item-big {
-    width: fit-content;
-    margin: 1rem auto;
+    border: 1px solid transparent;
+    text-decoration: none;
 }
 
 .nav-item {
-    position: relative;
-    z-index: 1;
-    display: block;
     font-family: 'Crimson Text';
     font-size: 1rem;
     font-weight: 200;
-    padding: 0.4rem 1rem;
+    padding: 1.5rem 1.5rem 1.5rem 1.5rem;
     color: #fff;
-    border-radius: var(--r-pill);
+    border: 1px solid transparent;
     text-decoration: none;
 }
 
@@ -389,7 +372,7 @@ body > nav > .nav-item-big {
 .nav-indicator {
     position: absolute;
     left: 0;
-    bottom: 0.35rem;
+    top: 0;
     height: 1px;
     width: 0;
     background: var(--accent);
@@ -544,8 +527,15 @@ footer {
         margin: auto;
     }
 
+    .nav-item-big {
+        display: grid;
+        flex: auto;
+        grid-template-columns: 50% 50%;
+
+    }
+
     .nav-item {
-        padding: 0.35rem 0.75rem;
+        padding: 0.2rem;
     }
 
     .header {
@@ -574,17 +564,10 @@ footer {
 @media screen and (max-width: 666px) {
     .navigator {
         font-size: 3rem;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .navigator .nav-header {
-        padding: 0.5rem 0 0;
     }
 
     .nav-item {
-        font-size: 0.9rem;
-        padding: 0.3rem 0.6rem;
+        padding: 0.2rem;
     }
 
     .nav-header {
@@ -594,9 +577,8 @@ footer {
     }
 
     .nav-item-big {
-        margin: 0.5rem auto 0.75rem;
-        padding: 0.2rem;
-        gap: 0;
+        display: grid;
+        text-align: right;
     }
 
     .header {
