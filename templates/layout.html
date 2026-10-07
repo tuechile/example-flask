@@ -31,7 +31,7 @@
             <div class="nav-header">
                 <a class="nav-header" href="/"> Pirenily </a>
             </div>
-            <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false"><span></span><span></span></button>
+            <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false"><span></span><span></span></button>
             <div class="nav-item-big">
                 <a class="nav-item" href="/about"{% if nav_section == "about" %} aria-current="page"{% endif %}> About </a>
                 <a class="nav-item" href="/design"{% if nav_section == "design" %} aria-current="page"{% endif %}> Design </a>
@@ -51,40 +51,7 @@
 
     <script src="{{ url_for('static', filename='loading.js') }}?v={{ asset_v }}">
     </script>
-    <script>
-        // Phones: past the top, the nav folds into a "=" button that drops the links down
-        (function () {
-            var nav = document.querySelector(".navigator");
-            var btn = nav.querySelector(".nav-toggle");
-            var head = nav.querySelector(".nav-header");
-            var phone = window.matchMedia("(max-width: 666px)");
-
-            function setOpen(open) {
-                nav.classList.toggle("is-open", open);
-                btn.setAttribute("aria-expanded", String(open));
-            }
-
-            function update() {
-                var fold = phone.matches && window.scrollY > 40;
-                if (fold === nav.classList.contains("is-folded")) return;
-                if (fold) {
-                    // hold the unfolded height so the page underneath doesn't jump
-                    nav.style.minHeight = nav.offsetHeight + "px";
-                    nav.classList.add("is-folded");
-                    nav.style.setProperty("--fold-h", head.offsetHeight + "px");
-                } else {
-                    nav.classList.remove("is-folded");
-                    nav.style.minHeight = "";
-                    setOpen(false);
-                }
-            }
-
-            btn.addEventListener("click", function () { setOpen(!nav.classList.contains("is-open")); });
-            window.addEventListener("scroll", update, { passive: true });
-            window.addEventListener("resize", update);
-            update();
-        })();
-    </script>
+    <script src="{{ url_for('static', filename='nav.js') }}?v={{ asset_v }}"></script>
 </body>
 
 </html>

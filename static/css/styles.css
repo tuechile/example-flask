@@ -11,7 +11,9 @@
     --pill-text: rgba(220, 220, 220, 0.75);
     --pill-text-on: rgba(255, 255, 255, 0.95);
     --nav-fade: #000;
-    --nav-panel: rgba(0, 0, 0, 0.7);
+    --menu-bg: #000;
+    --title-on-black: #eee;
+    --ease-wipe: cubic-bezier(0.7, 0, 0.2, 1);
     --ext-mark: rgba(200, 200, 200, 0.5);
 
     /* Motion: one fast-out curve, three durations, no bounce */
@@ -446,7 +448,7 @@ a.project-thumb:focus-visible{
     filter: blur(1px);
 }
 
-/* "=" menu button: only exists on phones once the nav folds (see layout.html) */
+/* "=" menu button: phones only (see the max-width: 666px block and nav.js) */
 .nav-toggle {
     display: none;
 }
@@ -626,54 +628,19 @@ footer {
         margin: auto;
     }
 
-    .nav-item-big {
-        display: grid;
-        text-align: right;
-    }
-
-    /* Folded nav: only the logo row keeps its backdrop; the rest lets the page show and click through */
-    .navigator.is-folded {
-        align-items: flex-start;
-        pointer-events: none;
-        background-size: 100% var(--fold-h);
-        background-repeat: no-repeat;
-    }
-
-    .navigator.is-folded > * {
-        pointer-events: auto;
-    }
-
-    .navigator.is-folded .nav-header {
-        margin-top: 0;
-        margin-bottom: 0;
-    }
-
-    .navigator.is-folded .nav-item-big {
-        display: none;
-    }
-
-    .navigator.is-folded.is-open .nav-item-big {
-        display: grid;
-        position: absolute;
-        top: var(--fold-h);
-        right: 0.75rem;
-        padding: 0.5rem 1rem;
-        background: var(--nav-panel);
-        border: 1px solid var(--hairline);
-        border-radius: var(--r-sm);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-    }
-
-    .navigator.is-folded .nav-toggle {
+    /* ===== Phone menu: a fixed "=" opens a full-screen list that wipes open as a circle from the button ===== */
+    .nav-toggle {
         display: flex;
         flex-direction: column;
-        gap: 6px;
-        position: absolute;
-        top: calc(var(--fold-h) / 2);
-        right: 1rem;
-        transform: translateY(-50%);
-        padding: 0.75rem 0.5rem;
+        justify-content: center;
+        gap: 7.5px;
+        position: fixed;
+        top: 10px;
+        right: 12px;
+        z-index: 1001;
+        width: 40px;
+        height: 40px;
+        padding: 0 9px;
         background: none;
         border: none;
         cursor: pointer;
@@ -684,24 +651,55 @@ footer {
         width: 22px;
         height: 1.5px;
         background: var(--pill-text-on);
-        transition: transform var(--dur-2) var(--ease-out);
+        transition: transform 400ms var(--ease-out);
     }
 
-    /* "=" turns into an "x" while open */
-    .navigator.is-open .nav-toggle span:first-child {
-        transform: translateY(3.75px) rotate(45deg);
+    /* "=" turns into an "x" while the menu is open */
+    .menu-open .nav-toggle span:first-child {
+        transform: translateY(4.5px) rotate(45deg);
     }
 
-    .navigator.is-open .nav-toggle span:last-child {
-        transform: translateY(-3.75px) rotate(-45deg);
+    .menu-open .nav-toggle span:last-child {
+        transform: translateY(-4.5px) rotate(-45deg);
     }
 
-    .header {
-        font-size: 3rem;
-        padding: 0rem;
-        background-size: 85%;
-        width: 98%;
-        background-image: url(/static/asset/images/other/homebackground.jpg);
+    .nav-item-big {
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        margin: 0;
+        padding: 120px 16px 40px;
+        text-align: left;
+        background: var(--menu-bg);
+        clip-path: circle(0% at calc(100% - 32px) 30px);
+        visibility: hidden;
+        transition: clip-path 700ms var(--ease-wipe), visibility 0s linear 700ms;
+    }
+
+    .menu-open .nav-item-big {
+        clip-path: circle(150% at calc(100% - 32px) 30px);
+        visibility: visible;
+        transition: clip-path 700ms var(--ease-wipe), visibility 0s;
+    }
+
+    .nav-item-big .nav-item {
+        font-size: 2.75rem;
+        line-height: 1.1;
+        padding: 0.15rem 0;
+        color: var(--title-on-black);
+    }
+
+    /* keep the logo above the open menu, and stop the page scrolling behind it */
+    .navigator .nav-header {
+        position: relative;
+        z-index: 1001;
+    }
+
+    html.menu-open {
+        overflow: hidden;
     }
 
 
