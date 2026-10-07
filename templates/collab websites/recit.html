@@ -54,6 +54,19 @@
     </p>
     {% endcall %}
 
+    {% call cs.section("Branding", lead="Two looks for one release") %}
+    <p>
+        The campaign changed palettes the moment the film was revealed. Before the announcement, the teasers ran in
+        a grainy red and black. After it, the film's own look took over: bright, hazy color for the ticket launch of
+        the charity screening.
+    </p>
+    {% endcall %}
+
+    {% call cs.row("pair", caption="Left: the red teaser, before the film was announced. Right: the ticket launch after it, “Mở bán vé xem phim thiện nguyện” (26.08.2023, Coffee 102).") %}
+        {{ cs.card(img('recit', 'brand-teaser.webp'), "Red and black teaser graphic reading “Sneak peek” over grainy red photo collages") }}
+        {{ cs.card(img('recit', 'brand-launch.webp'), "Bright yellow, blue and orange ticket-launch graphic for Giữa cơn mơ vô hình with butterflies and halftone photos") }}
+    {% endcall %}
+
 {% endcall %}
 
 {% endblock %}

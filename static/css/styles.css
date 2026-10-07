@@ -35,7 +35,7 @@
 }
 
 /* Press feedback shared by every pill-like control */
-.nav-item, .view-btn, .side-tab, .tag, .tag-chip {
+.nav-item, .view-btn, .side-tab {
     transition: transform var(--dur-1) var(--ease-out), filter var(--dur-1) var(--ease-out),
                 color var(--dur-1) var(--ease-out), border-color var(--dur-1) var(--ease-out);
 }
@@ -394,11 +394,6 @@ a:focus-visible .contact-logo {
   padding: 0.2rem 0.65rem;
   white-space: nowrap;
   user-select: none;
-}
-
-.tag:hover, .tag-chip:hover{
-  color: var(--pill-text-on);
-  border-color: var(--pill-text);
 }
 
 .project-thumb-date{

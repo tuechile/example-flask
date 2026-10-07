@@ -99,6 +99,8 @@
     --text-primary: #eaeaea;
     --text-secondary: #9a9a9a;
     --text-tertiary: #7a7a7a;
+    --facts-tint: rgba(110, 145, 200, 0.18);
+    --facts-tint-fade: rgba(110, 145, 200, 0.02);
 
     --shadow: 0 10px 22px rgba(0, 0, 0, 0.25);
     --shadow-soft: 0 12px 30px rgba(0, 0, 0, 0.20);
@@ -1339,6 +1341,10 @@ html {
     grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
     gap: var(--s-5) var(--s-6);
     margin: var(--s-7) 0 0;
+    padding: var(--s-5);
+    background: linear-gradient(135deg, var(--facts-tint), var(--facts-tint-fade));
+    border: 1px solid var(--hairline);
+    border-radius: var(--r-sm);
 }
 
 .cs-facts dt {

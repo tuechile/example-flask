@@ -15,19 +15,15 @@
 
 {% call cs.body() %}
 
-    {% call cs.section("Epigraph", lead="“In the sea, there are no big fish.”") %}
+    {% call cs.section(lead="“In the sea, there are no big fish.”") %}
     <p lang="ja"><em>Umi ni oite dai sakana nashi</em> (海に置いて大魚なし)</p>
     {% endcall %}
-
-    {% call cs.section("Layers", lead="Built up one layer at a time") %}{% endcall %}
 
     {% call cs.row("3") %}
         {{ cs.card(img('fish', 'fish outline.jpg'), "Fish outline layer") }}
         {{ cs.card(img('fish', 'no fish.jpg'), "The spread without the fish") }}
         {{ cs.card(img('fish', 'no sub.jpg'), "The spread without subtitles") }}
     {% endcall %}
-
-    {% call cs.section("The book", lead="Read it in full") %}{% endcall %}
 
     {{ cs.embed("https://drive.google.com/file/d/1HbtgJBMA1PF065dIGyaITdW0obwVOD39/preview", "The Land of Rivers", ar=1.294) }}
 

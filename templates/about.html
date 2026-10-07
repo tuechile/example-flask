@@ -9,24 +9,18 @@
 <!--- Navigation page for personal information --->
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        const images = document.querySelectorAll('.image');
+        const card = document.querySelector('.bio-card');
+        const thumbs = [...card.querySelectorAll('.bio-thumb')];
         const canHover = window.matchMedia('(hover: hover)').matches;
-        let open = null; // { image, popup } currently shown
+        let open = null; // { src, popup } currently shown
+        let last = -1;
 
-        function scatter(image) {
-            const MaxDisplacement = window.innerWidth > 600 ? 35 : 80;
-            const MinDisplacement = window.innerWidth > 600 ? -5 : 0;
-            const rand = () => Math.floor(Math.random() * (MaxDisplacement - MinDisplacement + 1)) + MinDisplacement;
-            image.style.top = `${rand()}vw`;
-            image.style.left = `${rand()}vw`;
-        }
-
-        function show(image) {
+        function show(src) {
             hide();
             const popup = document.createElement('div');
             popup.classList.add('popup-image');
-            popup.style.backgroundImage = image.style.backgroundImage;
-            open = { image, popup };
+            popup.style.backgroundImage = `url('${src}')`;
+            open = { src, popup };
 
             const img = new Image();
             img.onload = () => {
@@ -39,28 +33,52 @@
                 popup.style.top = `${Math.random() * Math.max(0, window.innerHeight - height)}px`;
                 document.body.appendChild(popup);
             };
-            img.src = image.dataset.src;
+            img.src = src;
         }
 
         function hide() {
             if (!open) return;
             open.popup.remove();
-            scatter(open.image);
             open = null;
         }
 
-        images.forEach(image => {
-            image.style.backgroundImage = `url('${image.dataset.src}')`;
-            scatter(image);
+        // A different picture than last time
+        function randomSrc() {
+            let i = Math.floor(Math.random() * (thumbs.length - 1));
+            if (i >= last) i++;
+            last = i;
+            return thumbs[i].src;
+        }
 
+        function flip() {
+            hide();
+            card.classList.toggle('flipped');
+            card.setAttribute('aria-pressed', card.classList.contains('flipped'));
+        }
+
+        // Front: hovering the headshot pops up one of the pictures
+        const front = card.querySelector('.bio-card-front');
+        if (canHover) {
+            front.addEventListener('mouseenter', () => show(randomSrc()));
+            front.addEventListener('mouseleave', hide);
+        }
+
+        // Click the card to flip it; the back holds all the pictures
+        card.addEventListener('click', flip);
+        card.addEventListener('keydown', e => {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flip(); }
+        });
+
+        thumbs.forEach(thumb => {
             if (canHover) {
-                image.addEventListener('mouseenter', () => show(image));
-                image.addEventListener('mouseleave', hide);
+                thumb.addEventListener('mouseenter', () => show(thumb.src));
+                thumb.addEventListener('mouseleave', hide);
+                thumb.addEventListener('click', e => e.stopPropagation());
             } else {
-                // Touch: tap a photo to pop it up, tap it again (or anywhere else) to put it away
-                image.addEventListener('click', (e) => {
+                // Touch: tap a picture to pop it up, tap it again (or anywhere else) to put it away
+                thumb.addEventListener('click', e => {
                     e.stopPropagation();
-                    if (open && open.image === image) hide(); else show(image);
+                    if (open && open.src === thumb.src) hide(); else show(thumb.src);
                 });
             }
         });
@@ -71,7 +89,27 @@
 <div class="bio-container">
     <!-- Picture, name, and contact info on the left side -->
     <div class="bio-side">
-        <img class="bio-image" src="{{ img('other', 'Headshot_Chi Le.jpg') }}" alt="biopic">
+        <!-- Click to flip: the back holds the pictures, each one hoverable -->
+        <div class="bio-card" role="button" tabindex="0" aria-pressed="false" aria-label="Flip to see more pictures">
+            <div class="bio-card-front">
+                <img class="bio-image" src="{{ img('other', 'Headshot_Chi Le.jpg') }}" alt="biopic">
+            </div>
+            <div class="bio-card-back">
+                <img class="bio-thumb" src="{{ img('about', 'declare.jpg') }}" alt="" loading="lazy">
+                <img class="bio-thumb" src="{{ img('about', 'light.jpg') }}" alt="" loading="lazy">
+                <img class="bio-thumb" src="{{ img('about', 'blackswan.jpg') }}" alt="" loading="lazy">
+                <img class="bio-thumb" src="{{ img('about', 'salzburg.jpg') }}" alt="" loading="lazy">
+                <img class="bio-thumb" src="{{ img('about', 'bridge.jpg') }}" alt="" loading="lazy">
+                <img class="bio-thumb" src="{{ img('about', 'story.jpg') }}" alt="" loading="lazy">
+                <img class="bio-thumb" src="{{ img('about', 'wow.jpg') }}" alt="" loading="lazy">
+                <img class="bio-thumb" src="{{ img('about', 'ava.jpg') }}" alt="" loading="lazy">
+                <img class="bio-thumb" src="{{ img('about', 'non.jpg') }}" alt="" loading="lazy">
+                <img class="bio-thumb" src="{{ img('about', 'windmill.jpg') }}" alt="" loading="lazy">
+                <img class="bio-thumb" src="{{ img('about', 'pose.jpg') }}" alt="" loading="lazy">
+                <img class="bio-thumb" src="{{ img('about', 'beach.jpg') }}" alt="" loading="lazy">
+                <img class="bio-thumb" src="{{ img('about', 'cong.jpg') }}" alt="" loading="lazy">
+            </div>
+        </div>
         <h2 class="bio-name">My name is Chi Le or Lê Tuệ Chi.</h2>
         <p class="bio-contact-text">Feel free to reach out to me via Instagram or email!</p>
         <div class="bio-contact-logos">
@@ -107,7 +145,7 @@
             Every form of visual presentation on this website is mainly experimented, taken, edited, scripted, and modeled by me.
         </p>
     </div>
-    <!-- Globe on the right side, with the pictures popping over it -->
+    <!-- Globe on the right side -->
     <div class="globe-stage">
         <figure class="travel-globe">
             <canvas id="globe" aria-label="Rotating globe of places I've been and want to go"></canvas>
@@ -117,21 +155,6 @@
                 <p class="globe-legend"><i></i>been<i class="wish"></i>someday</p>
             </figcaption>
         </figure>
-        <div class="image-container">
-            <div class="image" data-src="{{ img('about', 'declare.jpg') }}"></div>
-            <div class="image" data-src="{{ img('about', 'light.jpg') }}"></div>
-            <div class="image" data-src="{{ img('about', 'blackswan.jpg') }}"></div>
-            <div class="image" data-src="{{ img('about', 'salzburg.jpg') }}"></div>
-            <div class="image" data-src="{{ img('about', 'bridge.jpg') }}"></div>
-            <div class="image" data-src="{{ img('about', 'story.jpg') }}"></div>
-            <div class="image" data-src="{{ img('about', 'wow.jpg') }}"></div>
-            <div class="image" data-src="{{ img('about', 'ava.jpg') }}"></div>
-            <div class="image" data-src="{{ img('about', 'non.jpg') }}"></div>
-            <div class="image" data-src="{{ img('about', 'windmill.jpg') }}"></div>
-            <div class="image" data-src="{{ img('about', 'pose.jpg') }}"></div>
-            <div class="image" data-src="{{ img('about', 'beach.jpg') }}"></div>
-            <div class="image" data-src="{{ img('about', 'cong.jpg') }}"></div>
-        </div>
     </div>
 
 

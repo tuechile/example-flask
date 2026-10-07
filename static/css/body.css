@@ -326,23 +326,11 @@
     color: #888;
 }
 
-/* Travel globe on the right, under the popping photos (drawn by the inline script in about.html) */
+/* Travel globe on the right (drawn by the inline script in about.html) */
 .globe-stage {
     width: 100%;
-    display: grid;
-    place-items: center;
-}
-
-.globe-stage > * {
-    grid-area: 1 / 1;
-}
-
-.globe-stage .image-container {
-    pointer-events: none; /* let the globe take drags between photos */
-}
-
-.globe-stage .image {
-    pointer-events: auto;
+    display: flex;
+    justify-content: center;
 }
 
 .travel-globe {
@@ -417,45 +405,75 @@
     }
 }
 
-/* Image container for random positions */
-.image-container {
-    position: relative;
-    width: 100%;
-    height: 45vh;
-    /* Set height for random positioning */
-    overflow: hidden;
-    z-index: 1;
-}
-
-/* Individual images */
-.image {
-    position: absolute;
-    /* Allow placement anywhere within the container */
-    width: 150px;
-    height: 150px;
-    background-size: cover;
-    background-position: center;
-    transition: transform var(--dur-2) var(--ease-out), box-shadow var(--dur-2) var(--ease-out), top var(--dur-2) var(--ease-out), left var(--dur-2) var(--ease-out);
-    cursor: pointer;
-    z-index: 1;
-    filter: grayscale(100%);
-    /* top: random(0vw, 50vw, 5vw); left: random(0vw, 50vw, 5vw);  */
-}
-
-/* Dim other images */
-.image:hover ~ .image {
-    opacity: 0.25;
-    /* Dim non-hovered images */
+/* What Brings You Here: color recording | text | grayscale recording */
+.gif-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(1.5rem, 4vw, 4rem);
+    max-width: 90vw;
+    min-height: 70vh;
+    margin: 0 auto;
+    padding: 5vh 0;
 }
 
 .gif-image {
-    position: relative;
-    width: 25vw;
+    flex: 0 0 auto;
+    width: min(25vw, 360px);
     height: auto;
-    background-size: cover;
-    background-position: center;
-    cursor: pointer;
-    z-index: 1;
+    display: block;
+}
+
+.gif-image--gray {
+    filter: grayscale(100%);
+}
+
+.gif-text {
+    flex: 0 1 34rem;
+    font-family: 'Crimson Text', serif;
+    line-height: var(--lh, 1.8);
+}
+
+.gif-text h2 {
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: var(--title);
+    margin: 0 0 1rem;
+}
+
+.gif-text p {
+    font-size: 0.9rem;
+    color: var(--text);
+    text-align: justify;
+    margin: 0 0 0.9rem;
+}
+
+.gif-text .gif-kicker {
+    font-style: italic;
+    font-size: 0.8rem;
+    color: var(--accent);
+    text-align: left;
+    margin: 0 0 0.3rem;
+}
+
+.gif-text .gif-note {
+    font-style: italic;
+    color: var(--lead);
+    padding-top: 0.9rem;
+    border-top: 1px solid var(--border);
+}
+
+@media screen and (max-width: 880px) {
+    .gif-page {
+        flex-direction: column;
+        padding: 2rem 1rem;
+    }
+    .gif-image {
+        width: min(100%, 420px);
+    }
+    .gif-image--gray {
+        display: none; /* the color recording is enough when stacked */
+    }
 }
 
 /* Full-size pop-up styling */
@@ -499,6 +517,72 @@
 .bio-contact-logos {
     display: flex;
     justify-content: center;
+}
+
+/* Headshot card: hover pops up a picture, click flips to the back of small pictures */
+.bio-card {
+    position: relative;
+    width: min(300px, 100%);
+    perspective: 1200px;
+    cursor: pointer;
+}
+
+.bio-card-front,
+.bio-card-back {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transition: transform 700ms var(--ease-out);
+}
+
+.bio-card-front .bio-image {
+    display: block;
+    width: 100%;
+}
+
+.bio-card-back {
+    position: absolute;
+    inset: 0;
+    transform: rotateY(180deg);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    align-content: center;
+    gap: 6px;
+    padding: var(--feather);
+    background: var(--panel);
+    pointer-events: none;
+    -webkit-mask-image: var(--feather-mask);
+    -webkit-mask-composite: source-in;
+    mask-image: var(--feather-mask);
+    mask-composite: intersect;
+}
+
+.bio-card.flipped .bio-card-front {
+    transform: rotateY(-180deg);
+    pointer-events: none;
+}
+
+.bio-card.flipped .bio-card-back {
+    transform: rotateY(0deg);
+    pointer-events: auto;
+}
+
+.bio-thumb {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    filter: grayscale(100%);
+    opacity: 0.8;
+}
+
+.bio-thumb:hover {
+    filter: grayscale(100%) blur(1px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .bio-card-front,
+    .bio-card-back {
+        transition: none;
+    }
 }
 
 .bio-image {
@@ -709,13 +793,6 @@
         max-width: 100%;
         padding: 0;
     }
-    .image {
-        width: 120px;
-        height: 120px;
-    }
-    .image-container {
-        height: 70vh;
-    }
     .thumbnail {
         padding-bottom: 3rem;
     }
@@ -739,13 +816,6 @@
     }
     .bio-text {
         font-size: 0.8rem;
-    }
-    .image {
-        width: 100px;
-        height: 100px;
-    }
-    .image-container {
-        height: 70vh;
     }
     .thumbnail {
         flex-direction: column;
@@ -909,6 +979,28 @@
     color: #fff;
     /* 4vw on a laptop, but never tiny on phones or huge on wide screens */
     font-size: clamp(2.25rem, 4vw, 4rem);
+}
+
+/* Design: a line under the page title, before the filters */
+.page-note {
+    font-family: 'Crimson Text', serif;
+    font-style: italic;
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: var(--text);
+    text-align: center;
+    max-width: 90vw;
+    margin: -1.5rem auto 1.5rem;
+}
+
+.page-note a {
+    color: var(--lead);
+    text-decoration: none;
+    border-bottom: 1px solid var(--border);
+}
+
+.page-note a:hover {
+    filter: blur(1px);
 }
 
 /* About: one line before the long bio */
