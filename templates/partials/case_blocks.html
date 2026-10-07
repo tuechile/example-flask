@@ -103,9 +103,10 @@
 
 
 {# §5 Rows — layout: pair | equal | auto | 3 | quad | fit (cards need ar); cells are card / video_card / placeholder #}
-{% macro row(layout="pair", caption=None) %}
+{# match (fit only): the ar sum of a two-card fit row to share its height with #}
+{% macro row(layout="pair", caption=None, match=None) %}
 <figure class="cs-figure">
-    <div class="split{% if layout != 'auto' %} split-{{ layout }}{% endif %}">
+    <div class="split{% if layout != 'auto' %} split-{{ layout }}{% endif %}{% if match %} split-fit--match{% endif %}"{% if match %} style="--row-ar: {{ match }}"{% endif %}>
         {{ caller() }}
     </div>
     {% if caption %}{{ img_caption(caption, fig=True) }}{% endif %}

@@ -47,7 +47,9 @@
 <p>A shirt for The Game 2024, Harvard vs. Yale, on Saturday, November 23.</p>
 {% endcall %}
 
-{{ cs.figure(img('design', 'merch/hudc-the-game-shirt.webp'), "Black tee for The Game 2024: a glowing Harvard player over rows of blue Yale runners, with flaming Harvard and Yale wordmarks",
-             size="md", caption="The Game 2024 shirt.") }}
+{# match = the HCONF row's ar sum (0.71 + 1.168), so the shirt is the same height #}
+{% call cs.row("fit", caption="The Game 2024 shirt.", match=1.878) %}
+    {{ cs.card(img('design', 'merch/hudc-the-game-shirt.webp'), "Black tee for The Game 2024: a glowing Harvard player over rows of blue Yale runners, with flaming Harvard and Yale wordmarks", ar=0.864) }}
+{% endcall %}
 
 {% endblock %}

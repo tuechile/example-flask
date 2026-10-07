@@ -174,10 +174,12 @@
 
     {% call cs.section("Try It", lead="Explore the site") %}
     <p>
-        Explore our Github! You can just Open with Live Server in VS Code to see the interactive prototype in
-        action.
+        The story is live. Watch the two-minute walkthrough below, then scroll through it yourself.
     </p>
-    {{ cs.cta("https://github.com/tuechile/CS1710.git", "Open the live project →") }}
+    <div class="video"><video src="{{ img('ux', 'cs171/preview.mp4') }}" autoplay muted loop playsinline controls
+            preload="metadata"></video></div>
+    {{ cs.cta("https://precideer.github.io/cs-1710-unicode/", "Open the live site →") }}
+    {{ cs.cta("https://github.com/tuechile/CS1710.git", "View the code on GitHub →") }}
     {% endcall %}
 
     {% call cs.section("Reflection", lead="What I’d improve next") %}

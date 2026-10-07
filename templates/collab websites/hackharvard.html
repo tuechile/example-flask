@@ -76,9 +76,9 @@
     </p>
     {% endcall %}
 
-    {% call cs.row("fit", caption="Key art and the Hack to the Moon event mark.") %}
+    {% call cs.row("fit", caption="Key art and the Hack to the Moon lockups, used on season only for the Instagram profile picture and the website header.") %}
         {{ cs.card(img('design', 'hackharvard/keyart.jpg'), "HackHarvard key art: the monogram built from a tower and crescent moon", ar=1) }}
-        {{ cs.card(img('design', 'hackharvard/mark.png'), "Hack to the Moon event mark with dates 10/16 to 10/18, 2026", ar=1.074) }}
+        {{ cs.card(img('design', 'hackharvard/lockups.png'), "Four Hack to the Moon lockups pairing the tower-and-crescent monogram with serif and bold wordmarks, plus usage instructions", ar=0.993) }}
     {% endcall %}
 
     {# ===== System ===== #}
@@ -151,10 +151,10 @@
 
     {# ===== Results ===== #}
     {{ cs.stats([
-        ("200%", "higher social engagement than prior posts"),
-        ("+20%", "follower growth"),
-        ("2×", "total applications, year over year"),
-        ("1.5×", "completed submissions"),
+        ("200%", "more interactions per Instagram post, 70–200 → 500–900"),
+        ("+30.3%", "Instagram followers, 3,663 → 4,772"),
+        ("1.45×", "submitted applications, ~1,000 → 1,450"),
+        ("2×", "total applications, ~1,300 → 2,660"),
     ], title="Results") }}
 
     {# ===== Leading the team ===== #}
@@ -171,6 +171,19 @@
     {{ cs.figure(img('design', 'hackharvard/site-team.jpg'),
                  "Website team section: directors shown as glowing planets above a carousel of organizers",
                  size="lg", caption="The site's team section, with directors as planets and organizers as stars.") }}
+
+    {# ===== Demo ===== #}
+    {% call cs.section("Demo", lead="The site in motion") %}
+    <div class="video"><video id="hh-demo" src="{{ img('design', 'hackharvard/demo.webm') }}" autoplay muted loop
+            playsinline controls preload="metadata"></video></div>
+    <p class="cta-note">Played at 2× speed.</p>
+    {% endcall %}
+    <script>
+        const hhDemo = document.getElementById('hh-demo');
+        hhDemo.defaultPlaybackRate = hhDemo.playbackRate = 2;
+        // Loading resets playbackRate, so set it again once the video is ready
+        hhDemo.addEventListener('loadedmetadata', () => { hhDemo.playbackRate = 2; });
+    </script>
 
 {% endcall %}
 

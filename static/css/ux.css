@@ -50,9 +50,16 @@
     max-width: 900px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
     gap: var(--s-4);
     align-items: stretch;
+}
+
+@media screen and (max-width: 880px) {
+    .rollout-grid {
+        grid-auto-flow: row;
+    }
 }
 
 .rollout-card {
@@ -371,6 +378,15 @@ html {
     margin: 0;
 }
 
+/* Sized as if in a two-card fit row whose ratios sum to --row-ar, so it shares that row's height */
+.split-fit--match {
+    justify-content: center;
+}
+
+.split-fit--match>.media-card {
+    flex: 0 0 calc((100% - var(--s-4)) * var(--ar) / var(--row-ar));
+}
+
 /* Three-up row: e.g. the three booth states */
 .split-3 {
     grid-template-columns: repeat(3, 1fr);
@@ -419,6 +435,10 @@ html {
     .split-pair,
     .split-fit {
         gap: var(--s-2);
+    }
+
+    .split-fit--match>.media-card {
+        flex-basis: calc((100% - var(--s-2)) * var(--ar) / var(--row-ar));
     }
 }
 
