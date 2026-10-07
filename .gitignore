@@ -136,3 +136,7 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
+# Markdown notes stay local (README is the exception)
+*.md
+!README.md
