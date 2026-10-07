@@ -15,8 +15,9 @@ Pages built on it: `Projects/2ft.html`, `Projects/commonspirit.html`, `Projects/
 Every case study follows the same order. Only the hero is required.
 
 ```
-progress bar           (automatic, from the template)
-left rail              (automatic: back link, title, numbered section index; hidden under 1000px)
+left rail              (automatic: back link, title, and the progress rail: rings on a line that fills
+                        as you read; the current section glows white-in-teal and is the only one named)
+progress bar           (automatic; only under 1000px, where the rail is hidden)
 §1  Hero               kicker, title, subtitle, meta grid from "Label: value" tags
 §4  Preview figure     the "money shot", directly under the hero
 §8  TL;DR callout      3 numbered points max (UX case studies)

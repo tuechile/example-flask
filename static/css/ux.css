@@ -125,8 +125,12 @@
     --fs-heading: clamp(1.6rem, 3vw, 2.3rem);
     --fs-kicker: 0.7rem;
     --rail-w: 11rem;
-    --rail-dot: rgba(255, 255, 255, 0.22);
-    --rail-glow: rgba(28, 165, 145, 0.6);
+    --rail-track: rgba(255, 255, 255, 0.2);
+    --rail-ring: rgba(255, 255, 255, 0.4);
+    --rail-hole: #000;
+    --rail-core: rgba(255, 255, 255, 0.9);
+    --rail-glow: rgba(28, 165, 145, 0.75);
+    --rail-glow-soft: rgba(28, 165, 145, 0.3);
 }
 
 /* ---------- Global accessibility + defaults ---------- */
@@ -1136,54 +1140,96 @@ html {
     color: var(--text-primary);
 }
 
+/* Progress rail: rings on a line that fills as you read; the section you're in
+   lights up as a blurred blob, white at the core and teal around it */
 .cs-index {
-    list-style: none;
+    --node: 14px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: min(calc(var(--n, 6) * 4.5rem), calc(100vh - 17rem));
+    min-height: 8rem;
     margin: 0;
     padding: 0;
-    border-left: 1px solid var(--hairline);
+    list-style: none;
+}
+
+.cs-index::before,
+.cs-fill {
+    content: "";
+    position: absolute;
+    left: calc(var(--node) / 2 - 1px);
+    top: calc(var(--node) / 2);
+    width: 2px;
+}
+
+.cs-index::before {
+    bottom: calc(var(--node) / 2);
+    background: var(--rail-track);
+}
+
+.cs-fill {
+    height: 0;
+    background: var(--highlight);
+}
+
+.cs-index li {
+    position: relative;
+    height: var(--node);
 }
 
 .cs-index a {
-    position: relative;
     display: flex;
-    gap: var(--s-3);
-    padding: 0.4rem 0 0.4rem var(--s-4);
-    font-size: var(--fs-kicker);
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    line-height: 1.5;
-    color: var(--text-tertiary);
+    align-items: center;
+    gap: var(--s-4);
+    height: var(--node);
     text-decoration: none;
     transition: filter var(--dur-1) var(--ease-out);
 }
 
-.cs-index a span {
-    opacity: 0.6;
-}
-
 .cs-index a::before {
     content: "";
-    position: absolute;
-    left: -3.5px;
-    top: 0.85rem;
-    width: 6px;
-    height: 6px;
+    position: relative;
+    flex: 0 0 var(--node);
+    height: var(--node);
+    box-sizing: border-box;
+    border: 2px solid var(--rail-ring);
     border-radius: 50%;
-    background: var(--rail-dot);
+    background: var(--rail-hole);
 }
 
-.cs-index a.is-current {
-    color: var(--text-primary);
-}
-
-.cs-index a.is-current span {
-    color: var(--accent);
-    opacity: 1;
+.cs-index a.is-passed::before {
+    border-color: var(--highlight);
 }
 
 .cs-index a.is-current::before {
-    background: var(--accent);
-    box-shadow: 0 0 8px var(--rail-glow);
+    border-color: var(--highlight);
+    background: var(--highlight);
+    filter: blur(1px);
+    box-shadow:
+        0 0 4px 1px var(--rail-core),
+        0 0 12px 6px var(--rail-glow),
+        0 0 30px 14px var(--rail-glow-soft);
+}
+
+/* Only the current section is named; hovering a ring names it too */
+.cs-index-label {
+    display: none;
+    font-size: var(--fs-kicker);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    line-height: 1.3;
+    color: var(--text-tertiary);
+}
+
+.cs-index a:hover .cs-index-label {
+    display: block;
+}
+
+.cs-index a.is-current .cs-index-label {
+    display: block;
+    color: var(--text-primary);
 }
 
 .cs-back:hover,
@@ -1513,7 +1559,13 @@ html {
     color: var(--text-primary);
 }
 
-/* No rail on narrow screens: the progress bar still shows how far along you are */
+/* The rail is the progress indicator on wide screens; the top bar only shows without it */
+@media screen and (min-width: 1001px) {
+    .progress-wrap {
+        display: none;
+    }
+}
+
 @media screen and (max-width: 1000px) {
     .cs-shell {
         grid-template-columns: minmax(0, 1fr);

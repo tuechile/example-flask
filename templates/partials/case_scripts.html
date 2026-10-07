@@ -29,16 +29,36 @@
             const slot = sec.querySelector(".cs-num");
             if (slot) slot.textContent = num;
             const li = document.createElement("li");
-            li.innerHTML = `<a href="#${sec.id}"><span>${num}</span>${sec.dataset.index}</a>`;
+            li.innerHTML = `<a href="#${sec.id}" aria-label="${num} ${sec.dataset.index}"><span class="cs-index-label">${sec.dataset.index}</span></a>`;
             list.appendChild(li);
             return li.firstChild;
         });
+        const fill = document.createElement("span");
+        fill.className = "cs-fill";
+        list.prepend(fill);
+        list.style.setProperty("--n", sections.length);
+
+        // The fill reaches a ring as its section crosses the reading line, and slides between rings in between
         function onScroll() {
-            const line = window.innerHeight * 0.35;
+            const line = window.scrollY + window.innerHeight * 0.35;
+            const tops = sections.map(sec => sec.getBoundingClientRect().top + window.scrollY);
+            const centers = links.map(a => a.parentNode.offsetTop + a.offsetHeight / 2);
             let current = -1;
-            sections.forEach((sec, i) => { if (sec.getBoundingClientRect().top < line) current = i; });
-            links.forEach((a, i) => a.classList.toggle("is-current", i === current));
+            tops.forEach((top, i) => { if (top <= line) current = i; });
+            let y = centers[0] || 0;
+            if (current >= 0 && current < sections.length - 1) {
+                const t = Math.min(1, (line - tops[current]) / (tops[current + 1] - tops[current]));
+                y = centers[current] + t * (centers[current + 1] - centers[current]);
+            } else if (current >= 0) {
+                y = centers[current];
+            }
+            fill.style.height = (y - (centers[0] || 0)) + "px";
+            links.forEach((a, i) => {
+                a.classList.toggle("is-current", i === current);
+                a.classList.toggle("is-passed", i < current);
+            });
         }
+        window.addEventListener("resize", onScroll);
         window.addEventListener("scroll", onScroll, { passive: true });
         onScroll();
     })();
