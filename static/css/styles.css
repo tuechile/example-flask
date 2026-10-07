@@ -14,7 +14,6 @@
     --menu-bg: #000;
     --title-on-black: #eee;
     --ease-wipe: cubic-bezier(0.7, 0, 0.2, 1);
-    --ext-mark: rgba(200, 200, 200, 0.5);
 
     /* Motion: one fast-out curve, three durations, no bounce */
     --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
@@ -788,24 +787,4 @@ footer {
         order: 5;
         margin-top: 0.4rem;
     }
-}
-/* ===== Links that leave the site: a small ↗ ===== */
-a.ext {
-    position: relative;
-}
-
-a.ext::after,
-.ext-mark {
-    content: "↗";
-    font-family: "Crimson Text", serif;
-    font-style: normal;
-    font-size: 0.6em;
-    color: var(--ext-mark);
-    vertical-align: super;
-    margin-left: 0.15em;
-}
-
-/* Logo icons already read as links out; no arrow on them */
-a.ext:has(.contact-logo)::after {
-    content: none;
 }

@@ -7,7 +7,7 @@
 
 {{ cs.hero("HackHarvard 2026: Hack to the Moon",
            "Brand, campaign, website and merch for a 500+ participant hackathon at Harvard University.",
-           meta="April–October 2026", href="https://hackharvard2026prototype.vercel.app/",
+           meta="April–October 2026",
            tags=["Role: Director of Design", "Team: 5 designers & engineers", "Scale: 500+ hackers",
                  "Scope: Brand · Campaign · Website · Merch"]) }}
 
@@ -174,16 +174,11 @@
 
     {# ===== Demo ===== #}
     {% call cs.section("Demo", lead="The site in motion") %}
-    <div class="video"><video id="hh-demo" src="{{ img('design', 'hackharvard/demo.webm') }}" autoplay muted loop
-            playsinline controls preload="metadata"></video></div>
+    <div class="video"><video src="{{ img('design', 'hackharvard/demo.webm') }}" data-rate="2" autoplay muted loop
+            playsinline></video></div>
     <p class="cta-note">Played at 2× speed.</p>
+    {{ cs.cta("https://hackharvard2026prototype.vercel.app/", "Try the live site") }}
     {% endcall %}
-    <script>
-        const hhDemo = document.getElementById('hh-demo');
-        hhDemo.defaultPlaybackRate = hhDemo.playbackRate = 2;
-        // Loading resets playbackRate, so set it again once the video is ready
-        hhDemo.addEventListener('loadedmetadata', () => { hhDemo.playbackRate = 2; });
-    </script>
 
 {% endcall %}
 

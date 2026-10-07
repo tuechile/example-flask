@@ -297,6 +297,13 @@ html {
     max-width: 800px;
 }
 
+.media-card--embed iframe {
+    display: block;
+    width: 100%;
+    aspect-ratio: var(--ar);
+    border: 0;
+}
+
 .media-card--placeholder {
     display: flex;
     align-items: center;
@@ -1561,11 +1568,6 @@ html {
     display: block;
     font-size: 1.1rem;
     color: var(--text-primary);
-}
-
-.cta-arrow {
-    font-size: 1.3rem;
-    color: var(--text-secondary);
 }
 
 /* ----- Next case study ----- */

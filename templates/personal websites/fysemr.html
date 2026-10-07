@@ -1,37 +1,36 @@
-{% extends "layout.html" %}
+{% extends "case_study.html" %}
+{% import "partials/case_blocks.html" as cs %}
 
-{% block title %}| Personal{% endblock %}
-{% block extra_css %}
-<link href="/static/css/body.css?v={{ asset_v }}" rel="stylesheet">
-{% endblock %}
+{% block title %}| The Land of Rivers{% endblock %}
+{% block rail_kicker %}Illustration{% endblock %}
 
-{% block content %}
-<!--- Subnavigation page for displaying project --->
+{% block case %}
 
-<div class="bio-container">
-    <image height="300px" src="{{ img('fish', 'fish outline.jpg') }}"></image>
-    <div class="bio-text" style="text-align:left;">
-        <h2 style="text-align:left;">The Land of Rivers</h2>
-        <p>“Umi ni oite dai sakana nashi” (海に置いて大魚なし),
-        </p>
-        <p>"In the sea, there are no big fish."
-        </p>
-    </div>
-    <image height="300px" src="{{ img('fish', 'no fish.jpg') }}"></image>
-</div>
-<div class="bio-container">
-    <image height="300px" src="{{ img('fish', 'no sub.jpg') }}"></image>
-    <image height="300px" src="{{ img('fish', 'full.jpg') }}"></image>
-</div>
+{{ cs.hero("The Land of Rivers",
+           "An imagined tea garden.",
+           eyebrow="Illustration", meta="December 2024",
+           tags=["Course: FYSEMR 65R", "Tools: Clip Studio Paint + InDesign"]) }}
 
-<div class="bio-container">
-  <div class="iframe-wrapper">
-    <iframe
-      src="https://drive.google.com/file/d/1HbtgJBMA1PF065dIGyaITdW0obwVOD39/preview"
-      allow="autoplay"
-      loading="lazy">
-    </iframe>
-  </div>
-</div>
+{{ cs.figure(img('fish', 'full.jpg'), "The Land of Rivers: the finished spread") }}
+
+{% call cs.body() %}
+
+    {% call cs.section("Epigraph", lead="“In the sea, there are no big fish.”") %}
+    <p lang="ja"><em>Umi ni oite dai sakana nashi</em> (海に置いて大魚なし)</p>
+    {% endcall %}
+
+    {% call cs.section("Layers", lead="Built up one layer at a time") %}{% endcall %}
+
+    {% call cs.row("3") %}
+        {{ cs.card(img('fish', 'fish outline.jpg'), "Fish outline layer") }}
+        {{ cs.card(img('fish', 'no fish.jpg'), "The spread without the fish") }}
+        {{ cs.card(img('fish', 'no sub.jpg'), "The spread without subtitles") }}
+    {% endcall %}
+
+    {% call cs.section("The book", lead="Read it in full") %}{% endcall %}
+
+    {{ cs.embed("https://drive.google.com/file/d/1HbtgJBMA1PF065dIGyaITdW0obwVOD39/preview", "The Land of Rivers", ar=1.294) }}
+
+{% endcall %}
 
 {% endblock %}

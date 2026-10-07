@@ -174,10 +174,10 @@
 
     {% call cs.section("Try It", lead="Explore the site") %}
     <p>
-        The story is live. Watch the two-minute walkthrough below, then scroll through it yourself.
+        The story is live. Watch the walkthrough below at 2× speed, then scroll through it yourself.
     </p>
-    <div class="video"><video src="{{ img('ux', 'cs171/preview.mp4') }}" autoplay muted loop playsinline controls
-            preload="metadata"></video></div>
+    <div class="video"><video src="{{ img('ux', 'cs171/preview.mp4') }}" data-rate="2" autoplay muted loop
+            playsinline></video></div>
     {{ cs.cta("https://precideer.github.io/cs-1710-unicode/", "Open the live site →") }}
     {{ cs.cta("https://github.com/tuechile/CS1710.git", "View the code on GitHub →") }}
     {% endcall %}

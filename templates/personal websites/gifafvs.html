@@ -1,46 +1,34 @@
-{% extends "layout.html" %}
+{% extends "case_study.html" %}
+{% import "partials/case_blocks.html" as cs %}
 
-{% block title %}| Collaborations{% endblock %}
-{% block extra_css %}
-<link href="/static/css/body.css?v={{ asset_v }}" rel="stylesheet">
-{% endblock %}
+{% block title %}| What Brings You Here{% endblock %}
+{% block rail_kicker %}Interactive{% endblock %}
 
-{% block content %}
-<!--- Subnavigation page for displaying project --->
-<div class="bio-container" style="padding-top: 5vh;">
-    
-    <img class="gif-image" src="{{ img('processing', 'output.gif') }}" alt="gif">
+{% block case %}
 
-    <div class="bio-text" style="text-align:left; max-width: 100vw; padding-left: 5vw; padding-right: 5vw;">
-        <h2>What Brings You Here</h2>
-        <p>This piece was my first ever homework submission at Harvard. It was created using Processing, 
-            a Java-based programming language that accommodates interactive visual arts. I wanted to create
-            an input-based program that suggests different activities for other first-year college students, 
-            given the plethora of options available, just like the colors of candies in a jar. There is a sense 
-            of randomness and surprise, which might seem contradictory to the meticulous planning that most 
-            students do when thinking about their future.
+{{ cs.hero("What Brings You Here",
+           "Do you wish someone would tell you what to do?",
+           eyebrow="Interactive", meta="October 2024",
+           tags=["Tool: Processing (Java)", "Format: Input-based program"]) }}
 
-            This project is supposed to be interactive. Here, I have included a gif of what it looks like
-            when different inputs are entered.
-        </p>
-    </div>
-    <div></div>
-    <img class="gif-image" src="{{ img('processing', 'output.gif') }}" alt="gif" style="filter:grayscale(100%)">
-</div>
+{{ cs.figure(img('processing', 'output.gif'), "The candy-jar program answering different inputs", size="md",
+             caption="The program is interactive; this recording shows it answering different inputs.", zoom=False) }}
 
+{% call cs.body() %}
 
-{% endblock %}
-{% block footer %}
-<!-- Contact information for the studio -->
-<a href="https://www.instagram.com/recit.stu/" target="_blank" style="text-decoration: none">
-    <img src="{{ img('other', 'ig.png') }}" alt="Instagram" class="contact-logo">
-</a>
+    {% call cs.section("The idea", lead="A jar of candies for first-years") %}
+    <p>
+        This piece was my first ever homework submission at Harvard. It was created using Processing, a Java-based
+        programming language that accommodates interactive visual arts. I wanted to create an input-based program
+        that suggests different activities for other first-year college students, given the plethora of options
+        available, just like the colors of candies in a jar.
+    </p>
+    <p>
+        There is a sense of randomness and surprise, which might seem contradictory to the meticulous planning that
+        most students do when thinking about their future.
+    </p>
+    {% endcall %}
 
-<a href="mailto:recitfilmmaking@gmail.com" target="_blank" style="text-decoration: none">
-    <img src="{{ img('other', 'mail.png') }}" alt="Gmail" class="contact-logo">
-</a>
+{% endcall %}
 
-<a href="https://www.facebook.com/recit.stu" target="_blank" style="text-decoration: none">
-    <img src="{{ img('other', 'fb.png') }}" alt="Facebok" class="contact-logo">
-</a>
 {% endblock %}

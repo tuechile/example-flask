@@ -9,6 +9,9 @@
     --text: #888;
     --title: #eee;
     --lead: #bbb;
+    --globe-land: rgba(255, 255, 255, 0.32);
+    --globe-land-back: rgba(255, 255, 255, 0.05);
+    --globe-wish: #888;
 }
 
 .progress-wrap {
@@ -321,6 +324,72 @@
 .bio-text p {
     font-size: 0.8rem;
     color: #888;
+}
+
+/* Travel globe beside the bio (drawn by the inline script in about.html) */
+.travel-globe {
+    float: right;
+    width: 190px;
+    margin: 0.3rem 0 1rem 1.5rem;
+    text-align: center;
+}
+
+.travel-globe canvas {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1;
+    cursor: grab;
+    touch-action: pan-y;
+}
+
+.travel-globe canvas.dragging {
+    cursor: grabbing;
+}
+
+.travel-globe .globe-place {
+    font-family: 'Crimson Text', serif;
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--title);
+    min-height: 1.8em;
+    margin: 0.4rem 0 0;
+}
+
+.travel-globe .globe-count,
+.travel-globe .globe-legend {
+    font-family: 'Crimson Text', serif;
+    font-size: 0.75rem;
+    line-height: 1.8;
+    color: var(--text);
+    margin: 0;
+}
+
+.travel-globe .globe-legend {
+    font-style: italic;
+}
+
+.travel-globe .globe-legend i {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    margin: 0 0.35rem 1px 0.6rem;
+    background: var(--accent);
+    box-shadow: 0 0 6px var(--accent);
+}
+
+.travel-globe .globe-legend i.wish {
+    background: none;
+    box-shadow: none;
+    border: 1px solid var(--globe-wish);
+}
+
+@media screen and (max-width: 666px) {
+    .travel-globe {
+        float: none;
+        width: min(260px, 80vw);
+        margin: 0 auto 1.5rem;
+    }
 }
 
 @keyframes gradientHover {

@@ -1,78 +1,73 @@
-{% extends "layout.html" %}
+{% extends "case_study.html" %}
+{% import "partials/case_blocks.html" as cs %}
 
-{% block title %}| Collaborations{% endblock %}
-{% block extra_css %}
-<link href="/static/css/body.css?v={{ asset_v }}" rel="stylesheet">
+{% block title %}| Recít Studio{% endblock %}
+{% block rail_kicker %}Film studio{% endblock %}
+
+{% block case %}
+
+{{ cs.hero("Recít Studio",
+           "A student-run film studio in Hanoi making short films about uniquely Vietnamese stories.",
+           eyebrow="Film studio", meta="Since 2023",
+           tags=["Role: Art Director", "Based: Hanoi, Vietnam",
+                 "Work: Short films · Documentaries · Event coverage"]) }}
+
+{{ cs.figure(img('recit', 'recitbanner.jpg'), "Recít Studio banner", zoom=False) }}
+
+{% call cs.body() %}
+
+    {% call cs.section("The Studio", lead="Vietnamese stories, made by students") %}
+    <p>
+        Recít Studio is a student-run film production studio based in Hanoi, Vietnam. Founded in 2023 by a group of
+        creatively inspired high school students, Recít aims to create meaningful and impactful motion pictures that
+        center uniquely Vietnamese stories. The studio focuses on producing short films, documentaries, and
+        experimental films that explore social issues, human experiences, and cultural narratives. We also
+        collaborated with high schools to produce promotional videos and event coverage.
+    </p>
+    {% endcall %}
+
+    {% call cs.section("Short film", lead="Within the Unseen Dream", index="Within the Unseen Dream") %}
+    <p class="cs-subheading"><em>Giữa cơn mơ vô hình</em></p>
+    {% endcall %}
+
+    {% call cs.row("fit", caption="Poster and official trailer. The film premiered on 26.08.2023.") %}
+        {{ cs.card(img('recit', 'recitposter.jpg'), "Giữa cơn mơ vô hình poster: a father and son walking along a grassy dyke", ar=0.667) }}
+        {{ cs.embed("https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Freel%2F1439886723469884&show_text=false&width=560&height=315",
+                    "Giữa cơn mơ vô hình official trailer") }}
+    {% endcall %}
+
+    {% call cs.section() %}
+    <p lang="vi">
+        Ngày hôm ấy, bố dạy con những động tác võ ở phía sân sau, trông con như thể một chiến sĩ nhỏ! Ngày hôm ấy, mẹ
+        cầm tay con đi về dọc con đường đê sau ngày dài trên trường mẫu giáo. Ngày hôm ấy, gia đình chúng ta cùng
+        ngồi bên nhau, thưởng thức mâm cơm đầm ấm với những món ăn dân dã mẹ làm, như là rau muống chấm nước mắm, là
+        đậu rán, là bát cà muối ăn cùng cơm.
+    </p>
+    <p lang="vi">
+        Ấy vậy mà, con nhận ra, tất cả cũng chỉ là “Ngày hôm ấy”... Giá như, con có thể thay đổi một chữ cái, “ấy”
+        thành “nay”. Có lẽ, kí ức vốn sẽ giữ nguyên ý nghĩa, mà con chẳng thể dùng sức mạnh để biến nó thành hai chữ
+        “hiện thực”. Nhưng giờ đây, con nhận ra điều quan trọng hơn cả - ta cần đón nhận và sống vì những hạnh phúc
+        của thực tại và tương lai.
+    </p>
+    <p lang="vi">
+        Bộ phim ngắn “Giữa cơn mơ vô hình” chính thức công chiếu ngày 26.08.2023.
+    </p>
+    {% endcall %}
+
+{% endcall %}
+
 {% endblock %}
 
-{% block content %}
-<!--- Subnavigation page for displaying project --->
-
-<div id="fb-root"></div>
-<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v24.0&appId=403032677937765"></script>
-
-<div class="media-split">
-    <div class="media-card">
-        <img src="{{ img('recit', 'recitbanner.jpg') }}" alt="Recit Banner">
-    </div>
-    <div class="bio-text">
-        <h2>RECÍT STUDIO</h2>
-        <p>Recít Studio is a student-run film production studio based in Hanoi, Vietnam. Founded in 2023 by a group of
-            creatively inspired high school students, Recít aims to create meaningful and impactful motion pictures that center
-            uniquely Vietnamese stories. The studio focuses on producing short films, documentaries, and experimental films that
-            explore social issues, human experiences, and cultural narratives. We also collaborated with high schools to produce
-            promotional videos and event coverage.
-        </p>
-    </div>
-</div>
-<!--         
-        <p>
-            Recít Studio has gained recognition for its innovative approach to filmmaking and its commitment to
-            storytelling. The studio has produced several award-winning films that have been showcased at various film
-            festivals and events both locally and internationally. Recít Studio also provides opportunities for young
-            filmmakers to collaborate, learn, and grow through workshops, mentorship programs, and film screenings.
-        </p>
-        <p>
-            With a dedicated team of filmmakers, writers, and artists, Recít Studio continues to push the boundaries of
-            storytelling and create films that inspire, provoke thought, and foster empathy. The studio's mission is to
-            use the power of cinema to connect people, spark conversations, and make a positive impact on society.
-        </p> -->
-
-<div class="media-split">
-    <div class="media-card">
-        <div class="fb-video" data-href="https://www.facebook.com/reel/1439886723469884" data-show-text="false"></div>
-    </div>
-    <div class="bio-text">
-        <h2>WITHIN THE UNSEEN DREAM.</h2>
-        <h2>GIỮA CƠN MƠ VÔ HÌNH</h2>
-        <p>Ngày hôm ấy, bố dạy con những động tác võ ở phía sân sau, trông con như thể một chiến sĩ nhỏ! Ngày hôm ấy, mẹ
-            cầm tay con đi về dọc con đường đê sau ngày dài trên trường mẫu giáo. Ngày hôm ấy, gia đình chúng ta cùng
-            ngồi bên nhau, thưởng thức mâm cơm đầm ấm với những món ăn dân dã mẹ làm, như là rau muống chấm nước mắm, là
-            đậu rán, là bát cà muối ăn cùng cơm.
-            Ấy vậy mà, con nhận ra, tất cả cũng chỉ là “Ngày hôm ấy”... Giá như, con có thể thay đổi một chữ cái, “ấy”
-            thành “nay”.
-            Có lẽ, kí ức vốn sẽ giữ nguyên ý nghĩa, mà con chẳng thể dùng sức mạnh để biến nó thành hai chữ “hiện thực”.
-            Nhưng giờ đây, con nhận ra điều quan trọng hơn cả - ta cần đón nhận và sống vì những hạnh phúc của thực tại
-            và tương lai.
-        </p>
-        <p>
-            Bộ phim ngắn “Giữa cơn mơ vô hình” chính thức công chiếu ngày 26.08.2023. Hãy theo dõi trang chủ Recít để
-            cập nhật thông tin sớm nhất về buổi chiếu phim sắp tới!
-        </p>
-    </div>
-</div>
-{% endblock %}
 {% block footer %}
-<!-- Contact information for the studio -->
-<a href="https://www.instagram.com/recit.stu/" target="_blank" style="text-decoration: none">
+<a href="https://www.instagram.com/recit.stu/" target="_blank" rel="noopener" style="text-decoration: none">
     <img src="{{ img('other', 'ig.png') }}" alt="Instagram" class="contact-logo">
 </a>
 
-<a href="mailto:recitfilmmaking@gmail.com" target="_blank" style="text-decoration: none">
-    <img src="{{ img('other', 'mail.png') }}" alt="Gmail" class="contact-logo">
+<a href="mailto:recitfilmmaking@gmail.com" style="text-decoration: none">
+    <img src="{{ img('other', 'mail.png') }}" alt="Email" class="contact-logo">
 </a>
 
-<a href="https://www.facebook.com/recit.stu" target="_blank" style="text-decoration: none">
-    <img src="{{ img('other', 'fb.png') }}" alt="Facebok" class="contact-logo">
+<a href="https://www.facebook.com/recit.stu" target="_blank" rel="noopener" style="text-decoration: none">
+    <img src="{{ img('other', 'fb.png') }}" alt="Facebook" class="contact-logo">
 </a>
 {% endblock %}

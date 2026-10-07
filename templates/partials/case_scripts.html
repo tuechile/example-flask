@@ -83,4 +83,11 @@
         overlay.addEventListener("click", (e) => { if (e.target === overlay) shut(); });
         window.addEventListener("keydown", (e) => { if (e.key === "Escape") shut(); });
     })();
+
+    // GIF-style videos: data-rate sets the speed; loading resets playbackRate, so set it again on metadata
+    document.querySelectorAll("video[data-rate]").forEach(v => {
+        const rate = Number(v.dataset.rate);
+        v.defaultPlaybackRate = v.playbackRate = rate;
+        v.addEventListener("loadedmetadata", () => { v.playbackRate = rate; });
+    });
 </script>

@@ -41,7 +41,7 @@
         {% if meta %}<p class="cs-kicker cs-hero-date">{{ meta|safe }}</p>{% endif %}
     </div>
     <h1 class="case-title">
-        {% if href %}<a href="{{ href }}" target="_blank" rel="noopener noreferrer">{{ title|safe }} ↗</a>{% else %}{{ title|safe }}{% endif %}
+        {% if href %}<a href="{{ href }}" target="_blank" rel="noopener noreferrer">{{ title|safe }}</a>{% else %}{{ title|safe }}{% endif %}
     </h1>
     {% if subtitle %}<p class="cs-hero-sub">{{ subtitle|safe }}</p>{% endif %}
     {% if chips %}
@@ -111,6 +111,14 @@
     </div>
     {% if caption %}{{ img_caption(caption, fig=True) }}{% endif %}
 </figure>
+{% endmacro %}
+
+{# Embedded player (YouTube, Drive, Facebook). ar: width / height, also read by the "fit" row #}
+{% macro embed(src, title, ar=1.7778, size=None) %}
+<div class="media-card media-card--embed{% if size %} media-card--{{ size }}{% endif %}" style="--ar: {{ ar }}">
+    <iframe src="{{ src }}" title="{{ title }}" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
 {% endmacro %}
 
 {% macro video_card(src, types=["video/mp4"]) %}
@@ -223,6 +231,5 @@
         <span class="cs-label">{{ href.split('/')[2]|replace('www.', '') }}</span>
         <span class="cta-title">{{ label|replace(' →', '')|safe }}</span>
     </span>
-    <span class="cta-arrow" aria-hidden="true">↗</span>
 </a>
 {% endmacro %}
