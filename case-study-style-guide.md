@@ -6,7 +6,7 @@ The layouts used across Pirenily's case studies, written down once so every case
 - **Building blocks:** `templates/partials/case_blocks.html` (one Jinja macro per layout below; each macro is tagged with its § number)
 - **Styles:** `static/css/ux.css`
 
-Pages built on it: `Projects/2ft.html`, `Projects/commonspirit.html`, `Projects/cs171.html`, `collab websites/hackharvard.html`, `collab websites/ivmun.html`, `collab websites/merch.html`, `personal websites/afvs.html`.
+Pages built on it: `Projects/2ft.html`, `Projects/commonspirit.html`, `Projects/cs171.html`, `collab websites/hackharvard.html`, `collab websites/merch.html`, `personal websites/afvs.html`.
 
 ---
 

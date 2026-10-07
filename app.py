@@ -30,7 +30,7 @@ IMAGE_FOLDERS = {
 
 # Cache-busting version appended to local CSS/JS URLs (?v=...).
 # Bump on every change so browsers fetch fresh assets.
-ASSET_VERSION = "3"
+ASSET_VERSION = "4"
 
 GALLERY_IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".gif", ".webp"}
 
@@ -103,7 +103,7 @@ def home():
         finder = request.form.get("finder", "").strip().lower()
 
         personal_websites = ["afvs", "essays", "fysemr", "gifafvs", "illustration", "portal", "street", "superface"]
-        collab_websites = ["highlander", "recit", "olympics", "ivmun", "hackharvard", "merch"]
+        collab_websites = ["highlander", "recit", "olympics", "hackharvard", "merch"]
         flat = ["about", "collab", "cs171", "personal"]
 
         # ✅ If user types "t4sg" (or similar), send them to the t4sg page
@@ -115,9 +115,6 @@ def home():
 
         if finder in ["hack harvard", "hackharvard 2026", "hack to the moon", "hhuh"]:
             return render_template("collab websites/hackharvard.html")
-
-        if finder in ["model un", "mun", "vietnam model united nations"]:
-            return render_template("collab websites/ivmun.html")
 
         if finder in ["hpair", "hconf", "hudc", "cnn olympics", "stickers", "tote"]:
             return render_template("collab websites/merch.html")
@@ -218,10 +215,6 @@ def recit():
 @app.route("/olympics")
 def olympics():
     return render_gallery("olympics")
-
-@app.route("/ivmun")
-def ivmun():
-    return render_template("collab websites/ivmun.html")
 
 @app.route("/hackharvard")
 def hackharvard():
