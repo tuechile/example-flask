@@ -1,8 +1,8 @@
-// Hover a card with data-previews="url|url|..." and its pictures pop up at random spots on screen.
-// Pops are instant (no fades); everything disappears the moment the mouse leaves.
+// Hover a card with data-previews="url|url|..." and one of its pictures pops up at a random spot.
+// Each new hover shows a different picture. Instant (no fades); it disappears when the mouse leaves.
 (function () {
     if (!window.matchMedia("(hover: hover)").matches) return;
-    var EVERY = 650, MAX_ON_SCREEN = 4;
+    var GRACE = 400;
     var layer = document.createElement("div");
     layer.className = "pop-layer";
     document.body.appendChild(layer);
@@ -10,7 +10,7 @@
     document.querySelectorAll("[data-previews]").forEach(function (card) {
         var urls = card.dataset.previews.split("|").filter(Boolean);
         if (!urls.length) return;
-        var pics = null, timer = null, last = -1;
+        var pics = null, hovering = false, last = -1, shown = null, leftAt = 0;
 
         function pop() {
             var ready = pics.filter(function (p) { return p.complete && p.naturalWidth; });
@@ -29,8 +29,9 @@
             el.style.width = w + "px";
             el.style.left = Math.round(Math.random() * Math.max(0, innerWidth - w)) + "px";
             el.style.top = Math.round(Math.random() * Math.max(0, innerHeight - h)) + "px";
+            layer.innerHTML = "";
             layer.appendChild(el);
-            while (layer.children.length > MAX_ON_SCREEN) layer.removeChild(layer.firstChild);
+            shown = el;
         }
 
         card.addEventListener("mouseenter", function () {
@@ -38,18 +39,21 @@
                 // load on first hover; each picture pops as soon as it arrives
                 pics = urls.map(function (u) {
                     var im = new Image();
-                    im.onload = function () { if (timer) pop(); };
+                    // first hover: show the first picture that finishes loading
+                    im.onload = function () { if (hovering && !layer.children.length) pop(); };
                     im.src = u;
                     return im;
                 });
             }
-            timer = setInterval(pop, EVERY);
-            pop();
+            hovering = true;
+            // brushing off the edge and straight back isn't a new hover: keep the same picture
+            if (shown && Date.now() - leftAt < GRACE) layer.appendChild(shown);
+            else pop();
         });
 
         card.addEventListener("mouseleave", function () {
-            clearInterval(timer);
-            timer = null;
+            hovering = false;
+            leftAt = Date.now();
             layer.innerHTML = "";
         });
     });
