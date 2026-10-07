@@ -16,22 +16,22 @@
 </div>
 <div class="thumbnail-container" id="designList">
     <!-- Selected = case studies (default view); everything else only shows under All -->
-    <div class="thumbnail" data-selected>
+    <div class="thumbnail" data-previews="{{ [img('design', 'hackharvard/poster-moon.jpg'), img('design', 'hackharvard/site-about.jpg'), img('design', 'hackharvard/site-tracks.jpg'), img('design', 'hackharvard/stickers.png')]|join('|') }}" data-selected>
         <a href="hackharvard">
             <img src="{{ img('design', 'hackharvard/keyart.jpg') }}" alt="HackHarvard 2026" style="height: 300px;">
             <div class="thumbnail-content">
                 <div class="thumbnail-header">HackHarvard 2026: Hack to the Moon</div>
                 <div class="thumbnail-description">
-                    Branding, campaign graphics and merch for Harvard's undergraduate hackathon
+                    Led a team of 5 on the brand, campaign, website and merch for a 500+ participant hackathon
                 </div>
                 <div class="thumbnail-description" style="color:#bbb;">
-                    Case study
+                    Director of Design
                 </div>
             </div>
         </a>
     </div>
 
-    <div class="thumbnail" data-selected>
+    <div class="thumbnail" data-previews="{{ [img('design', 'merch/hpair-notebook.jpg'), img('olympics', '1Amber.jpg'), img('olympics', '3Amethyst.jpg'), img('design', 'hackharvard/pin.jpg')]|join('|') }}" data-selected>
         <a href="merch">
             <img src="{{ img('design', 'merch/hpair-crest.png') }}" alt="Merch" style="height: 300px;">
             <div class="thumbnail-content">
@@ -46,7 +46,7 @@
         </a>
     </div>
 
-    <div class="thumbnail">
+    <div class="thumbnail" data-previews="{{ [img('olympics', '2Sapphire.jpg'), img('olympics', '4Ruby.jpg'), img('olympics', '5Emerald.jpg'), img('olympics', '3Amethyst.jpg')]|join('|') }}">
         <a href="olympics">
             <img src="{{ img('olympics', '6Artboard.jpg') }}" alt="CNN Olympics" style="height: 300px;">
             <div class="thumbnail-content">
@@ -61,7 +61,7 @@
         </a>
     </div>
 
-    <div class="thumbnail">
+    <div class="thumbnail" data-previews="{{ [img('recit', 'recitbanner.jpg'), img('recit', 'recitposter.jpg')]|join('|') }}">
         <a href="recit">
             <img src="{{ img('art_direction', 'recit.jpg') }}" alt="Recit" style="height: 300px;">
             <div class="thumbnail-content">
@@ -93,7 +93,7 @@
         </a>
     </div>
 
-    <div class="thumbnail">
+    <div class="thumbnail" data-previews="{{ [img('art_direction', 'poster.jpg')]|join('|') }}">
         <a href="highlander">
             <img src="{{ img('art_direction', 'highlander.jpg') }}" alt="TeddeAh!" style="height: 300px;">
             <div class="thumbnail-content">
@@ -163,6 +163,56 @@
         });
 
         setView(location.hash === "#all" ? "all" : "selected");
+    })();
+
+    // Hover a card and pictures from inside that project pop up at random spots on screen.
+    // Pops are instant (no fades); everything disappears the moment the mouse leaves.
+    (function () {
+        if (!window.matchMedia("(hover: hover)").matches) return;
+        var EVERY = 650, MAX_ON_SCREEN = 4;
+        var layer = document.createElement("div");
+        layer.className = "pop-layer";
+        document.body.appendChild(layer);
+
+        document.querySelectorAll(".thumbnail[data-previews]").forEach(function (card) {
+            var urls = card.dataset.previews.split("|").filter(Boolean);
+            var pics = null, timer = null, last = -1;
+
+            function pop() {
+                var ready = pics.filter(function (p) { return p.complete && p.naturalWidth; });
+                if (!ready.length) return;
+                var n = ready.length > 1 ? Math.floor(Math.random() * ready.length) : 0;
+                if (ready.length > 1 && ready[n] === pics[last]) n = (n + 1) % ready.length;
+                var src = ready[n];
+                last = pics.indexOf(src);
+
+                var w = Math.round(180 + Math.random() * 140);
+                var h = Math.round(w * src.naturalHeight / src.naturalWidth);
+                var el = document.createElement("img");
+                el.className = "pop";
+                el.src = src.src;
+                el.alt = "";
+                el.style.width = w + "px";
+                el.style.left = Math.round(Math.random() * Math.max(0, innerWidth - w)) + "px";
+                el.style.top = Math.round(Math.random() * Math.max(0, innerHeight - h)) + "px";
+                layer.appendChild(el);
+                while (layer.children.length > MAX_ON_SCREEN) layer.removeChild(layer.firstChild);
+            }
+
+            card.addEventListener("mouseenter", function () {
+                if (!pics) {
+                    pics = urls.map(function (u) { var im = new Image(); im.onload = function () { if (timer) pop(); }; im.src = u; return im; });
+                }
+                timer = setInterval(pop, EVERY);
+                pop();
+            });
+
+            card.addEventListener("mouseleave", function () {
+                clearInterval(timer);
+                timer = null;
+                layer.innerHTML = "";
+            });
+        });
     })();
 </script>
 {% endblock %}

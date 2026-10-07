@@ -757,3 +757,18 @@
 .masonry--natural .item img {
     height: auto;
 }
+
+/* Design page: hovering a card pops its pictures up at random spots on screen */
+.pop-layer {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    pointer-events: none;
+}
+
+.pop {
+    position: absolute;
+    display: block;
+    height: auto;
+    border: 1px solid var(--border);
+}

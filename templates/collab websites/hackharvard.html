@@ -6,45 +6,140 @@
 {% block case %}
 
 {{ cs.hero("HackHarvard 2026: Hack to the Moon",
-           "Branding, campaign graphics and merch for HackHarvard 2026, Oct 16–18 at Harvard University.",
-           tags=["Theme: Hack to the Moon", "Scope: Logo · Key art · Posters · Banners · Merch"]) }}
+           "Brand, campaign, website and merch for a 500+ participant hackathon at Harvard University.",
+           meta="April–October 2026",
+           tags=["Role: Director of Design", "Team: 5 designers + engineers", "Scale: 500+ hackers",
+                 "Scope: Brand · Campaign · Website · Merch"]) }}
 
-{# ===== Key art ===== #}
 {{ cs.figure(img('design', 'hackharvard/banner.jpg'),
-             "Hack to the Moon banner with a domed tower, planets and glowing orbs",
-             size="lg", caption="Campaign banner.") }}
+             "Hack to the Moon banner with a domed tower, planets and glowing orbs", zoom=False) }}
 
-{% call cs.section("Identity") %}
-<p>
-    The 2026 theme, <em>Hack to the Moon</em>, pairs the HackHarvard monogram with a night-sky world of
-    towers, crescents and rockets in pink, teal and gold.
-</p>
-{% endcall %}
+{{ cs.callout("TL;DR", points=[
+    "I led a 5-person design and engineering team from April to the hackathon in October, owning promotional campaigns, brand and cross-team coordination.",
+    "We rebuilt the brand around one theme and shipped it as a reusable component package for the website, social media and event materials.",
+    "Social engagement rose 200% over prior posts and followers grew 20%. Applications doubled year over year, and completed submissions rose 1.5×.",
+]) }}
 
-{% call cs.row("pair", caption="Key art and event mark.") %}
-    {{ cs.card(img('design', 'hackharvard/keyart.jpg'), "HackHarvard key art: the monogram built from a tower and crescent moon") }}
-    {{ cs.card(img('design', 'hackharvard/mark.png'), "Hack to the Moon event mark with dates 10/16 to 10/18, 2026") }}
-{% endcall %}
+{% call cs.body() %}
 
-{# ===== Posters ===== #}
-{{ cs.section("Campaign") }}
+    {# ===== Context ===== #}
+    {% call cs.section("Context", lead="One look, from the first post to the last tote bag") %}
+    <p>
+        HackHarvard is a 36-hour undergraduate hackathon hosted at Harvard University, bringing more than
+        500 students from 30+ universities to campus each October. As Director of Design, I ran the team
+        that owned how the event looked and spoke: the promotional campaign, the brand, the website and
+        everything printed for the weekend.
+    </p>
+    <p>
+        Design sat in the middle of the organization. Sponsorship needed logos placed on the site and the
+        shirts, logistics needed signage and schedules, and outreach needed a steady stream of posts. Part
+        of my job was lining our deliverables up with all three teams so nothing shipped twice or off-brand.
+    </p>
+    {% endcall %}
 
-{% call cs.row("pair", caption="Launch and applications-open posters.") %}
-    {{ cs.card(img('design', 'hackharvard/poster-moon.jpg'), "Hack to the Moon poster announcing Oct 16 to 18, 2026") }}
-    {{ cs.card(img('design', 'hackharvard/poster-apps.jpg'), "Hacker applications open poster") }}
-{% endcall %}
+    {# ===== Concept ===== #}
+    {% call cs.section("The Idea", lead="A utopian Harvard drifting through deep space") %}
+    <p>
+        <em>Hack to the Moon</em> takes the campus's domes, cupolas, columns and stairs and rebuilds them
+        as glowing gradient geometry among planets, moons and stars. The monogram itself became
+        architecture: in the key art, the H is a tower and the C is a crescent moon.
+    </p>
+    {% endcall %}
 
-{# ===== Merch ===== #}
-{{ cs.section("Merch") }}
+    {% call cs.row("pair", caption="Key art and the Hack to the Moon event mark.") %}
+        {{ cs.card(img('design', 'hackharvard/keyart.jpg'), "HackHarvard key art: the monogram built from a tower and crescent moon") }}
+        {{ cs.card(img('design', 'hackharvard/mark.png'), "Hack to the Moon event mark with dates 10/16 to 10/18, 2026") }}
+    {% endcall %}
 
-{{ cs.figure(img('design', 'hackharvard/stickers.png'), "Sticker sheet with six HackHarvard 2026 stickers",
-             size="md", caption="Sticker sheet.") }}
+    {# ===== System ===== #}
+    {% call cs.section("The System", lead="Few enough rules that five people could follow them") %}
+    <p>
+        I kept the identity deliberately small so the whole team could produce on-brand work without
+        checking with me on every piece:
+        <br>— <strong>Palette:</strong> near-black navy, a hot magenta accent, teal to ocean blue, cream
+        glows, and yellow only for the wordmark and small highlights.
+        <br>— <strong>Signature gradient:</strong> navy → ocean blue → teal → mauve → pink, used on the
+        monogram, the architecture and the merch.
+        <br>— <strong>Two typefaces, everywhere:</strong> Makcasa for display headlines and the lockup,
+        AV Estiana for body copy, labels, dates and every number.
+    </p>
+    {% endcall %}
 
-{% call cs.row("quad", caption="T-shirt back, tote, pin and logo lockup.") %}
-    {{ cs.card(img('design', 'hackharvard/tee-back.jpg'), "Red t-shirt back with sponsor logos") }}
-    {{ cs.card(img('design', 'hackharvard/tote.jpg'), "Tote bag mockup with the HackHarvard 2026 logo") }}
-    {{ cs.card(img('design', 'hackharvard/pin.jpg'), "Oval HackHarvard 2026 pin with a rocket") }}
-    {{ cs.card(img('design', 'hackharvard/logo.png'), "HackHarvard 2026 gradient logo") }}
+    {# ===== Campaign ===== #}
+    {% call cs.section("Campaign", lead="A redesigned content strategy built on the same world") %}
+    <p>
+        Every post drew from the same set of towers, moons and rockets, so the feed read as one story
+        from announcement to applications. Compared with prior posts, engagement rose 200% and followers
+        grew 20%.
+    </p>
+    {% endcall %}
+
+    {% call cs.row("pair", caption="Launch and applications-open posters.") %}
+        {{ cs.card(img('design', 'hackharvard/poster-moon.jpg'), "Hack to the Moon poster announcing Oct 16 to 18, 2026") }}
+        {{ cs.card(img('design', 'hackharvard/poster-apps.jpg'), "Hacker applications open poster") }}
+    {% endcall %}
+
+    {# ===== Website ===== #}
+    {% call cs.section("Website", lead="The brand shipped as code, not just as files") %}
+    <p>
+        The team built the site as a reusable component package: every color is a design token, the
+        decorations are a shared SVG library, and the same pieces feed social graphics and event
+        materials. Each section became a place in the world: About sits inside a temple, Tracks floats on
+        an island with a satellite you can spin, and each FAQ you open lights a lamp on the arch gate.
+    </p>
+    {% endcall %}
+
+    {% call cs.row("pair", caption="About inside the temple; Tracks on a floating park with a draggable satellite.") %}
+        {{ cs.card(img('design', 'hackharvard/site-about.jpg'), "Website About section: copy set inside a glowing Greek temple with event stats") }}
+        {{ cs.card(img('design', 'hackharvard/site-tracks.jpg'), "Website Tracks section: a floating island with five domed track modules") }}
+    {% endcall %}
+
+    {% call cs.row("pair", caption="FAQ beneath the arch gate; sponsor logos in a comet garden.") %}
+        {{ cs.card(img('design', 'hackharvard/site-faq.jpg'), "Website FAQ section with grouped questions and an arch gate framing the moon") }}
+        {{ cs.card(img('design', 'hackharvard/site-sponsors.jpg'), "Website Sponsors section with logos in a grid under comets and fireworks") }}
+    {% endcall %}
+
+    {# ===== Merch ===== #}
+    {% call cs.section("Merch", lead="Adapting the system to what can actually be printed") %}
+    <p>
+        The gradient monogram works on screen but not on every material, so each item got its own
+        version: full color for stickers, flat spot colors for the enamel pin, a single pink for the
+        tote, and white on red for the sponsor shirt.
+    </p>
+    {% endcall %}
+
+    {{ cs.figure(img('design', 'hackharvard/stickers.png'), "Sticker sheet with six HackHarvard 2026 stickers",
+                 size="md", caption="Sticker sheet.") }}
+
+    {% call cs.row("quad", caption="Sponsor tee, tote, enamel pin and the gradient lockup they're all derived from.") %}
+        {{ cs.card(img('design', 'hackharvard/tee-back.jpg'), "Red t-shirt back with sponsor logos") }}
+        {{ cs.card(img('design', 'hackharvard/tote.jpg'), "Tote bag mockup with the HackHarvard 2026 logo in pink") }}
+        {{ cs.card(img('design', 'hackharvard/pin.jpg'), "Oval HackHarvard 2026 pin in flat colors with a rocket") }}
+        {{ cs.card(img('design', 'hackharvard/logo.png'), "HackHarvard 2026 gradient logo") }}
+    {% endcall %}
+
+    {# ===== Results ===== #}
+    {{ cs.callout("Results", points=[
+        "200% higher social engagement than prior posts, and 20% follower growth.",
+        "2× year-over-year increase in total applications.",
+        "1.5× increase in completed submissions.",
+    ]) }}
+
+    {# ===== Leading the team ===== #}
+    {% call cs.section("Leading the Team", lead="Built to outlast the year") %}
+    <p>
+        From April to October I set direction, split the work across five designers and engineers, and
+        kept our output in step with sponsorship, logistics and outreach. Before handing off, I wrote the
+        site's README as a guide for next year's team. It separates what every HackHarvard site needs, no
+        matter the theme, from this year's theme-specific rules, so the next team can swap the theme
+        without rebuilding the foundation.
+    </p>
+    {% endcall %}
+
+    {{ cs.figure(img('design', 'hackharvard/site-team.jpg'),
+                 "Website team section: directors shown as glowing planets above a carousel of organizers",
+                 size="lg", caption="The site's team section, with directors as planets and organizers as stars.") }}
+
 {% endcall %}
 
 {% endblock %}
