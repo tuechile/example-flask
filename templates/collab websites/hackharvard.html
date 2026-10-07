@@ -8,7 +8,7 @@
 {{ cs.hero("HackHarvard 2026: Hack to the Moon",
            "Brand, campaign, website and merch for a 500+ participant hackathon at Harvard University.",
            meta="April–October 2026",
-           tags=["Role: Director of Design", "Team: 5 designers + engineers", "Scale: 500+ hackers",
+           tags=["Role: Director of Design", "Team: 5 designers & engineers", "Scale: 500+ hackers",
                  "Scope: Brand · Campaign · Website · Merch"]) }}
 
 {{ cs.figure(img('design', 'hackharvard/banner.jpg'),
@@ -37,6 +37,25 @@
     </p>
     {% endcall %}
 
+    {# ===== Branding ===== #}
+    {% call cs.section("Branding and Logo", lead="Rebuilding the identity from zero to one") %}
+    <p>
+        Before any campaign work, the brand itself had to be rebuilt from scratch. The new mark puts the
+        emphasis on the letters H and A, stacked into a single monogram with a small chip-like spark, and
+        a nod to pi and math. I drew it on a grid so it holds its shape from a favicon up to a banner.
+    </p>
+    <p>
+        Around the monogram I built a set of lockups for different jobs. The flat off-season version
+        handles the favicon, official documents and small imprints like post logos. The 2026 version
+        carries the year's theme: utopia, stardust, translucency, the moon and the galaxy.
+    </p>
+    {% endcall %}
+
+    {% call cs.row("fit", caption="Logo sheet: wordmark studies, the monogram on its construction grid, lockups and usage notes; the off-season mark and how it turns into the 2026 logo.") %}
+        {{ cs.card(img('design', 'hackharvard/brand-sheet.png'), "Logo sheet with HackHarvard wordmark studies, the HA monogram on a construction grid, stacked lockups, a Hack to the Moon serif wordmark and usage instructions", ar=1.004) }}
+        {{ cs.card(img('design', 'hackharvard/brand-evolution.png'), "Off-season red HA monogram on navy next to the gradient 2026 logo, with keywords and gradient swatches", ar=1.149) }}
+    {% endcall %}
+
     {# ===== Concept ===== #}
     {% call cs.section("The Idea", lead="A utopian Harvard drifting through deep space") %}
     <p>
@@ -46,9 +65,9 @@
     </p>
     {% endcall %}
 
-    {% call cs.row("pair", caption="Key art and the Hack to the Moon event mark.") %}
-        {{ cs.card(img('design', 'hackharvard/keyart.jpg'), "HackHarvard key art: the monogram built from a tower and crescent moon") }}
-        {{ cs.card(img('design', 'hackharvard/mark.png'), "Hack to the Moon event mark with dates 10/16 to 10/18, 2026") }}
+    {% call cs.row("fit", caption="Key art and the Hack to the Moon event mark.") %}
+        {{ cs.card(img('design', 'hackharvard/keyart.jpg'), "HackHarvard key art: the monogram built from a tower and crescent moon", ar=1) }}
+        {{ cs.card(img('design', 'hackharvard/mark.png'), "Hack to the Moon event mark with dates 10/16 to 10/18, 2026", ar=1.074) }}
     {% endcall %}
 
     {# ===== System ===== #}
@@ -74,9 +93,9 @@
     </p>
     {% endcall %}
 
-    {% call cs.row("pair", caption="Launch and applications-open posters.") %}
-        {{ cs.card(img('design', 'hackharvard/poster-moon.jpg'), "Hack to the Moon poster announcing Oct 16 to 18, 2026") }}
-        {{ cs.card(img('design', 'hackharvard/poster-apps.jpg'), "Hacker applications open poster") }}
+    {% call cs.row("fit", caption="Launch and applications-open posters.") %}
+        {{ cs.card(img('design', 'hackharvard/poster-moon.jpg'), "Hack to the Moon poster announcing Oct 16 to 18, 2026", ar=0.8) }}
+        {{ cs.card(img('design', 'hackharvard/poster-apps.jpg'), "Hacker applications open poster", ar=0.8) }}
     {% endcall %}
 
     {# ===== Website ===== #}
@@ -89,14 +108,14 @@
     </p>
     {% endcall %}
 
-    {% call cs.row("pair", caption="About inside the temple; Tracks on a floating park with a draggable satellite.") %}
-        {{ cs.card(img('design', 'hackharvard/site-about.jpg'), "Website About section: copy set inside a glowing Greek temple with event stats") }}
-        {{ cs.card(img('design', 'hackharvard/site-tracks.jpg'), "Website Tracks section: a floating island with five domed track modules") }}
+    {% call cs.row("fit", caption="About inside the temple; Tracks on a floating park with a draggable satellite.") %}
+        {{ cs.card(img('design', 'hackharvard/site-about.jpg'), "Website About section: copy set inside a glowing Greek temple with event stats", ar=1.6) }}
+        {{ cs.card(img('design', 'hackharvard/site-tracks.jpg'), "Website Tracks section: a floating island with five domed track modules", ar=1.6) }}
     {% endcall %}
 
-    {% call cs.row("pair", caption="FAQ beneath the arch gate; sponsor logos in a comet garden.") %}
-        {{ cs.card(img('design', 'hackharvard/site-faq.jpg'), "Website FAQ section with grouped questions and an arch gate framing the moon") }}
-        {{ cs.card(img('design', 'hackharvard/site-sponsors.jpg'), "Website Sponsors section with logos in a grid under comets and fireworks") }}
+    {% call cs.row("fit", caption="FAQ beneath the arch gate; sponsor logos in a comet garden.") %}
+        {{ cs.card(img('design', 'hackharvard/site-faq.jpg'), "Website FAQ section with grouped questions and an arch gate framing the moon", ar=1.6) }}
+        {{ cs.card(img('design', 'hackharvard/site-sponsors.jpg'), "Website Sponsors section with logos in a grid under comets and fireworks", ar=1.6) }}
     {% endcall %}
 
     {# ===== Merch ===== #}
@@ -111,19 +130,19 @@
     {{ cs.figure(img('design', 'hackharvard/stickers.png'), "Sticker sheet with six HackHarvard 2026 stickers",
                  size="md", caption="Sticker sheet.") }}
 
-    {% call cs.row("quad", caption="Sponsor tee, tote, enamel pin and the gradient lockup they're all derived from.") %}
-        {{ cs.card(img('design', 'hackharvard/tee-back.jpg'), "Red t-shirt back with sponsor logos") }}
-        {{ cs.card(img('design', 'hackharvard/tote.jpg'), "Tote bag mockup with the HackHarvard 2026 logo in pink") }}
-        {{ cs.card(img('design', 'hackharvard/pin.jpg'), "Oval HackHarvard 2026 pin in flat colors with a rocket") }}
-        {{ cs.card(img('design', 'hackharvard/logo.png'), "HackHarvard 2026 gradient logo") }}
+    {% call cs.row("fit", caption="Sponsor tee, tote and enamel pin.") %}
+        {{ cs.card(img('design', 'hackharvard/tee-back.jpg'), "Red t-shirt back with sponsor logos", ar=0.8) }}
+        {{ cs.card(img('design', 'hackharvard/tote.jpg'), "Tote bag mockup with the HackHarvard 2026 logo in pink", ar=0.8) }}
+        {{ cs.card(img('design', 'hackharvard/pin.jpg'), "Oval HackHarvard 2026 pin in flat colors with a rocket", ar=0.8) }}
     {% endcall %}
 
     {# ===== Results ===== #}
-    {{ cs.callout("Results", points=[
-        "200% higher social engagement than prior posts, and 20% follower growth.",
-        "2× year-over-year increase in total applications.",
-        "1.5× increase in completed submissions.",
-    ]) }}
+    {{ cs.stats([
+        ("200%", "higher social engagement than prior posts"),
+        ("+20%", "follower growth"),
+        ("2×", "total applications, year over year"),
+        ("1.5×", "completed submissions"),
+    ], title="Results") }}
 
     {# ===== Leading the team ===== #}
     {% call cs.section("Leading the Team", lead="Built to outlast the year") %}

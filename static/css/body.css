@@ -516,33 +516,20 @@
 }
 
 
-/* ========================================= Justified Gallery ========================================= */
-/* Rows of uncropped images: each item grows in proportion to its aspect ratio (--ar,
-   set per item from the file's real size), so every row ends up one shared height
-   that exactly fills the width. */
-.justified {
-    --row-h: 18rem;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
+/* ========================================= Masonry Grid Styling ========================================= */
+.masonry {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    /* 3 equal-width columns */
     padding: 1rem;
 }
 
-.justified .item {
-    flex: var(--ar) 1 calc(var(--ar) * var(--row-h));
-}
-
-/* Soaks up the last row's spare width so its images keep the row height instead of ballooning */
-.justified::after {
-    content: "";
-    flex: 1e4 1 0;
-}
-
+/* Individual Item Styling */
 .item img {
     display: block;
     width: 100%;
-    height: auto;
-    aspect-ratio: var(--ar);
+    height: 20rem;
+    object-fit: cover;
     transition: transform var(--dur-2) var(--ease-out), box-shadow var(--dur-2) var(--ease-out);
 }
 
@@ -626,8 +613,8 @@
 }
 
 @media screen and (min-width: 666px) and (max-width: 880px) {
-    .justified {
-        --row-h: 13rem;
+    .masonry {
+        grid-template-columns: repeat(2, 1fr);
     }
     .bio-container {
         flex-direction: column;
@@ -657,10 +644,9 @@
 }
 
 @media screen and (max-width: 666px) {
-    .justified {
-        --row-h: 9rem;
-        gap: 0.35rem;
-        padding: 0.5rem;
+    .masonry {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
     }
     .bio-container {
         flex-direction: column;
@@ -807,6 +793,11 @@
 /* Wide banners: shift the crop right so the title and the tower both stay in frame */
 .project-thumb-img--focus-right {
     object-position: 55% center;
+}
+
+/* Gallery variant: keep each image's own aspect ratio instead of cropping */
+.masonry--natural .item img {
+    height: auto;
 }
 
 /* Design page: hovering a card pops its pictures up at random spots on screen */

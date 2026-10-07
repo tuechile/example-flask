@@ -85,7 +85,7 @@
 
         <div class="insights-head">
             <div>
-                <h3 class="insights-title callout-title--display">Interview Highlights</h3>
+                <h3 class="insights-title">Interview Highlights</h3>
             </div>
             <button class="mini-btn" type="button" id="openAffinity">View raw</button>
         </div>
@@ -288,7 +288,7 @@
     {% endcall %}
     {{ cs.img_caption("“We started with clarity + offline reliability, then added power features later.”") }}
 
-    {{ cs.section("Feature rollout (how it evolved)") }}
+    {{ cs.section("Feature rollout (how it evolved)", index="Rollout") }}
 
     {{ cs.rollout([
         ("Phase 1", "Core Inventory Reliability", "Simple viewing, terminology, edit component."),
@@ -333,7 +333,7 @@
         (img('ux', 't4sg/lofi add.png'), "Lo-fi add component flow (B&W)"),
     ]) }}
 
-    {% call cs.section("What we learned, what we changed, and why it worked") %}
+    {% call cs.section("What we learned, what we changed, and why it worked", index="Iteration") %}
     <p>
         Lo-fi helped us prove the hierarchy. But once stakeholders interacted with it, the feedback wasn’t about
         visual design — it was about <strong>speed, trust, and reducing “I might break something” anxiety</strong>.

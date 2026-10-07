@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 
-{# Shared photo gallery in justified rows. Each page is configured in GALLERIES (app.py). #}
+{# Shared masonry photo gallery. Each page is configured in GALLERIES (app.py). #}
 
 {% block title %}| {{ section }}{% endblock %}
 {% block extra_css %}
@@ -10,9 +10,9 @@
 {% block content %}
 <script src="{{ url_for('static', filename='clickimage.js') }}?v={{ asset_v }}"></script>
 
-<div class="justified">
+<div class="masonry{% if natural_height %} masonry--natural{% endif %}">
     {% for filename in gallery_images(folder, sort=sort) %}
-    <div class="item" style="--ar: {{ image_ratio(folder, filename) }}">
+    <div class="item">
         <a href="{{ img(folder, filename) }}" class="lightbox">
             <img src="{{ img(folder, filename) }}" alt="{{ filename.rsplit('.', 1)[0] }}" loading="lazy">
         </a>

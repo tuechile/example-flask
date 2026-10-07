@@ -16,15 +16,22 @@ Every case study follows the same order. Only the hero is required.
 
 ```
 progress bar           (automatic, from the template)
-§1  Hero               title, one-line subtitle, tags
+left rail              (automatic: back link, title, numbered section index; hidden under 1000px)
+§1  Hero               kicker, title, subtitle, meta grid from "Label: value" tags
 §4  Preview figure     the "money shot", directly under the hero
-§8  TL;DR callout      3 bullets max (UX case studies)
-──  case-page body ──  narrower reading column
+§8  TL;DR callout      3 numbered points max (UX case studies)
+──  case-page body ──
     §2 Section → visuals (§4–§7) → caption (§10), repeated
+    Stats              hard numbers, if there are any
     §11 Try it / CTA   near the end, if there's a live link
     §2 Reflection      always last
-scripts                (automatic: reveal, lightbox, progress)
+next case study        (automatic)
+scripts                (automatic: rail, lightbox, progress)
 ```
+
+The system, in one breath: small uppercase kickers (`.cs-kicker`, `--fs-kicker`) label everything,
+big regular-weight Crimson lines carry the story, hairline panels hold the scannable bits, and teal
+only marks numbers (section numbers, figure numbers, list numbers, the active rail dot). Nothing fades in.
 
 Starter page:
 
@@ -54,16 +61,16 @@ Optional template blocks: `case_css` for page-only CSS, `case_scripts` for page-
 
 ## §1 Hero
 
-Frosted panel with a teal glow in the corner. It opens every case study.
+Open, left-aligned header closed by a hairline. It opens every case study and names the rail.
 
 | Part | Rule |
 |---|---|
-| `eyebrow` | Optional status/course line above the title (e.g. "Ongoing \| CS 1710"). |
-| `title` | The project name. Crimson 600, `--fs-5`. Use `×` for partner projects ("T4SG × 2ft Prosthetics"). |
-| `subtitle` | One sentence. Small (`--fs-1`) by default; `subtitle_size="md"` for art/personal pieces. |
-| `meta` | Optional date line ("March–May 2026"). |
-| `tags` | 2–4 `Label: value` chips: Role, Scope, Research, Constraint, Team, Event. |
-| `href` | Makes the whole hero a link (used for a secondary project on the same page). |
+| `eyebrow` | Kicker above the title; defaults to "Case study" (e.g. "Ongoing \| CS 1710"). |
+| `title` | The project name, `--fs-display`, regular weight. Use `×` for partner projects ("T4SG × 2ft Prosthetics"). |
+| `subtitle` | One italic sentence. (`subtitle_size` is kept for old calls and ignored.) |
+| `meta` | Optional date line, shown as a kicker on the right ("March–May 2026"). |
+| `tags` | `Label: value` tags become the **meta grid** (Role, Team, Scope, Research, Constraint…); the value splits onto lines at ` + ` and ` · `, so write "5 designers & engineers" when it shouldn't split. Tags without a colon stay chips. |
+| `href` | Turns the title into an outbound link (used for a secondary project on the same page; a second hero also gets its own rail entry). |
 
 ```jinja
 {{ cs.hero("Merch", "Crests, logos and goods for student organizations.", tags=["HPAIR", "CNN Olympics"]) }}
@@ -71,10 +78,12 @@ Frosted panel with a teal glow in the corner. It opens every case study.
 
 ## §2 Section
 
-The main reading unit: left-aligned text column, max 920px.
+The main reading unit: a numbered eyebrow, a big line, then prose (66ch max).
 
-- `heading`: teal `h2` (`--fs-3`). Keep it short: Context, Research, Ideation, My Contribution, Reflection.
-- `lead`: optional single bold line in `--text-primary` right under the heading. It's the takeaway, so write it as a sentence.
+- `heading`: the eyebrow ("01 · Context") and the section's rail entry. Keep it short: Context, Research, Ideation, My Contribution, Reflection. The number is added by the script.
+- `lead`: the big `h2` under the eyebrow (`--fs-heading`). It's the takeaway, so write it as a sentence. Without a lead, the heading itself becomes the big line.
+- `index`: a shorter rail label when the heading is long (`index="Iteration"`).
+- No heading: a continuation of the previous section, with no number or rail entry.
 - Body copy: `<p>` in `--text-secondary`. Lists are written as `<br>— item` lines or `1.` numbered lines inside a `<p>`.
 - A heading-only section (no body) works as a divider before a group of visuals.
 
@@ -162,10 +171,10 @@ A small image beside a text column, for "here's the artifact, here's what it mea
 
 ## §8 Callouts
 
-Teal-bordered box on a faint teal wash, for content that should be scannable rather than read.
+Hairline panel on the frosted `--glass` fill, for content that should be scannable rather than read.
 
-- **TL;DR / Goals / Principles:** title plus 3 bullets (each bullet one sentence). The title uses the BHN Cinema display face by default; `display=False` keeps it in Crimson for mid-page notes.
-- Max width 500px; `wide=True` for 920px.
+- **TL;DR / Goals / Principles:** a kicker title plus 3 points, numbered 01–03 in teal (each point one sentence). `display` is ignored now: BHN Cinema stays in the logo.
+- Panels fill the reading column (`wide` is kept for old calls).
 - `text=` for a single paragraph instead of bullets.
 - **Compare** (`cs.compare([...])`): two equal callouts side by side, such as "What we observed / What we changed" or "What wasn't working / What changed". Always two.
 
@@ -175,6 +184,14 @@ Teal-bordered box on a faint teal wash, for content that should be scannable rat
      {"title": "What we observed", "points": ["…", "…"]},
      {"title": "What we changed",  "points": ["…", "…"]},
    ]) }}
+```
+
+## Stats
+
+Results with hard numbers: a row of big figures, each over a hairline with an italic label. Up to four.
+
+```jinja
+{{ cs.stats([("200%", "higher social engagement"), ("2×", "applications, year over year")], title="Results") }}
 ```
 
 ## §9 Rollout grid
@@ -187,11 +204,11 @@ Phased cards (Phase 1/2/3) that read left to right. Use for feature roadmaps or 
 
 ## §10 Caption
 
-`cs.img_caption(text)`, or the `caption=` argument on figures, rows and mockups. A small secondary line under a visual. Write it as a sentence fragment that tells the reader what to notice ("Draft code → actual projection."), not a filename. Every multi-image row should have one.
+The `caption=` argument on figures, rows and mockups: a small italic line under the visual, numbered "Fig. 01, 02…" in teal. A bare `cs.img_caption(text)` is an unnumbered note (pass `fig=True` to number it). Write it as a sentence fragment that tells the reader what to notice ("Draft code → actual projection."), not a filename. Every multi-image row should have one.
 
 ## §11 Call to action
 
-Link out to a live prototype, repo or press. Lives inside a §2 section near the end. Label format: "Open the … →".
+Link out to a live prototype, repo or press: a hairline panel with the site's host as a kicker, the label, and ↗. Lives inside a §2 section near the end. Label format: "Open the …" (a trailing " →" is dropped).
 
 ```jinja
 {% call cs.section("Try It", lead="Explore the site") %}
@@ -202,7 +219,7 @@ Link out to a live prototype, repo or press. Lives inside a §2 section near the
 
 ## §12 Bespoke blocks
 
-Some pieces stay hand-written HTML inside the template: the 2ft **Interview Insights explorer** (persona tabs, theme chips, expandable cards, "so what" strip) and the afvs **p5.js sketch**. Wrap anything bespoke in `{% call cs.block() %}` so it fades in like everything else, and put its JS in `{% block case_scripts %}`.
+Some pieces stay hand-written HTML inside the template: the 2ft **Interview Insights explorer** (persona tabs, theme chips, expandable cards, "so what" strip) and the afvs **p5.js sketch**. Wrap anything bespoke in `{% call cs.block() %}` so it gets the same spacing as everything else, and put its JS in `{% block case_scripts %}`.
 
 ---
 
@@ -213,5 +230,6 @@ Some pieces stay hand-written HTML inside the template: the 2ft **Interview Insi
 3. **Colors come from `:root` tokens** in `ux.css` (`--accent`, `--text-primary/secondary/tertiary`, `--bg-panel`, `--highlight`). Add a token rather than a hex.
 4. **Every image gets real alt text** describing what's in it, not "Placeholder".
 5. **Captions under rows, leads under headings.** Readers skim; those two lines carry the story.
-6. **One accent.** Teal is for headings, borders and glow, never for body text.
+6. **One accent.** Teal marks numbers and the active rail dot, never headings or body text.
 7. **Bump `ASSET_VERSION`** in `app.py` after touching `ux.css` or the template.
+8. **No fades.** Blocks are simply there; hover is the 1px blur.

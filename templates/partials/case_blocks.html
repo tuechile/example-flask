@@ -2,15 +2,19 @@
     Case-study building blocks, one macro per layout in case-study-style-guide.md (§ numbers match).
     Import with: {% import "partials/case_blocks.html" as cs %}
     Text arguments may contain inline HTML (<em>, <strong>, <br>).
+
+    Every page reads the same way: hero (title, meta grid) → cover → overview → numbered sections.
+    Each section with a heading gets a number and an entry in the left rail (case_scripts.html);
+    chapters and any hero after the first get a rail entry too.
 #}
 
-{# §10 Caption #}
-{% macro img_caption(text) %}
-<p class="img-caption">{{ text|safe }}</p>
+{# §10 Caption. fig=True numbers it as a figure (rows and figures do this for you) #}
+{% macro img_caption(text, fig=False) %}
+<p class="img-caption{% if fig %} img-caption--fig{% endif %}">{{ text|safe }}</p>
 {% endmacro %}
 
 
-{# Narrow reading column for everything after the hero / preview / TL;DR #}
+{# Reading column for everything after the hero / cover / overview #}
 {% macro body() %}
 <div class="case-page">
     {{ caller() }}
@@ -18,83 +22,94 @@
 {% endmacro %}
 
 
-{# Generic fade-in block: a lone placeholder, or §12 bespoke HTML #}
+{# Generic block: a lone placeholder, or §12 bespoke HTML #}
 {% macro block() %}
-<div class="bio-container reveal">
+<div class="cs-block">
     {{ caller() }}
 </div>
 {% endmacro %}
 
 
-{# §1 Hero #}
+{# §1 Hero. Tags written "Label: value" become the meta grid (values split on " + " and " · ");
+   plain tags stay chips. meta is the date line on the right. #}
 {% macro hero(title, subtitle=None, tags=[], eyebrow=None, meta=None, href=None, subtitle_size="sm") %}
-<div class="bio-container reveal">
-    {% if href %}
-    <a class="case-hero case-hero--link" href="{{ href }}" target="_blank" rel="noopener noreferrer">
-    {% else %}
-    <div class="case-hero">
+{% set facts, chips = [], [] %}
+{% for tag in tags %}{% set _ = (facts if ": " in tag else chips).append(tag) %}{% endfor %}
+<header class="cs-hero" data-index="{{ title|striptags }}">
+    <div class="cs-hero-top">
+        <p class="cs-kicker">{{ (eyebrow or "Case study")|safe }}</p>
+        {% if meta %}<p class="cs-kicker cs-hero-date">{{ meta|safe }}</p>{% endif %}
+    </div>
+    <h1 class="case-title">
+        {% if href %}<a href="{{ href }}" target="_blank" rel="noopener noreferrer">{{ title|safe }} ↗</a>{% else %}{{ title|safe }}{% endif %}
+    </h1>
+    {% if subtitle %}<p class="cs-hero-sub">{{ subtitle|safe }}</p>{% endif %}
+    {% if chips %}
+    <div class="tag-row">
+        {% for tag in chips %}<span class="tag">{{ tag|safe }}</span>{% endfor %}
+    </div>
     {% endif %}
-        {% if eyebrow %}<p class="case-subtitle case-eyebrow">{{ eyebrow|safe }}</p>{% endif %}
-        <h1 class="case-title">{{ title|safe }}</h1>
-        {% if subtitle %}<p class="case-subtitle case-subtitle--{{ subtitle_size }}">{{ subtitle|safe }}</p>{% endif %}
-        {% if meta %}<p class="hero-meta">{{ meta|safe }}</p>{% endif %}
-        {% if tags %}
-        <div class="tag-row">
-            {% for tag in tags %}<div class="tag">{{ tag|safe }}</div>{% endfor %}
+    {% if facts %}
+    <dl class="cs-facts">
+        {% for fact in facts %}
+        {% set label, value = fact.split(": ", 1) %}
+        <div>
+            <dt>{{ label|safe }}</dt>
+            {% for line in value.replace(" · ", " + ").split(" + ") %}<dd>{{ line|safe }}</dd>{% endfor %}
         </div>
-        {% endif %}
-    {% if href %}</a>{% else %}</div>{% endif %}
-</div>
+        {% endfor %}
+    </dl>
+    {% endif %}
+</header>
 {% endmacro %}
 
 
-{# §2 Section — heading, optional bold lead line, body from the call block #}
-{% macro section(heading=None, lead=None) %}
-<div class="bio-container reveal">
-    <div class="bio-text bio-text--section">
-        {% if heading %}<h2>{{ heading|safe }}</h2>{% endif %}
-        {% if lead %}<p class="lead"><strong>{{ lead|safe }}</strong></p>{% endif %}
-        {% if caller %}{{ caller() }}{% endif %}
-    </div>
-</div>
+{# §2 Section — heading is the numbered eyebrow (and rail entry), lead is the big line under it.
+   index: a shorter rail label for long headings #}
+{% macro section(heading=None, lead=None, index=None) %}
+<section class="cs-section{% if not heading %} cs-section--cont{% endif %}"
+    {%- if heading %} data-index="{{ index or heading|striptags }}"{% endif %}>
+    {% if heading %}<p class="cs-eyebrow"><span class="cs-num"></span>{% if lead %}{{ heading|safe }}{% endif %}</p>{% endif %}
+    {% if lead or heading %}<h2 class="cs-heading">{{ (lead or heading)|safe }}</h2>{% endif %}
+    {% if caller %}<div class="cs-prose">{{ caller() }}</div>{% endif %}
+</section>
 {% endmacro %}
 
 
 {# §3 Chapter #}
 {% macro chapter(heading, theme=None, poem=None) %}
-<div class="bio-container reveal">
-    <div class="bio-text bio-text--center">
-        {% if theme %}<p>{{ theme|safe }}</p>{% endif %}
-        <h2>{{ heading|safe }}</h2>
-        {% if poem %}<p class="gradient-poem">{{ poem|safe }}</p>{% endif %}
-    </div>
+<div class="cs-block cs-chapter" data-index="{{ heading|striptags }}">
+    {% if theme %}<p class="cs-eyebrow">{{ theme|safe }}</p>{% endif %}
+    <h2 class="cs-heading">{{ heading|safe }}</h2>
+    {% if poem %}<p class="gradient-poem">{{ poem|safe }}</p>{% endif %}
 </div>
 {% endmacro %}
 
 
 {# §4 Figure — a single media card #}
-{% macro card(src, alt, size=None, zoom=True) %}
-<div class="media-card{% if size %} media-card--{{ size }}{% endif %}">
+{# ar: width / height, used by the "fit" row so every image shares one height #}
+{% macro card(src, alt, size=None, zoom=True, ar=None) %}
+<div class="media-card{% if size %} media-card--{{ size }}{% endif %}"{% if ar %} style="--ar: {{ ar }}"{% endif %}>
     <img{% if zoom %} class="lightboxable"{% endif %} src="{{ src }}" alt="{{ alt }}" loading="lazy" decoding="async">
 </div>
 {% endmacro %}
 
 {% macro figure(src, alt, size=None, caption=None, zoom=True) %}
-<div class="bio-container reveal">
+<figure class="cs-figure">
     {{ card(src, alt, size, zoom) }}
-</div>
-{% if caption %}{{ img_caption(caption) }}{% endif %}
+    {% if caption %}{{ img_caption(caption, fig=True) }}{% endif %}
+</figure>
 {% endmacro %}
 
 
-{# §5 Rows — layout: pair | equal | auto | 3 | quad; cells are card / video_card / placeholder #}
+{# §5 Rows — layout: pair | equal | auto | 3 | quad | fit (cards need ar); cells are card / video_card / placeholder #}
 {% macro row(layout="pair", caption=None) %}
-<div class="bio-container reveal">
+<figure class="cs-figure">
     <div class="split{% if layout != 'auto' %} split-{{ layout }}{% endif %}">
         {{ caller() }}
     </div>
-</div>
-{% if caption %}{{ img_caption(caption) }}{% endif %}
+    {% if caption %}{{ img_caption(caption, fig=True) }}{% endif %}
+</figure>
 {% endmacro %}
 
 {% macro video_card(src, types=["video/mp4"]) %}
@@ -112,23 +127,25 @@
 
 {# §6 Mockup strip — images: list of (src, alt) #}
 {% macro mockups(images, caption=None) %}
-<div class="case-mockups">
-    {% for src, alt in images %}
-    <img class="lightboxable" src="{{ src }}" alt="{{ alt }}">
-    {% endfor %}
-</div>
-{% if caption %}{{ img_caption(caption) }}{% endif %}
+<figure class="cs-figure">
+    <div class="case-mockups">
+        {% for src, alt in images %}
+        <img class="lightboxable" src="{{ src }}" alt="{{ alt }}" loading="lazy" decoding="async">
+        {% endfor %}
+    </div>
+    {% if caption %}{{ img_caption(caption, fig=True) }}{% endif %}
+</figure>
 {% endmacro %}
 
 
 {# §7 Media + text #}
 {% macro media_text(src, alt, heading=None, lead=None, size="sm", flow=False) %}
-<div class="bio-container reveal">
+<div class="cs-block">
     <div class="split{% if flow %} split-flow{% endif %}">
         {{ card(src, alt, size) }}
-        <div class="bio-text bio-text--section">
-            {% if heading %}<h2>{{ heading|safe }}</h2>{% endif %}
-            {% if lead %}<p class="lead"><strong>{{ lead|safe }}</strong></p>{% endif %}
+        <div class="cs-prose">
+            {% if heading %}<p class="cs-eyebrow">{{ heading|safe }}</p>{% endif %}
+            {% if lead %}<h3 class="cs-subheading">{{ lead|safe }}</h3>{% endif %}
             {{ caller() }}
         </div>
     </div>
@@ -136,24 +153,28 @@
 {% endmacro %}
 
 
-{# §8 Callouts #}
+{# §8 Callouts — a labelled panel; points become a numbered list. display is kept for old calls. #}
 {% macro callout_box(title, points=[], text=None, display=True, wide=False) %}
 <div class="callout{% if wide %} callout--wide{% endif %}">
-    <h3{% if display %} class="callout-title--display"{% endif %}>{{ title|safe }}</h3>
+    <h3 class="cs-label">{{ title|safe }}</h3>
     {% if text %}<p>{{ text|safe }}</p>{% endif %}
-    {% for point in points %}<p>• {{ point|safe }}</p>{% endfor %}
+    {% if points %}
+    <ol class="cs-points">
+        {% for point in points %}<li>{{ point|safe }}</li>{% endfor %}
+    </ol>
+    {% endif %}
 </div>
 {% endmacro %}
 
 {% macro callout(title, points=[], text=None, display=True, wide=False) %}
-<div class="bio-container reveal">
+<div class="cs-block">
     {{ callout_box(title, points, text, display, wide) }}
 </div>
 {% endmacro %}
 
 {# boxes: two dicts with title, points, and optional display #}
 {% macro compare(boxes) %}
-<div class="bio-container reveal">
+<div class="cs-block">
     <div class="split split-equal">
         {% for box in boxes %}
         {{ callout_box(box.title, box.points, display=box.get('display', True)) }}
@@ -163,9 +184,25 @@
 {% endmacro %}
 
 
+{# Stat row — items: list of (number, label) #}
+{% macro stats(items, title=None) %}
+<div class="cs-block">
+    {% if title %}<h3 class="cs-label">{{ title|safe }}</h3>{% endif %}
+    <dl class="cs-stats">
+        {% for number, label in items %}
+        <div>
+            <dt>{{ number|safe }}</dt>
+            <dd>{{ label|safe }}</dd>
+        </div>
+        {% endfor %}
+    </dl>
+</div>
+{% endmacro %}
+
+
 {# §9 Rollout grid — phases: list of (label, title, description) #}
 {% macro rollout(phases) %}
-<div class="bio-container reveal">
+<div class="cs-block">
     <div class="rollout-grid">
         {% for label, title, description in phases %}
         <div class="rollout-card">
@@ -178,7 +215,13 @@
 {% endmacro %}
 
 
-{# §11 Call to action (use inside a section) #}
+{# §11 Call to action (use inside a section) — a panel link with the destination's host #}
 {% macro cta(href, label) %}
-<a href="{{ href }}" target="_blank" rel="noopener" class="cta-button"><strong>{{ label|safe }}</strong></a>
+<a href="{{ href }}" target="_blank" rel="noopener" class="cta-button">
+    <span>
+        <span class="cs-label">{{ href.split('/')[2]|replace('www.', '') }}</span>
+        <span class="cta-title">{{ label|replace(' →', '')|safe }}</span>
+    </span>
+    <span class="cta-arrow" aria-hidden="true">↗</span>
+</a>
 {% endmacro %}

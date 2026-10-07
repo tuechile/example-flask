@@ -17,14 +17,32 @@
     <div class="progress-bar" id="progressBar"></div>
 </div>
 
-{% block case %}{% endblock %}
+<div class="cs-shell">
+    {# Section index: filled by case_scripts.html from every section with a heading #}
+    <aside class="cs-rail" aria-label="Sections">
+        {% if nav_section == "projects" %}
+        <a class="cs-back" href="/#portfolio">← Projects</a>
+        {% elif nav_section == "play" %}
+        <a class="cs-back" href="/personal">← Play</a>
+        {% else %}
+        <a class="cs-back" href="/collab">← Design</a>
+        {% endif %}
+        <p class="cs-kicker">Case study</p>
+        <p class="cs-rail-title" id="csRailTitle"></p>
+        <ol class="cs-index" id="csIndex"></ol>
+    </aside>
 
-{% if next_case %}
-<a class="next-case" href="{{ next_case.url }}">
-    <span class="next-case-label">Next project</span>
-    <span class="next-case-title">{{ next_case.title }} →</span>
-</a>
-{% endif %}
+    <article class="cs-main">
+        {% block case %}{% endblock %}
+
+        {% if next_case %}
+        <a class="next-case" href="{{ next_case.url }}">
+            <span class="cs-kicker">Next case study</span>
+            <span class="next-case-title">{{ next_case.title }} →</span>
+        </a>
+        {% endif %}
+    </article>
+</div>
 
 {% include "partials/case_scripts.html" %}
 {% block case_scripts %}{% endblock %}

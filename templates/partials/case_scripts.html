@@ -1,4 +1,4 @@
-<!-- Shared by the Design case studies: progress bar, scroll reveal, lightbox -->
+<!-- Shared by the Design case studies: progress bar, section rail, lightbox -->
 <div class="lightbox-overlay" id="lightbox">
     <div class="close-btn" id="lightboxClose">&times;</div>
     <img id="lightboxImg" src="" alt="Expanded image">
@@ -17,11 +17,30 @@
         onScroll();
     })();
 
+    // Left rail: number every headed section, list it, and mark the one being read
     (function () {
-        const obs = new IntersectionObserver((entries) => {
-            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("show"); });
-        }, { threshold: 0.12 });
-        document.querySelectorAll(".reveal").forEach(el => obs.observe(el));
+        const list = document.getElementById("csIndex");
+        const hero = document.querySelector(".cs-hero");
+        document.getElementById("csRailTitle").textContent = hero ? hero.dataset.index : "";
+        const sections = [...document.querySelectorAll("[data-index]")].filter(el => el !== hero);
+        const links = sections.map((sec, i) => {
+            const num = String(i + 1).padStart(2, "0");
+            sec.id = sec.id || sec.dataset.index.toLowerCase().replace(/&/g, "and").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+            const slot = sec.querySelector(".cs-num");
+            if (slot) slot.textContent = num;
+            const li = document.createElement("li");
+            li.innerHTML = `<a href="#${sec.id}"><span>${num}</span>${sec.dataset.index}</a>`;
+            list.appendChild(li);
+            return li.firstChild;
+        });
+        function onScroll() {
+            const line = window.innerHeight * 0.35;
+            let current = -1;
+            sections.forEach((sec, i) => { if (sec.getBoundingClientRect().top < line) current = i; });
+            links.forEach((a, i) => a.classList.toggle("is-current", i === current));
+        }
+        window.addEventListener("scroll", onScroll, { passive: true });
+        onScroll();
     })();
 
     (function () {

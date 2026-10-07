@@ -12,7 +12,6 @@
 }
 
 /* ===== Shared case-study page wrapper ===== */
-.case-page,
 .t4sg-page {
     width: min(860px, 92vw);
     margin: 0 auto;
@@ -57,8 +56,8 @@
 }
 
 .rollout-card {
-    border: 1px solid var(--accent);
-    background: rgba(28, 165, 145, 0.06);
+    border: 1px solid var(--hairline);
+    background: var(--glass);
     padding: var(--s-4) var(--s-5);
     text-align: left;
 }
@@ -120,6 +119,14 @@
     --fs-5: 2.2rem;
     /* hero title */
     --lh: 1.8;
+
+    /* Case-study system */
+    --fs-display: clamp(2.2rem, 4.6vw, 3.4rem);
+    --fs-heading: clamp(1.6rem, 3vw, 2.3rem);
+    --fs-kicker: 0.7rem;
+    --rail-w: 11rem;
+    --rail-dot: rgba(255, 255, 255, 0.22);
+    --rail-glow: rgba(28, 165, 145, 0.6);
 }
 
 /* ---------- Global accessibility + defaults ---------- */
@@ -240,89 +247,17 @@ html {
     transform: translateY(0px);
 }
 
-/* =========================================================
-   Case study hero + tags + callouts + media
-   ========================================================= */
-.case-hero {
-    width: 100%;
-    max-width: 920px;
-    margin: 0 auto;
-    padding: var(--s-6);
-    background:
-        radial-gradient(circle at 18% 20%, rgba(28, 165, 145, 0.18), transparent 42%),
-        radial-gradient(circle at 82% 10%, rgba(255, 255, 255, 0.07), transparent 40%),
-        rgba(0, 0, 0, 0.18);
-    backdrop-filter: blur(10px);
-    box-shadow: var(--shadow-soft);
-}
-
-.case-title {
-    font-family: var(--font-serif);
-    color: var(--text-primary);
-    margin: var(--s-1) 0;
-    letter-spacing: 0.3px;
-    font-size: var(--fs-5);
-    font-weight: 600;
-}
-
-.case-subtitle {
-    font-family: var(--font-serif);
-    color: var(--text-secondary);
-    margin: var(--s-2) 0 var(--s-4);
-    font-size: var(--fs-3);
-    line-height: var(--lh);
-}
-
-.tag-row {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: var(--s-2);
-    margin-top: var(--s-3);
-}
-
 .split {
     display: flex;
     gap: 32px;
     align-items: stretch;
 }
 
-.callout {
-    display: flex;
-    flex-direction: column;
-}
-
-.callout {
-    border: 1px solid var(--accent);
-    padding: var(--s-4) var(--s-5);
-    background: rgba(28, 165, 145, 0.06);
-    max-width: 500px;
-    margin: 0 auto;
-}
-
-.callout h3 {
-    margin: 0 0 var(--s-2) 0;
-    font-family: var(--font-serif);
-    color: var(--text-primary);
-    font-size: var(--fs-3);
-    font-weight: 600;
-    /* avoid italics-only meaning */
-}
-
-.callout p {
-    margin: var(--s-1) 0;
-    font-family: var(--font-serif);
-    color: var(--text-secondary);
-    font-size: var(--fs-2);
-    line-height: var(--lh);
-}
-
 .media-card {
     width: 100%;
-    max-width: 750px;
     margin: 0 auto;
     background: var(--bg-panel);
-    box-shadow: var(--shadow);
+    border: 1px solid var(--hairline);
     overflow: hidden;
 }
 
@@ -376,16 +311,6 @@ html {
     transform: translateY(-2px);
 }
 
-.img-caption {
-    font-family: var(--font-serif);
-    color: var(--text-secondary);
-    font-size: var(--fs-2);
-    line-height: 1.6;
-    max-width: 920px;
-    margin: var(--s-3) auto 0 auto;
-    opacity: 0.95;
-}
-
 /* Split layout */
 .split {
     width: 100%;
@@ -427,6 +352,20 @@ html {
     grid-template-columns: 1fr 1fr;
 }
 
+/* Justified row: each card's width follows its --ar (set via card(ar=...)),
+   so mixed portrait/landscape images line up at one height, uncropped. */
+.split.split-fit {
+    display: flex;
+    align-items: flex-start;
+}
+
+.split-fit>.media-card {
+    flex: var(--ar, 1) 1 0;
+    width: auto;
+    max-width: none;
+    margin: 0;
+}
+
 /* Three-up row: e.g. the three booth states */
 .split-3 {
     grid-template-columns: repeat(3, 1fr);
@@ -440,45 +379,6 @@ html {
     .split-quad {
         grid-template-columns: 1fr;
     }
-}
-
-/* =========================================================
-   Case-study template helpers (see case-study-style-guide.md)
-   ========================================================= */
-.case-hero--link {
-    display: block;
-    text-decoration: none;
-    color: inherit;
-}
-
-.case-eyebrow {
-    margin: 0;
-    font-size: var(--fs-1);
-}
-
-.case-subtitle--sm {
-    font-size: var(--fs-1);
-}
-
-.case-subtitle--md {
-    font-size: var(--fs-2);
-}
-
-.hero-meta {
-    font-family: var(--font-serif);
-    color: var(--text-secondary);
-    font-size: var(--fs-1);
-    margin-top: var(--s-2);
-}
-
-/* §2 Section: left-aligned reading column */
-.bio-text--section {
-    text-align: left;
-    max-width: 920px;
-}
-
-.bio-text .lead {
-    color: var(--text-primary);
 }
 
 /* §3 Chapter */
@@ -503,15 +403,6 @@ html {
     animation: gradientHover 2s infinite linear;
 }
 
-/* §8 Callouts */
-.callout-title--display {
-    font-family: 'BHN Cinema';
-}
-
-.callout.callout--wide {
-    max-width: 920px;
-}
-
 /* §11 Call to action */
 .cta-note {
     margin-top: var(--s-3);
@@ -520,7 +411,8 @@ html {
 }
 
 @media screen and (max-width: 480px) {
-    .split-pair {
+    .split-pair,
+    .split-fit {
         gap: var(--s-2);
     }
 }
@@ -1179,33 +1071,482 @@ html {
         margin-top: var(--s-2);
     }
 }
-/* ===== "Next project" at the end of every case study ===== */
-.next-case {
-    display: block;
-    width: min(860px, 92vw);
-    margin: var(--s-7) auto 0;
-    padding: var(--s-6) 1.25rem;
-    border-top: 1px solid var(--hairline);
-    text-align: right;
-    text-decoration: none;
+
+
+/* =========================================================
+   Case-study system: rail + hero + numbered sections
+   Every case study reads the same way: a sticky section index on the left,
+   then hero → meta grid → cover → overview → numbered sections → next case.
+   ========================================================= */
+.cs-shell {
+    display: grid;
+    grid-template-columns: var(--rail-w) minmax(0, 1fr);
+    gap: clamp(2rem, 5vw, 5rem);
+    max-width: 75rem;
+    margin: 0 auto;
+    padding: var(--s-7) clamp(1rem, 4vw, 3rem) 0;
     font-family: var(--font-serif);
+}
+
+.cs-main {
+    min-width: 0;
+    max-width: 52rem;
+    counter-reset: fig;
+}
+
+/* Small uppercase label used for kickers, eyebrows, meta labels and panel titles */
+.cs-kicker,
+.cs-eyebrow,
+.cs-label,
+.cs-facts dt {
+    font-family: var(--font-serif);
+    font-size: var(--fs-kicker);
+    font-weight: 400;
+    font-style: normal;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--text-tertiary);
+    margin: 0;
+}
+
+/* ----- Rail ----- */
+.cs-rail {
+    position: sticky;
+    top: 6rem;
+    align-self: start;
+    max-height: calc(100vh - 7rem);
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+
+.cs-back {
+    display: inline-block;
+    margin-bottom: var(--s-6);
+    font-size: var(--fs-1);
+    font-style: italic;
+    color: var(--text-tertiary);
+    text-decoration: none;
     transition: filter var(--dur-1) var(--ease-out);
 }
 
-.next-case:hover,
-.next-case:focus-visible {
+.cs-rail-title {
+    margin: var(--s-1) 0 var(--s-6);
+    font-size: 1.05rem;
+    line-height: 1.35;
+    color: var(--text-primary);
+}
+
+.cs-index {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-left: 1px solid var(--hairline);
+}
+
+.cs-index a {
+    position: relative;
+    display: flex;
+    gap: var(--s-3);
+    padding: 0.4rem 0 0.4rem var(--s-4);
+    font-size: var(--fs-kicker);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    line-height: 1.5;
+    color: var(--text-tertiary);
+    text-decoration: none;
+    transition: filter var(--dur-1) var(--ease-out);
+}
+
+.cs-index a span {
+    opacity: 0.6;
+}
+
+.cs-index a::before {
+    content: "";
+    position: absolute;
+    left: -3.5px;
+    top: 0.85rem;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--rail-dot);
+}
+
+.cs-index a.is-current {
+    color: var(--text-primary);
+}
+
+.cs-index a.is-current span {
+    color: var(--accent);
+    opacity: 1;
+}
+
+.cs-index a.is-current::before {
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--rail-glow);
+}
+
+.cs-back:hover,
+.cs-index a:hover,
+.case-title a:hover,
+.cta-button:hover,
+.next-case:hover {
     filter: blur(1px);
 }
 
-.next-case-label {
-    display: block;
+/* ----- Hero ----- */
+.cs-hero {
+    padding-bottom: var(--s-7);
+    margin-bottom: var(--s-6);
+    border-bottom: 1px solid var(--hairline);
+}
+
+.cs-hero-top {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--s-4);
+}
+
+.case-title {
+    margin: var(--s-4) 0 var(--s-4);
+    font-family: var(--font-serif);
+    font-size: var(--fs-display);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    color: var(--text-primary);
+    text-wrap: balance;
+}
+
+.case-title a {
+    color: inherit;
+    text-decoration: none;
+    transition: filter var(--dur-1) var(--ease-out);
+}
+
+.cs-hero-sub {
+    max-width: 44ch;
+    margin: 0;
+    font-size: 1.25rem;
     font-style: italic;
-    font-size: var(--fs-1);
+    line-height: 1.6;
+    color: var(--text-secondary);
+}
+
+.cs-hero .tag-row {
+    justify-content: flex-start;
+    margin-top: var(--s-5);
+}
+
+.cs-hero .tag {
+    white-space: normal;
+}
+
+/* A second hero on the same page (afvs) starts a new part */
+.case-page ~ .cs-hero {
+    margin-top: 8rem;
+    padding-top: var(--s-7);
+    border-top: 1px solid var(--hairline);
+}
+
+.cs-hero,
+.cs-chapter {
+    scroll-margin-top: 6rem;
+}
+
+.cs-facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+    gap: var(--s-5) var(--s-6);
+    margin: var(--s-7) 0 0;
+}
+
+.cs-facts dt {
+    margin-bottom: var(--s-2);
+}
+
+.cs-facts dd {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: var(--text-primary);
+}
+
+/* ----- Sections ----- */
+.case-page {
+    width: auto;
+    margin: 0;
+    padding: 0;
+}
+
+.cs-section {
+    margin-top: 7rem;
+    scroll-margin-top: 6rem;
+}
+
+.cs-section--cont {
+    margin-top: var(--s-6);
+}
+
+.cs-eyebrow {
+    display: flex;
+    gap: var(--s-3);
+    margin-bottom: var(--s-4);
+}
+
+.cs-num {
+    color: var(--accent);
+}
+
+.cs-heading {
+    max-width: 26ch;
+    margin: 0 0 var(--s-5);
+    font-family: var(--font-serif);
+    font-size: var(--fs-heading);
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--text-primary);
+    text-wrap: balance;
+}
+
+.cs-subheading {
+    margin: var(--s-2) 0 var(--s-4);
+    font-family: var(--font-serif);
+    font-size: 1.3rem;
+    font-weight: 400;
+    line-height: 1.35;
+    color: var(--text-primary);
+}
+
+.cs-prose {
+    text-align: left;
+}
+
+.cs-prose p,
+.cs-prose li {
+    max-width: 66ch;
+    margin: 0 0 var(--s-4);
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    line-height: var(--lh);
+    color: var(--text-secondary);
+}
+
+.cs-prose strong {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.cs-prose h2,
+.cs-prose h3 {
+    margin: var(--s-6) 0 var(--s-3);
+    font-family: var(--font-serif);
+    font-size: 1.3rem;
+    font-weight: 400;
+    color: var(--text-primary);
+}
+
+.cs-prose a:not(.cta-button) {
+    color: var(--text-primary);
+    text-decoration: underline;
+    text-decoration-color: var(--hairline-strong);
+    text-underline-offset: 3px;
+}
+
+.cs-chapter {
+    text-align: center;
+}
+
+.cs-chapter .cs-heading {
+    margin-inline: auto;
+}
+
+/* ----- Figures ----- */
+.cs-figure,
+.cs-block {
+    margin: var(--s-6) 0;
+}
+
+.img-caption {
+    max-width: 66ch;
+    margin: var(--s-3) 0 0;
+    font-family: var(--font-serif);
+    font-size: 0.9rem;
+    font-style: italic;
+    line-height: 1.6;
     color: var(--text-tertiary);
+    text-align: left;
+}
+
+.img-caption--fig::before {
+    counter-increment: fig;
+    content: "Fig. " counter(fig, decimal-leading-zero);
+    margin-right: var(--s-3);
+    font-size: var(--fs-kicker);
+    font-style: normal;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--accent);
+}
+
+/* ----- Panels: overview, results, comparisons ----- */
+.callout {
+    display: flex;
+    flex-direction: column;
+    padding: var(--s-5) var(--s-6);
+    border: 1px solid var(--hairline);
+    background: var(--glass);
+    text-align: left;
+}
+
+.callout .cs-label {
+    margin-bottom: var(--s-4);
+}
+
+.callout p {
+    margin: var(--s-1) 0;
+    font-family: var(--font-serif);
+    font-size: var(--fs-2);
+    line-height: var(--lh);
+    color: var(--text-secondary);
+}
+
+.cs-points {
+    display: grid;
+    gap: var(--s-3);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: point;
+}
+
+.cs-points li {
+    display: grid;
+    grid-template-columns: 2.25rem 1fr;
+    font-family: var(--font-serif);
+    font-size: var(--fs-2);
+    line-height: 1.7;
+    color: var(--text-secondary);
+    counter-increment: point;
+}
+
+.cs-points li::before {
+    content: counter(point, decimal-leading-zero);
+    padding-top: 0.3rem;
+    font-size: var(--fs-kicker);
+    letter-spacing: 0.12em;
+    color: var(--accent);
+}
+
+.cs-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
+    gap: var(--s-5);
+    margin: var(--s-4) 0 0;
+}
+
+.cs-stats div {
+    padding-top: var(--s-4);
+    border-top: 1px solid var(--hairline);
+}
+
+.cs-stats dt {
+    font-size: clamp(2.2rem, 4vw, 3rem);
+    line-height: 1;
+    color: var(--text-primary);
+}
+
+.cs-stats dd {
+    margin: var(--s-3) 0 0;
+    font-size: 0.95rem;
+    font-style: italic;
+    line-height: 1.5;
+    color: var(--text-tertiary);
+}
+
+/* ----- Call to action: a panel link ----- */
+.cta-button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-4);
+    max-width: 66ch;
+    margin: var(--s-5) 0;
+    padding: var(--s-4) var(--s-5);
+    border: 1px solid var(--hairline);
+    background: var(--glass);
+    text-decoration: none;
+    transition: filter var(--dur-1) var(--ease-out);
+}
+
+.cta-button .cs-label {
+    display: block;
+    margin-bottom: var(--s-1);
+}
+
+.cta-title {
+    display: block;
+    font-size: 1.1rem;
+    color: var(--text-primary);
+}
+
+.cta-arrow {
+    font-size: 1.3rem;
+    color: var(--text-secondary);
+}
+
+/* ----- Next case study ----- */
+.next-case {
+    display: block;
+    margin: 8rem 0 0;
+    padding: var(--s-6) 0 var(--s-7);
+    border-top: 1px solid var(--hairline);
+    text-decoration: none;
+    transition: filter var(--dur-1) var(--ease-out);
 }
 
 .next-case-title {
     display: block;
-    font-size: var(--fs-3);
+    margin-top: var(--s-3);
+    font-size: var(--fs-heading);
+    line-height: 1.2;
     color: var(--text-primary);
+}
+
+/* No rail on narrow screens: the progress bar still shows how far along you are */
+@media screen and (max-width: 1000px) {
+    .cs-shell {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .cs-rail {
+        display: none;
+    }
+
+    .cs-main {
+        max-width: none;
+    }
+}
+
+@media screen and (max-width: 666px) {
+    .cs-shell {
+        padding: var(--s-6) var(--s-4) 0;
+    }
+
+    .cs-section {
+        margin-top: 4.5rem;
+    }
+
+    .cs-facts {
+        grid-template-columns: 1fr 1fr;
+        margin-top: var(--s-6);
+    }
+
+    .callout {
+        padding: var(--s-4);
+    }
+
+    .cs-hero-sub {
+        font-size: 1.1rem;
+    }
 }

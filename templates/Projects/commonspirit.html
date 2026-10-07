@@ -70,7 +70,9 @@
         brand palette instead of a generic dashboard theme, so the tool would read as unmistakably
         "CommonSpirit" to the staff and board members using it.
     </p>
-    <h2>My contribution</h2>
+    {% endcall %}
+
+    {% call cs.section("My Contribution", lead="System design and the Account / Settings flow") %}
     <p>
         My part of this was the system design and the Account/Settings experience shown below. The legacy
         settings page was a single dark-mode screen with a username, email, and bio field. I rebuilt it
