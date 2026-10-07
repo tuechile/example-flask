@@ -45,6 +45,19 @@
     min-width: 0;
 }
 
+/* Case-study images have no frame, so their edges feather into the black */
+.media-card img,
+.case-mockups .lightboxable,
+.t4sg-mockups .lightboxable,
+.bio-image,
+.bio-container img,
+.gif-image {
+    -webkit-mask-image: var(--feather-mask);
+    -webkit-mask-composite: source-in;
+    mask-image: var(--feather-mask);
+    mask-composite: intersect;
+}
+
 /* Feature rollout cubicles */
 .rollout-grid {
     width: 100%;
@@ -330,8 +343,6 @@ html {
     width: 100%;
     display: block;
     filter: grayscale(18%);
-    outline: 1px solid rgba(255, 255, 255, 0.08);
-    /* non-hover cue */
     transition: filter var(--dur-1) var(--ease-out), transform var(--dur-1) var(--ease-out);
 }
 
@@ -370,7 +381,6 @@ html {
 .lightboxable {
     cursor: zoom-in;
     filter: grayscale(18%);
-    outline: 1px solid rgba(255, 255, 255, 0.08);
     transition: filter var(--dur-1) var(--ease-out), transform var(--dur-1) var(--ease-out), box-shadow var(--dur-1) var(--ease-out);
 }
 

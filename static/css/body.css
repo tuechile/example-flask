@@ -752,6 +752,17 @@
     transition: transform var(--dur-2) var(--ease-out), width var(--dur-2) var(--ease-out);
 }
 
+/* Unframed images (galleries, bio, GIFs) get feathered edges; framed ones (.media-card, cards, pop-ups) stay crisp */
+.item img,
+.bio-image,
+.bio-container img,
+.gif-image {
+    -webkit-mask-image: var(--feather-mask);
+    -webkit-mask-composite: source-in;
+    mask-image: var(--feather-mask);
+    mask-composite: intersect;
+}
+
 /* Design page: project-style cards stacked in one column */
 .design-list {
     display: flex;
@@ -765,6 +776,11 @@
 .project-thumb-img--cover {
     aspect-ratio: 16 / 9;
     object-fit: cover;
+}
+
+/* Wide banners: shift the crop right so the title and the tower both stay in frame */
+.project-thumb-img--focus-right {
+    object-position: 55% center;
 }
 
 /* Gallery variant: keep each image's own aspect ratio instead of cropping */

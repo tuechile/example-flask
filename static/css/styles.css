@@ -19,6 +19,12 @@
     --dur-3: 450ms;
     --press: scale(0.97);
 
+    /* Soft edges for unframed images: the picture dissolves into the black instead of ending on a hard line */
+    --feather: 28px;
+    --feather-mask:
+        linear-gradient(to right, transparent, #000 var(--feather), #000 calc(100% - var(--feather)), transparent),
+        linear-gradient(to bottom, transparent, #000 var(--feather), #000 calc(100% - var(--feather)), transparent);
+
     /* Radii: images, panels, pills */
     --r-sm: 10px;
     --r-lg: 20px;
@@ -418,23 +424,9 @@ footer {
     background-position: center;
 }
 
-/* Finder: a hairline pill hugs the text line while typing (appears instantly) */
-.finder-form {
-    position: relative;
-}
-
-.finder-form:focus-within::before {
-    content: "";
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: min(90%, 900px);
-    height: 1.35em;
-    font-size: 7rem;
-    transform: translate(-50%, -50%);
-    border: 1px solid var(--hairline-strong);
-    border-radius: var(--r-pill);
-    pointer-events: none;
+/* Finder: no focus ring; the blinking caret is enough */
+#newtodo:focus-visible {
+    outline: none;
 }
 
 /* ========================================= General actions ========================================= */
@@ -517,9 +509,6 @@ footer {
 
     }
 
-    .finder-form:focus-within::before {
-        font-size: 5rem;
-    }
 
     #video-container {
         padding-bottom: 10%;
@@ -560,10 +549,6 @@ footer {
         background-image: url(/static/asset/images/other/homebackground.jpg);
     }
 
-    .finder-form:focus-within::before {
-        font-size: 3rem;
-        width: 94%;
-    }
 
     footer {
         font-size: 0.8rem;
