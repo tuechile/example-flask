@@ -782,11 +782,7 @@ a.ext::after,
     margin-left: 0.15em;
 }
 
-/* Icon links: tuck the arrow into the icon's top-right corner */
+/* Logo icons already read as links out; no arrow on them */
 a.ext:has(.contact-logo)::after {
-    position: absolute;
-    top: -0.35rem;
-    right: 0.1rem;
-    font-size: 0.6rem;
-    margin: 0;
+    content: none;
 }
