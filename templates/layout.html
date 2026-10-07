@@ -46,11 +46,10 @@
         // Pages with a single picture feather its edges into the black; anything busier stays crisp
         if (document.querySelectorAll("main img:not(.contact-logo)").length < 2) document.body.classList.add("one-pic");
     </script>
-    <footer>
+    <footer class="site-footer">
         {% block footer %}
         {% endblock %}
-        <p></p>
-        Chi (Tue) Le | pirenily | Updated {{ last_updated }}
+        <span>Chi (Tue) Le | pirenily | Updated {{ last_updated }}</span>
     </footer>
 
     <script src="{{ url_for('static', filename='loading.js') }}?v={{ asset_v }}">

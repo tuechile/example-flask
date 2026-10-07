@@ -91,14 +91,6 @@
     </div>
     <div class="bio-text">
         <p class="bio-lead">I am a designer and an engineer and I love to make curious-y thing.</p>
-        <figure class="travel-globe">
-            <canvas id="globe" aria-label="Rotating globe of places I've been and want to go"></canvas>
-            <figcaption>
-                <p class="globe-place" id="globe-place"></p>
-                <p class="globe-count" id="globe-count"></p>
-                <p class="globe-legend"><i></i>been<i class="wish"></i>someday</p>
-            </figcaption>
-        </figure>
         <p>
             I am currently a junior at Harvard College, concentrating in <a class="ext" href="https://seas.harvard.edu/computer-science" target="_blank" rel="noopener">Computer Science</a>
             and <a class="ext" href="https://afvs.fas.harvard.edu/" target="_blank" rel="noopener">Art, Film, and Visual Studies</a> with a secondary in <a class="ext" href="https://www.math.harvard.edu/" target="_blank" rel="noopener">Mathematics</a>.
@@ -115,21 +107,31 @@
             Every form of visual presentation on this website is mainly experimented, taken, edited, scripted, and modeled by me.
         </p>
     </div>
-    <!-- Pictures on the right side -->
-    <div class="image-container">
-        <div class="image" data-src="{{ img('about', 'declare.jpg') }}"></div>
-        <div class="image" data-src="{{ img('about', 'light.jpg') }}"></div>
-        <div class="image" data-src="{{ img('about', 'blackswan.jpg') }}"></div>
-        <div class="image" data-src="{{ img('about', 'salzburg.jpg') }}"></div>
-        <div class="image" data-src="{{ img('about', 'bridge.jpg') }}"></div>
-        <div class="image" data-src="{{ img('about', 'story.jpg') }}"></div>
-        <div class="image" data-src="{{ img('about', 'wow.jpg') }}"></div>
-        <div class="image" data-src="{{ img('about', 'ava.jpg') }}"></div>
-        <div class="image" data-src="{{ img('about', 'non.jpg') }}"></div>
-        <div class="image" data-src="{{ img('about', 'windmill.jpg') }}"></div>
-        <div class="image" data-src="{{ img('about', 'pose.jpg') }}"></div>
-        <div class="image" data-src="{{ img('about', 'beach.jpg') }}"></div>
-        <div class="image" data-src="{{ img('about', 'cong.jpg') }}"></div>
+    <!-- Globe on the right side, with the pictures popping over it -->
+    <div class="globe-stage">
+        <figure class="travel-globe">
+            <canvas id="globe" aria-label="Rotating globe of places I've been and want to go"></canvas>
+            <figcaption>
+                <p class="globe-place" id="globe-place"></p>
+                <p class="globe-count" id="globe-count"></p>
+                <p class="globe-legend"><i></i>been<i class="wish"></i>someday</p>
+            </figcaption>
+        </figure>
+        <div class="image-container">
+            <div class="image" data-src="{{ img('about', 'declare.jpg') }}"></div>
+            <div class="image" data-src="{{ img('about', 'light.jpg') }}"></div>
+            <div class="image" data-src="{{ img('about', 'blackswan.jpg') }}"></div>
+            <div class="image" data-src="{{ img('about', 'salzburg.jpg') }}"></div>
+            <div class="image" data-src="{{ img('about', 'bridge.jpg') }}"></div>
+            <div class="image" data-src="{{ img('about', 'story.jpg') }}"></div>
+            <div class="image" data-src="{{ img('about', 'wow.jpg') }}"></div>
+            <div class="image" data-src="{{ img('about', 'ava.jpg') }}"></div>
+            <div class="image" data-src="{{ img('about', 'non.jpg') }}"></div>
+            <div class="image" data-src="{{ img('about', 'windmill.jpg') }}"></div>
+            <div class="image" data-src="{{ img('about', 'pose.jpg') }}"></div>
+            <div class="image" data-src="{{ img('about', 'beach.jpg') }}"></div>
+            <div class="image" data-src="{{ img('about', 'cong.jpg') }}"></div>
+        </div>
     </div>
 
 
@@ -242,6 +244,7 @@
 
         function draw() {
             const R = size / 2 - 6, c = size / 2;
+            const k = Math.max(1, R / 140); // dots grow with the globe
             ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
             ctx.clearRect(0, 0, size, size);
 
@@ -255,7 +258,7 @@
                 const front = new Path2D(), back = new Path2D();
                 for (let j = 0; j < land.length; j += 3) {
                     const [x, y, z] = project(land[j], land[j + 1], land[j + 2], R);
-                    const r = z > 0 ? 0.5 + 0.5 * z : 0.6;
+                    const r = (z > 0 ? 0.5 + 0.5 * z : 0.6) * k;
                     const path = z > 0 ? front : back;
                     path.moveTo(c + x + r, c + y);
                     path.arc(c + x, c + y, r, 0, Math.PI * 2);
@@ -270,13 +273,13 @@
                 const [x, y, z] = project(m.sin, m.cos, m.lam, R);
                 m.x = c + x; m.y = c + y; m.z = z;
                 if (z <= 0) continue;
-                const big = m === hover ? 1.7 : 1;
+                const big = (m === hover ? 1.7 : 1) * k;
                 ctx.beginPath();
                 if (m.been) {
                     ctx.arc(m.x, m.y, 2 * big, 0, Math.PI * 2);
                     ctx.fillStyle = C.accent;
                     ctx.shadowColor = C.accent;
-                    ctx.shadowBlur = 8;
+                    ctx.shadowBlur = 8 * k;
                     ctx.fill();
                     ctx.shadowBlur = 0;
                 } else {
