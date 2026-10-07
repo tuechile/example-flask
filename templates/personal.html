@@ -5,66 +5,12 @@
 {% block extra_css %}
 <link href="/static/css/body.css?v={{ asset_v }}" rel="stylesheet">
 <style>
-  /* ========= FILTER BAR (multi-select, no reflow) ========= */
-  .filter-pill {
-    /* kill default button look */
-    appearance: none;
-    -webkit-appearance: none;
-
-    background: transparent !important;
-    border: none !important;
-
-    /* keep your typography + spacing */
-    font-family: "Crimson Text", serif;
-    font-weight: 600;
-    font-size: 16px;
-    color: #fff;
-    cursor: pointer;
-    padding: 10px 14px;
-
-    /* optional: remove your old drop shadow if you want it flat */
-    box-shadow: none !important;
-  }
-
+  /* ========= FILTER BAR (multi-select, no reflow) =========
+     Same capsule as the Design page's Selected / All toggle (body.css) */
   .filters {
     max-width: 1100px;
     margin: 0 auto 48px;
     padding: 0 12px;
-  }
-
-  .filters__row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
-    margin-bottom: 10px;
-  }
-
-  .filter-pill {
-    font-family: "Crimson Text", sans-serif;
-    font-weight: 600;
-    font-size: 16px;
-    color: #fff;
-    cursor: pointer;
-
-    padding: 10px 14px;
-
-    box-shadow: 0 10px 30px rgba(0, 0, 0, .25);
-
-    transition: background .2s ease, border-color .2s ease, transform .06s ease;
-  }
-
-  .filter-pill:hover,
-  .filter-pill:focus-visible {
-    filter: blur(1px);
-    outline: none;
-  }
-
-  .filter-pill.is-active {
-    color: var(--accent);
-    box-shadow:
-      0 10px 30px rgba(0, 0, 0, .25),
-      0 10px 30px 1px rgba(28, 165, 145, 0.14);
   }
 
   /* ========= GRID (same as yours) ========= */
@@ -83,11 +29,6 @@
   @media (max-width: 600px) {
     .card-grid {
       grid-template-columns: 1fr;
-    }
-
-    .filter-pill {
-      font-size: 15px;
-      padding: 10px 12px;
     }
   }
 
@@ -145,12 +86,12 @@
 
 <section class="filters" aria-label="Personal work filters">
   <!-- Multi-select filter pills -->
-  <div class="filters__row" role="group" aria-label="Category filter">
+  <div class="view-toggle" id="filterToggle" role="group" aria-label="Category filter">
     <!-- "All" resets selections -->
-    <button class="filter-pill is-active" type="button" data-filter="all" aria-pressed="true">All</button>
-    <button class="filter-pill" type="button" data-filter="art" aria-pressed="false">Art</button>
-    <button class="filter-pill" type="button" data-filter="interactivity" aria-pressed="false">Interactivity</button>
-    <button class="filter-pill" type="button" data-filter="essays" aria-pressed="false">Essays</button>
+    <button class="view-btn filter-pill active" type="button" data-filter="all" aria-pressed="true">All</button>
+    <button class="view-btn filter-pill" type="button" data-filter="art" aria-pressed="false">Art</button>
+    <button class="view-btn filter-pill" type="button" data-filter="interactivity" aria-pressed="false">Interactivity</button>
+    <button class="view-btn filter-pill" type="button" data-filter="essays" aria-pressed="false">Essays</button>
   </div>
   <div style="padding:2vh"> </div>
 
@@ -224,8 +165,44 @@
     const selected = new Set();
 
     function setPillState(pill, on) {
-      pill.classList.toggle('is-active', on);
+      pill.classList.toggle('active', on);
       pill.setAttribute('aria-pressed', String(on));
+    }
+
+    // Highlight pills: one per run of neighboring active buttons, so neighbors merge
+    // into a single long pill and separated picks get their own. Pills stretch and
+    // slide between states; extra ones vanish instantly (no fades).
+    const toggle = document.getElementById('filterToggle');
+    const pool = [];
+    toggle.classList.add('has-pill');
+
+    function placePills(animate) {
+      const runs = [];
+      let run = null;
+      pills.forEach(p => {
+        if (p.classList.contains('active')) {
+          if (run) run.last = p;
+          else runs.push(run = { first: p, last: p });
+        } else {
+          run = null;
+        }
+      });
+
+      runs.forEach((r, i) => {
+        let el = pool[i];
+        const fresh = !el;
+        if (fresh) {
+          el = pool[i] = document.createElement('span');
+          el.className = 'view-pill';
+          toggle.appendChild(el);
+        }
+        if (!animate || fresh) el.style.transition = 'none';
+        el.style.width = (r.last.offsetLeft + r.last.offsetWidth - r.first.offsetLeft) + 'px';
+        el.style.transform = 'translateX(' + r.first.offsetLeft + 'px)';
+        if (!animate || fresh) { el.offsetWidth; el.style.transition = ''; }
+      });
+
+      pool.splice(runs.length).forEach(el => el.remove());
     }
 
     function syncPills() {
@@ -239,6 +216,8 @@
         if (f === 'all') return;
         setPillState(p, selected.has(f));
       });
+
+      placePills(true);
     }
 
     function applyFilter() {
@@ -308,6 +287,9 @@
 
     syncPills();
     applyFilter();
+    placePills(false);
+    document.fonts.ready.then(() => placePills(false));
+    window.addEventListener('resize', () => placePills(false));
   });
 </script>
 <script src="/static/popups.js?v={{ asset_v }}"></script>

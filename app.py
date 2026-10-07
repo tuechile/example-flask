@@ -33,7 +33,7 @@ IMAGE_FOLDERS = {
 
 # Cache-busting version appended to local CSS/JS URLs (?v=...).
 # Bump on every change so browsers fetch fresh assets.
-ASSET_VERSION = "17"
+ASSET_VERSION = "20"
 
 GALLERY_IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".gif", ".webp"}
 
@@ -138,7 +138,7 @@ SEARCH_INDEX = [
                      "arduino", "neural reconstruction", "handwritten curves", "handwriting", "machine learning"]),
     ("/hackharvard", ["hackharvard", "hack harvard", "hackharvard 2026", "hack to the moon", "hackathon",
                       "harvard hackathon", "hhuh", "director of design"]),
-    ("/merch", ["merch", "merchandise", "hpair", "hconf", "aconf", "hudc", "tote", "tote bag", "crest", "notebook",
+    ("/merch", ["merch", "merchandise", "hpair", "hconf", "aconf", "hudc", "the game", "harvard yale", "tote", "tote bag", "crest", "notebook",
                 "stickers", "sticker", "pin", "t shirt", "shirt"]),
     ("/olympics", ["olympics", "cnn olympics", "olympic", "hoi thao", "cnn hoi thao", "team logos"]),
     ("/recit", ["recit", "recit film studio", "film studio", "hanoi"]),

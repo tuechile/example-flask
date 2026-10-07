@@ -356,35 +356,6 @@ a.project-thumb:hover{
     filter: blur(1px);
 }
 
-/* Current section without JS: a teal hairline under the label */
-.nav-item[aria-current="page"] {
-    text-decoration: underline;
-    text-decoration-color: var(--accent);
-    text-decoration-thickness: 1px;
-    text-underline-offset: 6px;
-}
-
-/* With JS (nav.js): one hairline that slides to whichever item is hovered */
-.has-indicator .nav-item[aria-current="page"] {
-    text-decoration: none;
-}
-
-.nav-indicator {
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 1px;
-    width: 0;
-    background: var(--accent);
-    pointer-events: none;
-    visibility: hidden;
-    transition: transform var(--dur-2) var(--ease-out), width var(--dur-2) var(--ease-out);
-}
-
-.nav-indicator.on {
-    visibility: visible;
-}
-
 .nav-header {
     padding: 1rem;
     font-family: 'BHN Cinema';

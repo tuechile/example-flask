@@ -43,10 +43,13 @@
 {% endcall %}
 
 {# ===== HUDC ===== #}
-{{ cs.section("HUDC") }}
+{% call cs.section("HUDC") %}
+<p>A shirt for The Game 2024, Harvard vs. Yale, on Saturday, November 23.</p>
+{% endcall %}
 
 {% call cs.block() %}
-    {{ cs.placeholder() }}
+    {{ cs.card(img('design', 'merch/hudc-the-game-shirt.webp'), "Black tee for The Game 2024: a glowing Harvard player over rows of blue Yale runners, with flaming Harvard and Yale wordmarks", size="md") }}
 {% endcall %}
+{{ cs.img_caption("The Game 2024 shirt.") }}
 
 {% endblock %}
