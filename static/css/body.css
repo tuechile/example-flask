@@ -52,7 +52,7 @@
     margin: 0 auto;
     padding: 2rem;
     border: 1px solid var(--border);
-    border-radius: 18px;
+    border-radius: var(--r-lg);
     background:
         radial-gradient(circle at 18% 20%, rgba(28, 165, 145, 0.18), transparent 42%),
         radial-gradient(circle at 82% 10%, rgba(255, 255, 255, 0.07), transparent 40%),
@@ -84,28 +84,9 @@
     margin-top: 0.75rem;
 }
 
-.tag {
-    font-family: "Crimson Text", serif;
-    font-size: 0.8rem;
-    color: #ddd;
-    border: 1px solid var(--border);
-    padding: 0.35rem 0.6rem;
-    border-radius: 999px;
-    background: var(--panel);
-    opacity: 0.95;
-    user-select: none;
-}
-
-.tag:hover {
-    box-shadow: -0.25rem 0.25rem 0.5rem 0.05rem var(--accent);
-    border-color: rgba(28, 165, 145, 0.5);
-    transform: translateY(-1px);
-    transition: 0.2s ease;
-}
-
 .callout {
     border: 1px dashed rgba(28, 165, 145, 0.55);
-    border-radius: 18px;
+    border-radius: var(--r-lg);
     padding: 1rem 1.25rem;
     background: rgba(28, 165, 145, 0.06);
     max-width: 920px;
@@ -131,7 +112,7 @@
 .media-card {
     width: min(900px, 85vw);
     margin: 0 auto;
-    border-radius: 16px;
+    border-radius: var(--r-lg);
     border: 1px solid var(--border);
     background: var(--panel);
     box-shadow: 0 10px 22px rgba(0, 0, 0, 0.25);
@@ -139,10 +120,10 @@
 
 .media-card img {
     width: 100%;
-    border-radius: 12px;
+    border-radius: var(--r-sm);
     display: block;
     filter: grayscale(20%);
-    transition: filter 0.25s ease, transform 0.25s ease;
+    transition: filter var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-out);
 }
 
 .media-card:hover img {
@@ -202,7 +183,7 @@
     width: 100%;
     display: block;
     border: 0;
-    border-radius: 12px;
+    border-radius: var(--r-sm);
     aspect-ratio: 16 / 9;
 }
 
@@ -212,7 +193,7 @@
     max-width: 920px;
     margin: 0 auto;
     border: 1px solid var(--border);
-    border-radius: 18px;
+    border-radius: var(--r-lg);
     overflow: hidden;
     background: rgba(0, 0, 0, 0.12);
 }
@@ -239,13 +220,13 @@
 
 .acc-btn .chev {
     opacity: 0.7;
-    transition: transform 0.2s ease;
+    transition: transform var(--dur-1) var(--ease-out);
 }
 
 .acc-panel {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.35s ease;
+    transition: max-height var(--dur-3) var(--ease-out);
     border-top: 1px solid var(--border);
 }
 
@@ -263,7 +244,7 @@
     height: 1.5rem;
     width: auto;
     opacity: 0.5;
-    transition: opacity 0.3s;
+    transition: opacity var(--dur-2) var(--ease-out);
     filter: grayscale(100%);
     padding-left: 0.5rem;
     padding-right: 0.5rem;
@@ -311,7 +292,7 @@
 .bio-text a {
     text-decoration: none;
     color: #888;
-    transition: color 0.3s ease;
+    transition: color var(--dur-2) var(--ease-out);
 }
 
 .bio-text a:hover {
@@ -367,7 +348,7 @@
     height: 150px;
     background-size: cover;
     background-position: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease, top 0.3s ease, left 0.3s ease;
+    transition: transform var(--dur-2) var(--ease-out), box-shadow var(--dur-2) var(--ease-out), top var(--dur-2) var(--ease-out), left var(--dur-2) var(--ease-out);
     cursor: pointer;
     z-index: 1;
     filter: grayscale(100%);
@@ -417,7 +398,7 @@
     font-size: 1rem;
     color: #ccc;
     text-align: center;
-    margin: 0;
+    margin: 0.9rem 0 0;
 }
 
 .bio-contact-text {
@@ -441,7 +422,7 @@
     /* Rounded corners */
     filter: grayscale(100%);
     opacity: 0.8;
-    transition: filter 0.3s ease, box-shadow 0.3s ease;
+    transition: filter var(--dur-2) var(--ease-out), box-shadow var(--dur-2) var(--ease-out);
 }
 
 .bio-image:hover {
@@ -475,7 +456,7 @@
     display: flex;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    transition: box-shadow 0.3s ease;
+    transition: box-shadow var(--dur-2) var(--ease-out);
 }
 
 .thumbnail:hover {
@@ -521,7 +502,7 @@
 /* Smoothness */
 .thumbnail img,
 .thumbnail .thumbnail-content {
-  transition: filter 0.2s ease;
+  transition: filter var(--dur-1) var(--ease-out);
 }
 .thumbnail > a {
   display: flex;
@@ -545,7 +526,7 @@
     width: 100%;
     height: 20rem;
     object-fit: cover;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform var(--dur-2) var(--ease-out), box-shadow var(--dur-2) var(--ease-out);
 }
 
 .item img:hover {
@@ -583,7 +564,7 @@
     color: white;
     cursor: pointer;
     z-index: 1001;
-    transition: opacity 0.3s;
+    transition: opacity var(--dur-2) var(--ease-out);
 }
 
 .close-btn:hover {
@@ -604,7 +585,7 @@
     z-index: 9999;
     opacity: 1;
     visibility: visible;
-    transition: opacity 0.4s ease, visibility 0.4s ease;
+    transition: opacity var(--dur-3) var(--ease-out), visibility var(--dur-3) var(--ease-out);
 }
 
 .loader-container.hidden {
@@ -693,6 +674,7 @@
     }
     .thumbnail-content {
         padding-left: 0;
+        padding-top: 0.9rem;
         text-align: center;
     }
 }
@@ -717,27 +699,31 @@
       aspect-ratio: 17 / 22;
     }
   }  
-/* Design page: Selected / All view toggle */
+/* Design page: Selected / All toggle. A frosted pill slides behind the active button */
 .view-toggle {
+    position: relative;
     display: flex;
-    justify-content: center;
-    align-items: baseline;
-    gap: 0.75rem;
+    width: fit-content;
     margin: -1rem auto 0;
+    padding: 0.25rem;
     font-family: "Crimson Text", serif;
     font-style: italic;
+    background: var(--glass);
+    border: 1px solid var(--hairline);
+    border-radius: var(--r-pill);
 }
 
 .view-btn {
+    position: relative;
+    z-index: 1;
     font: inherit;
     font-size: 1.05rem;
     color: var(--text);
     background: none;
     border: none;
-    border-bottom: 1px solid transparent;
-    padding: 0.2rem 0.1rem;
+    border-radius: var(--r-pill);
+    padding: 0.25rem 1rem;
     cursor: pointer;
-    transition: filter 0.3s ease, color 0.3s ease;
 }
 
 .view-btn:hover {
@@ -746,11 +732,24 @@
 
 .view-btn.active {
     color: var(--title);
-    border-bottom-color: var(--accent);
 }
 
-.view-sep {
-    color: var(--text);
+/* No-JS fallback: the active button carries its own pill */
+.view-toggle:not(.has-pill) .view-btn.active {
+    background: var(--glass-strong);
+}
+
+.view-pill {
+    position: absolute;
+    top: 0.25rem;
+    bottom: 0.25rem;
+    left: 0;
+    background: var(--glass-strong);
+    border: 1px solid var(--hairline-strong);
+    border-radius: var(--r-pill);
+    box-sizing: border-box;
+    pointer-events: none;
+    transition: transform var(--dur-2) var(--ease-out), width var(--dur-2) var(--ease-out);
 }
 
 /* Gallery variant: keep each image's own aspect ratio instead of cropping */

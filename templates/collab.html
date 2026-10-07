@@ -11,12 +11,11 @@
 </h1>
 <div class="view-toggle" role="group" aria-label="View mode">
     <button type="button" class="view-btn active" data-view="selected" aria-pressed="true">Selected</button>
-    <span class="view-sep">&middot;</span>
     <button type="button" class="view-btn" data-view="all" aria-pressed="false">All</button>
 </div>
 <div class="thumbnail-container" id="designList">
     <!-- Selected = case studies (default view); everything else only shows under All -->
-    <div class="thumbnail" data-previews="{{ [img('design', 'hackharvard/poster-moon.jpg'), img('design', 'hackharvard/site-about.jpg'), img('design', 'hackharvard/site-tracks.jpg'), img('design', 'hackharvard/stickers.png')]|join('|') }}" data-selected>
+    <div class="thumbnail" data-previews="{{ previews('design', ['hackharvard/poster-moon.jpg', 'hackharvard/site-about.jpg', 'hackharvard/site-tracks.jpg', 'hackharvard/stickers.png']) }}" data-selected>
         <a href="hackharvard">
             <img src="{{ img('design', 'hackharvard/keyart.jpg') }}" alt="HackHarvard 2026" style="height: 300px;">
             <div class="thumbnail-content">
@@ -46,7 +45,7 @@
         </a>
     </div>
 
-    <div class="thumbnail" data-previews="{{ [img('olympics', '2Sapphire.jpg'), img('olympics', '4Ruby.jpg'), img('olympics', '5Emerald.jpg'), img('olympics', '3Amethyst.jpg')]|join('|') }}">
+    <div class="thumbnail" data-previews="{{ previews('olympics', ['2Sapphire.jpg', '4Ruby.jpg', '5Emerald.jpg', '3Amethyst.jpg']) }}" data-selected>
         <a href="olympics">
             <img src="{{ img('olympics', '6Artboard.jpg') }}" alt="CNN Olympics" style="height: 300px;">
             <div class="thumbnail-content">
@@ -61,7 +60,7 @@
         </a>
     </div>
 
-    <div class="thumbnail" data-previews="{{ [img('recit', 'recitbanner.jpg'), img('recit', 'recitposter.jpg')]|join('|') }}">
+    <div class="thumbnail" data-previews="{{ previews('recit', ['recitbanner.jpg', 'recitposter.jpg']) }}">
         <a href="recit">
             <img src="{{ img('art_direction', 'recit.jpg') }}" alt="Recit" style="height: 300px;">
             <div class="thumbnail-content">
@@ -77,7 +76,7 @@
         </a>
     </div>
 
-    <div class="thumbnail">
+    <div class="thumbnail" data-selected>
         <a href="https://www.facebook.com/official.ivmun">
             <img src="{{ img('art_direction', 'ivmun.jpg') }}" alt="IVMUN" style="height: 300px;">
             <div class="thumbnail-content">
@@ -93,7 +92,7 @@
         </a>
     </div>
 
-    <div class="thumbnail" data-previews="{{ [img('art_direction', 'poster.jpg')]|join('|') }}">
+    <div class="thumbnail" data-previews="{{ previews('art_direction', ['poster.jpg']) }}">
         <a href="highlander">
             <img src="{{ img('art_direction', 'highlander.jpg') }}" alt="TeddeAh!" style="height: 300px;">
             <div class="thumbnail-content">
@@ -142,6 +141,19 @@
     (function () {
         var btns = document.querySelectorAll(".view-btn");
         var cards = document.querySelectorAll("#designList .thumbnail");
+        var toggle = document.querySelector(".view-toggle");
+        var pill = document.createElement("span");
+        pill.className = "view-pill";
+        toggle.appendChild(pill);
+        toggle.classList.add("has-pill");
+
+        function placePill(animate) {
+            var on = toggle.querySelector(".view-btn.active");
+            if (!animate) pill.style.transition = "none";
+            pill.style.width = on.offsetWidth + "px";
+            pill.style.transform = "translateX(" + on.offsetLeft + "px)";
+            if (!animate) { pill.offsetWidth; pill.style.transition = ""; }
+        }
 
         function setView(view) {
             cards.forEach(function (c) {
@@ -152,6 +164,7 @@
                 b.classList.toggle("active", on);
                 b.setAttribute("aria-pressed", on);
             });
+            placePill(true);
         }
 
         btns.forEach(function (b) {
@@ -163,58 +176,12 @@
         });
 
         setView(location.hash === "#all" ? "all" : "selected");
-    })();
-
-    // Hover a card and pictures from inside that project pop up at random spots on screen.
-    // Pops are instant (no fades); everything disappears the moment the mouse leaves.
-    (function () {
-        if (!window.matchMedia("(hover: hover)").matches) return;
-        var EVERY = 650, MAX_ON_SCREEN = 4;
-        var layer = document.createElement("div");
-        layer.className = "pop-layer";
-        document.body.appendChild(layer);
-
-        document.querySelectorAll(".thumbnail[data-previews]").forEach(function (card) {
-            var urls = card.dataset.previews.split("|").filter(Boolean);
-            var pics = null, timer = null, last = -1;
-
-            function pop() {
-                var ready = pics.filter(function (p) { return p.complete && p.naturalWidth; });
-                if (!ready.length) return;
-                var n = ready.length > 1 ? Math.floor(Math.random() * ready.length) : 0;
-                if (ready.length > 1 && ready[n] === pics[last]) n = (n + 1) % ready.length;
-                var src = ready[n];
-                last = pics.indexOf(src);
-
-                var w = Math.round(180 + Math.random() * 140);
-                var h = Math.round(w * src.naturalHeight / src.naturalWidth);
-                var el = document.createElement("img");
-                el.className = "pop";
-                el.src = src.src;
-                el.alt = "";
-                el.style.width = w + "px";
-                el.style.left = Math.round(Math.random() * Math.max(0, innerWidth - w)) + "px";
-                el.style.top = Math.round(Math.random() * Math.max(0, innerHeight - h)) + "px";
-                layer.appendChild(el);
-                while (layer.children.length > MAX_ON_SCREEN) layer.removeChild(layer.firstChild);
-            }
-
-            card.addEventListener("mouseenter", function () {
-                if (!pics) {
-                    pics = urls.map(function (u) { var im = new Image(); im.onload = function () { if (timer) pop(); }; im.src = u; return im; });
-                }
-                timer = setInterval(pop, EVERY);
-                pop();
-            });
-
-            card.addEventListener("mouseleave", function () {
-                clearInterval(timer);
-                timer = null;
-                layer.innerHTML = "";
-            });
-        });
+        placePill(false);
+        document.fonts.ready.then(function () { placePill(false); });
+        window.addEventListener("resize", function () { placePill(false); });
     })();
 </script>
+<script src="/static/popups.js?v={{ asset_v }}"></script>
 {% endblock %}
 <!--- Additional footer detail --->
 {% block footer%} <a class="com-footer" style="text-decoration: none; color: #888" href="about">Commission me on

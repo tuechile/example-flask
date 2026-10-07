@@ -157,19 +157,19 @@
   <div class="card-grid" id="work-grid">
 
     <!-- ART -->
-    <a class="card" href="street" data-category="art">
+    <a class="card" href="street" data-previews="{{ previews('street') }}" data-category="art">
       <div class="thumbnail-header">Street Photography</div>
       <div class="thumbnail-description">Through the lens of my Nikon D5100 since 2017</div>
       <div class="thumbnail-description" style="color:#bbb;">Ongoing</div>
     </a>
 
-    <a class="card" href="afvs" data-category="interactivity">
+    <a class="card" href="afvs" data-previews="{{ previews('afvs', ['p1-final.jpg', 'p1-360-1.jpg', 'p1-360-2.jpg', 'p1-code-face.jpg', 'p1-progress-1.jpg', 'p1-progress-2.jpg']) }}" data-category="interactivity">
       <div class="thumbnail-header">Coding and Interactivity</div>
       <div class="thumbnail-description">Self-expression through code — press a key to see the face react</div>
       <div class="thumbnail-description" style="color:#bbb;">Ongoing</div>
     </a>
 
-    <a class="card" href="gifafvs" data-category="interactivity">
+    <a class="card" href="gifafvs" data-previews="{{ previews('processing', ['output.gif']) }}" data-category="interactivity">
       <div class="thumbnail-header">What Brings You Here</div>
       <div class="thumbnail-description">Do you wish someone would tell you what to do?</div>
       <div class="thumbnail-description" style="color:#bbb;">Oct 2024</div>
@@ -182,27 +182,27 @@
     </a>
 
         
-    <a class="card" href="fysemr" data-category="essays">
+    <a class="card" href="fysemr" data-previews="{{ previews('fish', ['full.jpg', 'fish outline.jpg', 'no fish.jpg', 'no sub.jpg']) }}" data-category="essays">
       <div class="thumbnail-header">The land of rivers: An imagined tea garden</div>
       <div class="thumbnail-description">Final project for FYSEMR 65R - created with Clip Studio Paint and InDesign
       </div>
       <div class="thumbnail-description" style="color:#bbb;">December 2024</div>
     </a>
 
-    <a class="card" href="superface" data-category="art">
+    <a class="card" href="superface" data-previews="{{ previews('self') }}" data-category="art">
       <div class="thumbnail-header">Superface</div>
       <div class="thumbnail-description">Self-edited self-portraits exploring makeup and persona</div>
       <div class="thumbnail-description" style="color:#bbb;">Delayed after 2023</div>
     </a>
 
-    <a class="card" href="illustration" data-category="art">
+    <a class="card" href="illustration" data-previews="{{ previews('illustration') }}" data-category="art">
       <div class="thumbnail-header">Illustrations</div>
       <div class="thumbnail-description">My journey in the world of drawing cartoons (2018-2024)</div>
       <div class="thumbnail-description" style="color:#bbb;">Delayed after 2022</div>
     </a>
 
     <!-- ESSAYS -->
-    <a class="card" href="portal" data-category="essays">
+    <a class="card" href="portal" data-previews="{{ previews('portal') }}" data-category="essays">
       <div class="thumbnail-header">The Portal</div>
       <div class="thumbnail-description">A collection of poems and short stories</div>
       <div class="thumbnail-description" style="color:#bbb;">Discontinued in 2021</div>
@@ -310,5 +310,6 @@
     applyFilter();
   });
 </script>
+<script src="/static/popups.js?v={{ asset_v }}"></script>
 
 {% endblock %}

@@ -1,6 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for
+import difflib
 import os
 import random
+import re
+import unicodedata
 from datetime import datetime
 
 app = Flask(__name__)
@@ -30,7 +33,7 @@ IMAGE_FOLDERS = {
 
 # Cache-busting version appended to local CSS/JS URLs (?v=...).
 # Bump on every change so browsers fetch fresh assets.
-ASSET_VERSION = "8"
+ASSET_VERSION = "12"
 
 GALLERY_IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".gif", ".webp"}
 
@@ -73,6 +76,22 @@ def _date_sort_key(filename):
     return datetime(year, month, day)
 
 
+# Which top-nav item a page belongs to, so the nav can mark "you are here".
+NAV_SECTIONS = {
+    "about": ["about"],
+    "design": ["collab", "hackharvard", "merch", "olympics", "recit", "highlander"],
+    "play": ["personal", "afvs", "gifafvs", "essays", "fysemr", "illustration", "portal", "street", "superface"],
+    "projects": ["t4sg", "commonspirit", "cs1710"],
+}
+
+
+@app.context_processor
+def inject_nav_section():
+    page = request.path.strip("/").split("/")[0]
+    section = next((name for name, pages in NAV_SECTIONS.items() if page in pages), None)
+    return dict(nav_section=section)
+
+
 @app.context_processor
 def inject_image_helper():
     def img(folder, filename=""):
@@ -93,56 +112,124 @@ def inject_image_helper():
             return sorted(files, key=_date_sort_key, reverse=True)
         return sorted(files)
 
-    return dict(img=img, gallery_images=gallery_images, asset_v=ASSET_VERSION)
+    def previews(folder, files=None, limit=8):
+        """'|'-joined image URLs for a card's hover pop-ups (static/popups.js).
+        Without files, takes a random handful from the folder's gallery."""
+        if files is None:
+            files = gallery_images(folder)
+            files = random.sample(files, min(limit, len(files)))
+        return "|".join(img(folder, f) for f in files)
+
+    return dict(img=img, gallery_images=gallery_images, previews=previews, asset_v=ASSET_VERSION)
+
+# Landing-page finder: every page and the words people might type to reach it.
+# Matching is case-, accent- and punctuation-insensitive, so "Recít" == "recit".
+SEARCH_INDEX = [
+    ("/about", ["about", "about me", "chi", "chi le", "le tue chi", "tue", "chi tue le", "pirenily", "me",
+                "myself", "emily", "iron pig", "chi bell", "artist", "bio", "contact", "email", "instagram",
+                "linkedin", "github", "resume", "cv", "self photography"]),
+    ("/collab", ["design", "graphic design", "collab", "collaboration", "collaborations", "collaborative work",
+                 "commission", "commissions", "commissioned work", "client", "client work", "clubs", "club",
+                 "art direction", "art director", "director", "direction", "member", "logo", "logos", "poster",
+                 "posters", "branding", "brand"]),
+    ("/personal", ["play", "personal", "personal work", "self", "mine", "free", "journey", "person", "fun"]),
+    ("/#portfolio", ["projects", "project", "portfolio", "code", "coding projects", "ux", "ui", "uiux", "ui ux",
+                     "case study", "case studies", "work", "cinenode", "cine node", "aerotone", "aero tone",
+                     "arduino", "neural reconstruction", "handwritten curves", "handwriting", "machine learning"]),
+    ("/hackharvard", ["hackharvard", "hack harvard", "hackharvard 2026", "hack to the moon", "hackathon",
+                      "harvard hackathon", "hhuh", "director of design"]),
+    ("/merch", ["merch", "merchandise", "hpair", "hconf", "hudc", "tote", "tote bag", "crest", "notebook",
+                "stickers", "sticker", "pin", "t shirt", "shirt"]),
+    ("/olympics", ["olympics", "cnn olympics", "olympic", "hoi thao", "cnn hoi thao", "team logos"]),
+    ("/recit", ["recit", "recit film studio", "film studio", "hanoi"]),
+    ("/highlander", ["highlander", "cnn english club", "english club", "cec", "cec oscar", "oscar", "short film",
+                     "film", "matcha"]),
+    ("https://www.facebook.com/official.ivmun", ["ivmun", "model un", "model united nations", "mun",
+                                                 "vietnam model united nations", "conference"]),
+    ("/afvs", ["afvs", "afvs 97", "coding and interactivity", "interactivity", "interactive", "p5", "p5js",
+               "sketch", "pig", "a pigs death", "a pigs funeral", "pigs death", "pigs funeral", "sculpture",
+               "projection", "360"]),
+    ("/gifafvs", ["gifafvs", "what brings you here", "gif", "gifs"]),
+    ("/essays", ["essays", "essay", "video essays", "video essay", "video"]),
+    ("/fysemr", ["fysemr", "fysemr 65r", "tea garden", "land of rivers", "the land of rivers", "rivers",
+                 "clip studio", "indesign"]),
+    ("/superface", ["superface", "super face", "self portrait", "self portraits", "portrait", "portraits",
+                    "makeup", "persona"]),
+    ("/illustration", ["illustration", "illustrations", "drawing", "drawings", "cartoon", "cartoons", "art"]),
+    ("/portal", ["portal", "the portal", "poems", "poem", "poetry", "short stories", "stories", "writing"]),
+    ("/street", ["street", "street photography", "photography", "photos", "photo", "nikon", "camera"]),
+    ("/t4sg", ["t4sg", "2ft", "2feet", "2 ft", "2 feet", "2ft prosthetics", "prosthetics", "t4sg x 2ft",
+               "tech 4 social good", "tech for social good", "inventory"]),
+    ("/commonspirit", ["commonspirit", "common spirit", "commonspirit health", "t4sg x commonspirit", "chna",
+                       "health", "dashboard"]),
+    ("/cs1710", ["cs171", "cs1710", "cs 171", "unicode", "chi x rain", "rain", "typos", "the typos",
+                 "data visualization", "data vis", "dataviz", "visualization"]),
+]
+
+
+def _norm(text):
+    text = unicodedata.normalize("NFKD", text)
+    text = "".join(c for c in text if not unicodedata.combining(c)).lower()
+    text = text.replace("×", " x ").replace("'", "")
+    return re.sub(r"[^a-z0-9]+", " ", text).strip()
+
+
+_ALIASES = [(_norm(alias), url) for url, aliases in SEARCH_INDEX for alias in aliases]
+
+
+def find_page(query):
+    """Best page for a finder query, or None. Tried in order, most to least certain."""
+    q = _norm(query)
+    if not q:
+        return None
+    compact = q.replace(" ", "")
+
+    # 1. Exact name, also ignoring spaces ("hack harvard" == "hackharvard")
+    for alias, url in _ALIASES:
+        if q == alias or compact == alias.replace(" ", ""):
+            return url
+
+    # 2. A known name inside a longer query ("show me street photography") — longest name wins
+    hits = [(len(alias), url) for alias, url in _ALIASES
+            if len(alias) >= 3 and re.search(rf"\b{re.escape(alias)}\b", q)]
+    if hits:
+        return max(hits)[1]
+
+    # 3. Still typing: the query is the start of a name ("illus", "commonsp")
+    if len(q) >= 3:
+        hits = [(len(alias), url) for alias, url in _ALIASES
+                if alias.startswith(q) or alias.replace(" ", "").startswith(compact)]
+        if hits:
+            return min(hits)[1]
+
+    # 4. Typos: closest whole name, then closest single word
+    names = {alias: url for alias, url in _ALIASES}
+    close = difflib.get_close_matches(q, names, n=1, cutoff=0.78)
+    if close:
+        return names[close[0]]
+    words = {}
+    for alias, url in _ALIASES:
+        for word in alias.split():
+            if len(word) >= 4:
+                words.setdefault(word, url)
+    for token in sorted(q.split(), key=len, reverse=True):
+        if len(token) >= 4:
+            close = difflib.get_close_matches(token, words, n=1, cutoff=0.8)
+            if close:
+                return words[close[0]]
+    return None
+
 
 @app.route("/", methods=["GET", "POST"])
 def home():
     if request.method == "GET":
         return render_template("index.html")
-    elif request.method == "POST":
-        finder = request.form.get("finder", "").strip().lower()
 
-        personal_websites = ["afvs", "essays", "fysemr", "gifafvs", "illustration", "portal", "street", "superface"]
-        collab_websites = ["highlander", "recit", "olympics", "hackharvard", "merch"]
-        flat = ["about", "collab", "cs171", "personal"]
-
-        # ✅ If user types "t4sg" (or similar), send them to the t4sg page
-        if finder in ["t4sg", "t4sg.html", "t4sg case study", "2feet", "t4sg x 2feet","2feet prosthetics", "tech 4 social good", "2ft"]:
-            return render_template(PROJECT_TEMPLATES["t4sg"])
-
-        if finder in ["commonspirit", "common spirit", "commonspirit health", "common spirit health", "t4sg x commonspirit"]:
-            return render_template(PROJECT_TEMPLATES["commonspirit"])
-
-        if finder in ["hack harvard", "hackharvard 2026", "hack to the moon", "hhuh"]:
-            return render_template("collab websites/hackharvard.html")
-
-        if finder in ["hpair", "hconf", "hudc", "cnn olympics", "stickers", "tote"]:
-            return render_template("collab websites/merch.html")
-
-        if finder in flat:
-            return render_template(PROJECT_TEMPLATES.get(finder, f"{finder}.html"))
-        elif finder in personal_websites:
-            return render_sub_page(finder, "personal websites")
-        elif finder in collab_websites:
-            return render_sub_page(finder, "collab websites")
-
-        elif finder in ["chi", "pirenily", "me", "chi le", "emily", "iron pig", "chi bell", "myself", "i", "artist"]:
-            return render_template("about.html")
-        elif finder in ["commission", "client work", "commissioned work", "commissions", "client",
-                        "collaborative work", "collaborations", "collaboration", "member", "film",
-                        "direction", "director", "collab", "graphic design", "clubs", "club", "design"]:
-            return render_template("collab.html")
-        elif finder in ["personal work", "self", "person", "mine", "free", "journey", "play"]:
-            return render_template("personal.html")
-
-        else:
-            finder = random.choice(personal_websites + collab_websites + flat)
-            if finder in personal_websites:
-                return render_sub_page(finder, "personal websites")
-            elif finder in collab_websites:
-                return render_sub_page(finder, "collab websites")
-            else:
-                return render_template(PROJECT_TEMPLATES.get(finder, f"{finder}.html"))
+    url = find_page(request.form.get("finder", ""))
+    if url is None:
+        # Nothing matched: keep the old surprise and open a random page
+        url = random.choice([u for u, _ in SEARCH_INDEX if u.startswith("/") and u != "/#portfolio"])
+    return redirect(url)
 
 
 @app.route("/t4sg")

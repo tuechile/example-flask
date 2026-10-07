@@ -30,10 +30,10 @@
                 <a class="nav-header" href="/"> Pirenily </a>
             </div>
             <div class="nav-item-big">
-                <a class="nav-item" href="/about"> About </a>
-                <a class="nav-item" href="/collab"> Design </a>
-                <a class="nav-item" href="/personal"> Play </a>
-                <a class="nav-item" href="/#portfolio"> Projects </a>
+                <a class="nav-item" href="/about"{% if nav_section == "about" %} aria-current="page"{% endif %}> About </a>
+                <a class="nav-item" href="/collab"{% if nav_section == "design" %} aria-current="page"{% endif %}> Design </a>
+                <a class="nav-item" href="/personal"{% if nav_section == "play" %} aria-current="page"{% endif %}> Play </a>
+                <a class="nav-item" href="/#portfolio"{% if nav_section == "projects" %} aria-current="page"{% endif %}> Projects </a>
             </div>
         </nav>
         {% block content %}
@@ -48,6 +48,7 @@
 
     <script src="{{ url_for('static', filename='loading.js') }}?v={{ asset_v }}">
     </script>
+    <script src="{{ url_for('static', filename='nav.js') }}?v={{ asset_v }}"></script>
 </body>
 
 </html>

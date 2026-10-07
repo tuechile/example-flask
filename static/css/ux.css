@@ -160,7 +160,7 @@ html {
     cursor: pointer;
     white-space: nowrap;
     font-family: var(--font-serif);
-    transition: transform 160ms ease, border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
+    transition: transform var(--dur-1) var(--ease-out), border-color var(--dur-1) var(--ease-out), background var(--dur-1) var(--ease-out), box-shadow var(--dur-1) var(--ease-out);
 }
 
 .btn:hover {
@@ -180,7 +180,7 @@ html {
 .video {
   width: min(920px, 100%);
   margin: 1.5rem auto;
-  border-radius: 16px;
+  border-radius: var(--r-lg);
   overflow: hidden;
   background: #000;
   box-shadow: 0 20px 40px rgba(0,0,0,0.25), 0 0 0 1px rgba(255,255,255,0.08);
@@ -281,23 +281,6 @@ html {
     margin-top: var(--s-3);
 }
 
-.tag {
-    font-family: var(--font-serif);
-    font-size: var(--fs-1);
-    color: var(--text-primary);
-    /* always visible */
-    padding: 0.35rem 0.6rem;
-    background: var(--bg-panel);
-    user-select: none;
-    transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
-}
-
-.tag:hover {
-    box-shadow: -0.25rem 0.25rem 0.5rem 0.05rem rgba(28, 165, 145, 0.45);
-    border-color: rgba(28, 165, 145, 0.65);
-    transform: translateY(-1px);
-}
-
 .split {
     display: flex;
     gap: 32px;
@@ -349,7 +332,7 @@ html {
     filter: grayscale(18%);
     outline: 1px solid rgba(255, 255, 255, 0.08);
     /* non-hover cue */
-    transition: filter 200ms ease, transform 200ms ease;
+    transition: filter var(--dur-1) var(--ease-out), transform var(--dur-1) var(--ease-out);
 }
 
 .media-card:hover img {
@@ -388,7 +371,7 @@ html {
     cursor: zoom-in;
     filter: grayscale(18%);
     outline: 1px solid rgba(255, 255, 255, 0.08);
-    transition: filter 200ms ease, transform 200ms ease, box-shadow 200ms ease;
+    transition: filter var(--dur-1) var(--ease-out), transform var(--dur-1) var(--ease-out), box-shadow var(--dur-1) var(--ease-out);
 }
 
 .lightboxable:hover {
@@ -578,13 +561,13 @@ html {
 
 .acc-btn .chev {
     opacity: 0.75;
-    transition: transform 200ms ease;
+    transition: transform var(--dur-1) var(--ease-out);
 }
 
 .acc-panel {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 350ms ease;
+    transition: max-height var(--dur-3) var(--ease-out);
 }
 
 .acc-inner {
@@ -604,7 +587,7 @@ html {
     height: 1.5rem;
     width: auto;
     opacity: 0.55;
-    transition: opacity 200ms ease, filter 200ms ease;
+    transition: opacity var(--dur-1) var(--ease-out), filter var(--dur-1) var(--ease-out);
     filter: grayscale(100%);
     padding-inline: var(--s-2);
 }
@@ -644,7 +627,7 @@ html {
 .bio-text a {
     text-decoration: none;
     color: var(--text-secondary);
-    transition: color 200ms ease;
+    transition: color var(--dur-1) var(--ease-out);
 }
 
 .bio-text a:hover {
@@ -697,7 +680,7 @@ html {
     height: 150px;
     background-size: cover;
     background-position: center;
-    transition: transform 200ms ease, box-shadow 200ms ease, top 200ms ease, left 200ms ease, opacity 200ms ease;
+    transition: transform var(--dur-1) var(--ease-out), box-shadow var(--dur-1) var(--ease-out), top var(--dur-1) var(--ease-out), left var(--dur-1) var(--ease-out), opacity var(--dur-1) var(--ease-out);
     cursor: pointer;
     z-index: 1;
     filter: grayscale(100%);
@@ -737,7 +720,7 @@ html {
     max-width: 300px;
     filter: grayscale(100%);
     opacity: 0.85;
-    transition: filter 200ms ease, box-shadow 200ms ease;
+    transition: filter var(--dur-1) var(--ease-out), box-shadow var(--dur-1) var(--ease-out);
 }
 
 .bio-image:hover {
@@ -773,7 +756,7 @@ html {
     overflow: hidden;
     background: var(--bg-panel);
     box-shadow: var(--shadow);
-    transition: box-shadow 200ms ease, transform 200ms ease, border-color 200ms ease;
+    transition: box-shadow var(--dur-1) var(--ease-out), transform var(--dur-1) var(--ease-out), border-color var(--dur-1) var(--ease-out);
 }
 
 .thumbnail:hover {
@@ -848,7 +831,7 @@ html {
     color: white;
     cursor: pointer;
     z-index: 1001;
-    transition: opacity 200ms ease;
+    transition: opacity var(--dur-1) var(--ease-out);
 }
 
 .close-btn:hover {
@@ -866,7 +849,7 @@ html {
     z-index: 9999;
     opacity: 1;
     visibility: visible;
-    transition: opacity 400ms ease, visibility 400ms ease;
+    transition: opacity var(--dur-3) var(--ease-out), visibility var(--dur-3) var(--ease-out);
 }
 
 .loader-container.hidden {
@@ -1067,7 +1050,7 @@ html {
     cursor: pointer;
     font-size: var(--fs-2);
     font-family: var(--font-serif);
-    transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+    transition: transform var(--dur-1) var(--ease-out), border-color var(--dur-1) var(--ease-out), background var(--dur-1) var(--ease-out);
 }
 
 
@@ -1121,7 +1104,7 @@ html {
     padding: var(--s-4);
     background: rgba(255, 255, 255, 0.03);
     text-align: center;
-    transition: opacity 180ms ease, transform 180ms ease;
+    transition: opacity var(--dur-1) var(--ease-out), transform var(--dur-1) var(--ease-out);
 }
 
 .insight .meta {

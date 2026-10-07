@@ -7,6 +7,7 @@
     <link href="/static/favicon.ico" rel="icon">
     <link href="/static/css/styles.css?v={{ asset_v }}" rel="stylesheet">
     <title>Pirenily</title>
+    <script src="/static/nav.js?v={{ asset_v }}" defer></script>
     <script type="text/javascript">
         function changePlaceholder() {
             const items = ["Pirenily", "Chi Le", "Iron Pig", "Emily", "Chi Bell"];
@@ -77,7 +78,7 @@
 
 <body>
     <nav>
-        <div class="nav-item-big" align="center" text-align="right">
+        <div class="nav-item-big">
             <a class="nav-item" href="about"> About </a>
             <a class="nav-item" href="collab"> Design </a>
             <a class="nav-item" href="personal"> Play </a>
@@ -91,8 +92,8 @@
         </video>
     </div>
 
-    <form method="POST">
-        <input autocomplete="off" type="text" class="header" id="newtodo" placeholder="Pirenily" name="finder">
+    <form method="POST" class="finder-form">
+        <input autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="go" type="text" class="header" id="newtodo" placeholder="Pirenily" name="finder" aria-label="Search my work: try a project, a club or a name">
     </form>
 
     <!-- Landing footer stays visible on first screen -->
@@ -112,7 +113,7 @@
                 <img src="{{ img('other', 'github.webp') }}" alt="GitHub" class="contact-logo">
             </a>
         </div>
-        <div class="home-footer-hint">Scroll down to see my portfolio</div>
+        <a class="scroll-mouse" href="#portfolio" aria-label="Scroll down to see my portfolio"></a>
     </footer>
 
     <!-- Sticky Code / UI-UX tab: only shown once you've scrolled into Projects -->

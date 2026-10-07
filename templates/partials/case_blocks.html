@@ -75,7 +75,7 @@
 {# §4 Figure — a single media card #}
 {% macro card(src, alt, size=None, zoom=True) %}
 <div class="media-card{% if size %} media-card--{{ size }}{% endif %}">
-    <img{% if zoom %} class="lightboxable"{% endif %} src="{{ src }}" alt="{{ alt }}">
+    <img{% if zoom %} class="lightboxable"{% endif %} src="{{ src }}" alt="{{ alt }}" loading="lazy" decoding="async">
 </div>
 {% endmacro %}
 
