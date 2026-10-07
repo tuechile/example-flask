@@ -728,13 +728,13 @@
     cursor: pointer;
 }
 
-.view-btn:hover,
-.view-btn:focus-visible {
-    filter: blur(1px);
-}
-
 .view-btn.active {
     color: var(--title);
+}
+
+.view-btn:hover,
+.view-btn:focus-visible {
+    color: var(--accent);
 }
 
 /* No-JS fallback: the active button carries its own pill */
