@@ -1,20 +1,22 @@
 {% extends "layout.html" %}
 
-{% block title %}| Graphic Design{% endblock %}
+{% block title %}| Design{% endblock %}
 {% block extra_css %}
 <link href="/static/css/body.css?v={{ asset_v }}" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
 <!--- Navigation page for displaying collaborative work and commissions --->
-<h1 class="page-title">Graphic Design</h1>
+<h1 class="page-title">Design</h1>
 <div class="view-toggle" role="group" aria-label="View mode">
     <button type="button" class="view-btn active" data-view="selected" aria-pressed="true">Selected</button>
+    <button type="button" class="view-btn" data-view="brand" aria-pressed="false">Brand</button>
+    <button type="button" class="view-btn" data-view="uiux" aria-pressed="false">UI/UX</button>
     <button type="button" class="view-btn" data-view="all" aria-pressed="false">All</button>
 </div>
 <div class="design-list" id="designList">
-    <!-- Same card as the home Projects section. Selected = data-selected; the rest only show under All -->
-    <a class="project-thumb" href="hackharvard" data-previews="{{ previews('design', ['hackharvard/poster-moon.jpg', 'hackharvard/site-about.jpg', 'hackharvard/site-tracks.jpg', 'hackharvard/stickers.png']) }}" data-selected>
+    <!-- Same card as the home Projects section. Selected = data-featured, Brand = data-brand, UI/UX = data-uiux; the rest only show under All -->
+    <a class="project-thumb" href="hackharvard" data-previews="{{ previews('design', ['hackharvard/poster-moon.jpg', 'hackharvard/site-about.jpg', 'hackharvard/site-tracks.jpg', 'hackharvard/stickers.png']) }}" data-brand data-featured>
         <img class="project-thumb-img project-thumb-img--cover" src="{{ img('design', 'hackharvard/logo-thumb.png') }}" alt="HackHarvard logo in red on black">
         <div class="project-thumb-meta">
             <div class="project-thumb-namebox">
@@ -34,7 +36,7 @@
         </div>
     </a>
 
-    <a class="project-thumb" href="merch" data-previews="{{ previews('design', ['merch/aconf-poster.png', 'merch/hconf-sketch.png', 'merch/ivmun-placards.webp', 'merch/hudc-the-game-shirt.webp']) }}" data-selected>
+    <a class="project-thumb" href="merch" data-previews="{{ previews('design', ['merch/aconf-poster.png', 'merch/hconf-sketch.png', 'merch/ivmun-placards.webp', 'merch/hudc-the-game-shirt.webp']) }}" data-brand>
         <img class="project-thumb-img project-thumb-img--cover" src="{{ img('design', 'merch/hpair-crest.png') }}" alt="HCONF crest">
         <div class="project-thumb-meta">
             <div class="project-thumb-namebox">
@@ -52,7 +54,7 @@
         </div>
     </a>
 
-    <a class="project-thumb" href="olympics" data-previews="{{ previews('olympics', ['2Sapphire.jpg', '4Ruby.jpg', '5Emerald.jpg', '3Amethyst.jpg']) }}" data-selected>
+    <a class="project-thumb" href="olympics" data-previews="{{ previews('olympics', ['2Sapphire.jpg', '4Ruby.jpg', '5Emerald.jpg', '3Amethyst.jpg']) }}" data-brand>
         <img class="project-thumb-img project-thumb-img--cover" src="{{ img('olympics', '6Artboard.jpg') }}" alt="CNN Olympics team logos">
         <div class="project-thumb-meta">
             <div class="project-thumb-namebox">
@@ -65,6 +67,40 @@
                 <div class="project-thumb-sub">Contractor</div>
             </div>
             <div class="project-thumb-desc">Commissioned team logos for CNN Hội Thao.</div>
+        </div>
+    </a>
+
+    <a class="project-thumb" href="/commonspirit" data-previews="{{ previews('ux', ['commonspirit/redes1.png', 'commonspirit/redes2.png', 'commonspirit/impact-effort.png']) }}" data-uiux data-featured>
+        <img class="project-thumb-img project-thumb-img--cover" src="{{ img('ux', 'commonspirit/preview.webp') }}" alt="T4SG × CommonSpirit Health redesign preview">
+        <div class="project-thumb-meta">
+            <div class="project-thumb-namebox">
+                <div class="project-thumb-title">T4SG × CommonSpirit Health</div>
+                <div class="project-thumb-tags">
+                    <span class="tag-chip">Figma</span>
+                </div>
+            </div>
+            <div class="project-thumb-subrow">
+                <div class="project-thumb-sub">Redesigning patient resource access at scale</div>
+                <div class="project-thumb-date">Feb–May 2026</div>
+            </div>
+            <div class="project-thumb-desc">12-week T4SG project improving CommonSpirit's internal resource tool (CIP).</div>
+        </div>
+    </a>
+
+    <a class="project-thumb" href="/t4sg" data-previews="{{ previews('ux', ['t4sg/hifi view.png', 't4sg/hifi add.png', 't4sg/userflow.png', 't4sg/affmap.png']) }}" data-uiux data-featured>
+        <img class="project-thumb-img project-thumb-img--cover" src="{{ img('ux', 't4sg/preview.webp') }}" alt="T4SG × 2ft inventory system preview">
+        <div class="project-thumb-meta">
+            <div class="project-thumb-namebox">
+                <div class="project-thumb-title">T4SG × 2ft Prosthetics</div>
+                <div class="project-thumb-tags">
+                    <span class="tag-chip">Figma</span>
+                </div>
+            </div>
+            <div class="project-thumb-subrow">
+                <div class="project-thumb-sub">Offline-first inventory system</div>
+                <div class="project-thumb-date">Sep–Dec 2025</div>
+            </div>
+            <div class="project-thumb-desc">Figma flows for volunteers, coordinators, and prosthetists working across time zones and unreliable connections.</div>
         </div>
     </a>
 
@@ -81,7 +117,7 @@
         </div>
     </a>
 
-    <a class="project-thumb" href="https://www.facebook.com/official.ivmun" target="_blank" rel="noopener" aria-label="International Vietnam Model United Nations, on Facebook (opens in a new tab)" data-previews="{{ previews('art_direction', ['ivmun-quarter.webp', 'ivmun-banner.webp', 'ivmun-header.webp', 'ivmun-storm.webp']) }}" data-selected>
+    <a class="project-thumb" href="https://www.facebook.com/official.ivmun" target="_blank" rel="noopener" aria-label="International Vietnam Model United Nations, on Facebook (opens in a new tab)" data-previews="{{ previews('art_direction', ['ivmun-quarter.webp', 'ivmun-banner.webp', 'ivmun-header.webp', 'ivmun-storm.webp']) }}" data-brand>
         <img class="project-thumb-img project-thumb-img--cover project-thumb-img--focus-right" src="{{ img('art_direction', 'ivmun-cover.webp') }}" alt="IVMUN 2023 banner: the title over red-green mountains, a crescent moon and a geometric tower">
         <div class="project-thumb-meta">
             <div class="project-thumb-namebox">
@@ -166,7 +202,8 @@
 
         function setView(view) {
             cards.forEach(function (c) {
-                c.style.display = (view === "all" || c.hasAttribute("data-selected")) ? "" : "none";
+                var show = view === "all" || c.hasAttribute("data-" + { selected: "featured", brand: "brand", uiux: "uiux" }[view]);
+                c.style.display = show ? "" : "none";
             });
             btns.forEach(function (b) {
                 var on = b.dataset.view === view;
@@ -180,11 +217,11 @@
             b.addEventListener("click", function () {
                 setView(b.dataset.view);
                 // keep the choice on back/forward without adding history entries
-                history.replaceState(null, "", b.dataset.view === "all" ? "#all" : location.pathname);
+                history.replaceState(null, "", b.dataset.view === "selected" ? location.pathname : "#" + b.dataset.view);
             });
         });
 
-        setView(location.hash === "#all" ? "all" : "selected");
+        setView({ "#brand": "brand", "#uiux": "uiux", "#all": "all" }[location.hash] || "selected");
         placePill(false);
         document.fonts.ready.then(function () { placePill(false); });
         window.addEventListener("resize", function () { placePill(false); });
