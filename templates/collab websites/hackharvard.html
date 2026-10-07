@@ -7,7 +7,7 @@
 
 {{ cs.hero("HackHarvard 2026: Hack to the Moon",
            "Brand, campaign, website and merch for a 500+ participant hackathon at Harvard University.",
-           meta="April–October 2026",
+           meta="April–October 2026", href="https://hackharvard2026prototype.vercel.app/",
            tags=["Role: Director of Design", "Team: 5 designers & engineers", "Scale: 500+ hackers",
                  "Scope: Brand · Campaign · Website · Merch"]) }}
 
@@ -23,12 +23,23 @@
 {% call cs.body() %}
 
     {# ===== Context ===== #}
-    {% call cs.section("Context", lead="One look, from the first post to the last tote bag") %}
+    {% call cs.section("Context", lead="Known for the Harvard name, not for the hackathon") %}
     <p>
         HackHarvard is a 36-hour undergraduate hackathon hosted at Harvard University, bringing more than
         500 students from 30+ universities to campus each October. As Director of Design, I ran the team
         that owned how the event looked and spoke: the promotional campaign, the brand, the website and
         everything printed for the weekend.
+    </p>
+    <p>
+        For years, marketing had been handled by whoever had time, usually engineers. The result was thin
+        imagery, little visual consistency and a logo nobody could read: in conversations with past
+        members, most of them couldn't say what the old mark was supposed to mean.
+    </p>
+    <p>
+        The board saw the cost. Applications were coming in because of the Harvard name, not because of
+        the hackathon itself, and next to the big contemporary hackathons HackHarvard looked unremarkable.
+        They asked me for a complete revamp of the brand assets and identity, so the event could stand
+        on its own.
     </p>
     <p>
         Design sat in the middle of the organization. Sponsorship needed logos placed on the site and the
@@ -122,18 +133,20 @@
     {% call cs.section("Merch", lead="Adapting the system to what can actually be printed") %}
     <p>
         The gradient monogram works on screen but not on every material, so each item got its own
-        version: full color for stickers, flat spot colors for the enamel pin, a single pink for the
-        tote, and white on red for the sponsor shirt.
+        version: full color for the stickers and the sublimated lanyards, two totes (one carrying the
+        Hack to the Moon artwork, one the monogram), and five flat Pantone spots for the enamel pin.
     </p>
     {% endcall %}
 
-    {{ cs.figure(img('design', 'hackharvard/stickers.png'), "Sticker sheet with six HackHarvard 2026 stickers",
-                 size="md", caption="Sticker sheet.") }}
+    {% call cs.row("fit", caption="Sticker sheet; the two tote bags, theme artwork and monogram.") %}
+        {{ cs.card(img('design', 'hackharvard/stickers.png'), "Sticker sheet with six HackHarvard 2026 stickers", ar=0.75) }}
+        {{ cs.card(img('design', 'hackharvard/tote-theme.webp'), "Canvas tote with the Hack to the Moon artwork and the dates 10/16 to 10/18, 2026", ar=1) }}
+        {{ cs.card(img('design', 'hackharvard/tote-logo.png'), "Canvas tote with the gradient HA monogram over HackHarvard 2026 in pink", ar=1) }}
+    {% endcall %}
 
-    {% call cs.row("fit", caption="Sponsor tee, tote and enamel pin.") %}
-        {{ cs.card(img('design', 'hackharvard/tee-back.jpg'), "Red t-shirt back with sponsor logos", ar=0.8) }}
-        {{ cs.card(img('design', 'hackharvard/tote.jpg'), "Tote bag mockup with the HackHarvard 2026 logo in pink", ar=0.8) }}
-        {{ cs.card(img('design', 'hackharvard/pin.jpg'), "Oval HackHarvard 2026 pin in flat colors with a rocket", ar=0.8) }}
+    {% call cs.row("fit", caption="Production proofs: 600 full-color lanyards, printed on both sides; 650 soft enamel pins in five spot colors.") %}
+        {{ cs.card(img('design', 'hackharvard/lanyard.webp'), "Lanyard proof: a dark-to-pink strip with planets, HACKHARVARD2026 and Hack to the Moon, shown flat and folded", ar=2.232) }}
+        {{ cs.card(img('design', 'hackharvard/pin-proof.webp'), "Enamel pin proof: oval HackHarvard 2026 pin with a rocket, its brass back, the Pantone list and the pin placed on its backing card", ar=1.957) }}
     {% endcall %}
 
     {# ===== Results ===== #}

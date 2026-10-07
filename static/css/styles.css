@@ -72,6 +72,24 @@ body {
 }
 
 .home-footer-meta{ opacity: 0.9; }
+
+/* Last line of the landing page */
+.feedback-footer {
+    margin: 4rem auto 0;
+    padding: 2rem 1rem 2.5rem;
+    max-width: 40rem;
+    border-top: 1px solid var(--hairline);
+}
+
+.feedback-footer a {
+    color: var(--accent);
+    text-decoration: none;
+    transition: filter var(--dur-1) var(--ease-out);
+}
+
+.feedback-footer a:hover {
+    filter: blur(1px);
+}
 /* Scroll cue: a mouse outline whose wheel slides down, then snaps back (no fade) */
 .scroll-mouse {
     display: block;

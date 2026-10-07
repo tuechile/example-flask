@@ -20,6 +20,9 @@
     // Left rail: number every headed section, list it, and mark the one being read
     (function () {
         const list = document.getElementById("csIndex");
+        const shell = document.querySelector(".cs-shell");
+        const railTop = shell.getBoundingClientRect().top + window.scrollY + parseFloat(getComputedStyle(shell).paddingTop);
+        shell.style.setProperty("--rail-top", railTop + "px");
         const hero = document.querySelector(".cs-hero");
         document.getElementById("csRailTitle").textContent = hero ? hero.dataset.index : "";
         const sections = [...document.querySelectorAll("[data-index]")].filter(el => el !== hero);

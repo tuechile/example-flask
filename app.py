@@ -34,7 +34,7 @@ IMAGE_FOLDERS = {
 
 # Cache-busting version appended to local CSS/JS URLs (?v=...).
 # Bump on every change so browsers fetch fresh assets.
-ASSET_VERSION = "38"
+ASSET_VERSION = "43"
 
 GALLERY_IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".gif", ".webp"}
 
@@ -101,7 +101,7 @@ def _last_updated():
 
 LAST_UPDATED = _last_updated()
 
-# Case studies in reading order; each one's footer links to the next (wrapping around).
+# Case studies in reading order; each one's footer links to the previous and next (wrapping around).
 CASE_STUDIES = [
     ("hackharvard", "HackHarvard 2026: Hack to the Moon"),
     ("merch", "Merch"),
@@ -114,11 +114,12 @@ CASE_STUDIES = [
 @app.context_processor
 def inject_site_info():
     endpoints = [e for e, _ in CASE_STUDIES]
-    next_case = None
+    next_case = prev_case = None
     if request.endpoint in endpoints:
-        endpoint, title = CASE_STUDIES[(endpoints.index(request.endpoint) + 1) % len(CASE_STUDIES)]
-        next_case = {"url": url_for(endpoint), "title": title}
-    return dict(last_updated=LAST_UPDATED, next_case=next_case)
+        i = endpoints.index(request.endpoint)
+        prev_case, next_case = ({"url": url_for(e), "title": t}
+                                for e, t in (CASE_STUDIES[i - 1], CASE_STUDIES[(i + 1) % len(CASE_STUDIES)]))
+    return dict(last_updated=LAST_UPDATED, next_case=next_case, prev_case=prev_case)
 
 
 @app.context_processor

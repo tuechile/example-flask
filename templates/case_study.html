@@ -36,10 +36,18 @@
         {% block case %}{% endblock %}
 
         {% if next_case %}
-        <a class="next-case" href="{{ next_case.url }}">
-            <span class="cs-kicker">Next case study</span>
-            <span class="next-case-title">{{ next_case.title }} →</span>
-        </a>
+        <nav class="case-pager" aria-label="More case studies">
+            {% if prev_case %}
+            <a class="next-case" href="{{ prev_case.url }}">
+                <span class="cs-kicker">Previous case study</span>
+                <span class="next-case-title">← {{ prev_case.title }}</span>
+            </a>
+            {% endif %}
+            <a class="next-case next-case--next" href="{{ next_case.url }}">
+                <span class="cs-kicker">Next case study</span>
+                <span class="next-case-title">{{ next_case.title }} →</span>
+            </a>
+        </nav>
         {% endif %}
     </article>
 </div>

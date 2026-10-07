@@ -131,6 +131,7 @@
     --rail-core: rgba(255, 255, 255, 0.9);
     --rail-glow: rgba(28, 165, 145, 0.75);
     --rail-glow-soft: rgba(28, 165, 145, 0.3);
+    --dur-glow: 600ms;
 }
 
 /* ---------- Global accessibility + defaults ---------- */
@@ -1114,13 +1115,15 @@ html {
 }
 
 /* ----- Rail ----- */
+/* Sticks at the spot it starts in (--rail-top, measured by case_scripts.html), so it never
+   scrolls first; sized to the viewport so nothing inside needs its own scrollbar */
 .cs-rail {
     position: sticky;
-    top: 6rem;
+    top: var(--rail-top, 8rem);
     align-self: start;
-    max-height: calc(100vh - 7rem);
-    overflow-y: auto;
-    scrollbar-width: none;
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - var(--rail-top, 8rem) - var(--s-6));
 }
 
 .cs-back {
@@ -1148,8 +1151,8 @@ html {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: min(calc(var(--n, 6) * 4.5rem), calc(100vh - 17rem));
-    min-height: 8rem;
+    flex: 0 1 calc(var(--n, 6) * 4.5rem);
+    min-height: 0;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -1197,6 +1200,16 @@ html {
     border: 2px solid var(--rail-ring);
     border-radius: 50%;
     background: var(--rail-hole);
+    /* Same three layers as the lit state, at zero, so the glow can swell in */
+    box-shadow:
+        0 0 0 0 transparent,
+        0 0 0 0 transparent,
+        0 0 0 0 transparent;
+    transition:
+        background-color var(--dur-glow) var(--ease-out),
+        border-color var(--dur-glow) var(--ease-out),
+        box-shadow var(--dur-glow) var(--ease-out),
+        filter var(--dur-glow) var(--ease-out);
 }
 
 .cs-index a.is-passed::before {
@@ -1213,27 +1226,21 @@ html {
         0 0 30px 14px var(--rail-glow-soft);
 }
 
-/* Only the current section is named; hovering a ring names it too */
+/* Every section is named in grey; the current one turns white */
 .cs-index-label {
-    display: none;
     font-size: var(--fs-kicker);
     text-transform: uppercase;
     letter-spacing: 0.14em;
     line-height: 1.3;
     color: var(--text-tertiary);
-}
-
-.cs-index a:hover .cs-index-label {
-    display: block;
+    transition: color var(--dur-glow) var(--ease-out);
 }
 
 .cs-index a.is-current .cs-index-label {
-    display: block;
     color: var(--text-primary);
 }
 
 .cs-back:hover,
-.cs-index a:hover,
 .case-title a:hover,
 .cta-button:hover,
 .next-case:hover {
@@ -1542,13 +1549,24 @@ html {
 }
 
 /* ----- Next case study ----- */
-.next-case {
-    display: block;
+.case-pager {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s-6);
     margin: 8rem 0 0;
     padding: var(--s-6) 0 var(--s-7);
     border-top: 1px solid var(--hairline);
+}
+
+.next-case {
+    display: block;
     text-decoration: none;
     transition: filter var(--dur-1) var(--ease-out);
+}
+
+.next-case--next {
+    grid-column: 2;
+    text-align: right;
 }
 
 .next-case-title {
@@ -1600,5 +1618,13 @@ html {
 
     .cs-hero-sub {
         font-size: 1.1rem;
+    }
+
+    .case-pager {
+        grid-template-columns: 1fr;
+    }
+
+    .next-case--next {
+        grid-column: auto;
     }
 }
