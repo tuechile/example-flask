@@ -2,14 +2,67 @@
 
 {% block title %}| Design{% endblock %}
 {% block extra_css %}
-<link href="/static/css/body.css" rel="stylesheet">
+<link href="/static/css/body.css?v={{ asset_v }}" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
 <!--- Navigation page for displaying collaborative work and commissions --->
 <h1 style="text-align: center; margin: 40px; font-family: 'BHN Cinema'; color: white; font-size: 4vw">Graphic Design
 </h1>
-<div class="thumbnail-container">
+<div class="view-toggle" role="group" aria-label="View mode">
+    <button type="button" class="view-btn active" data-view="selected" aria-pressed="true">Selected</button>
+    <span class="view-sep">&middot;</span>
+    <button type="button" class="view-btn" data-view="all" aria-pressed="false">All</button>
+</div>
+<div class="thumbnail-container" id="designList">
+    <!-- Selected = case studies (default view); everything else only shows under All -->
+    <div class="thumbnail" data-selected>
+        <a href="hackharvard">
+            <img src="{{ img('design', 'hackharvard/keyart.jpg') }}" alt="HackHarvard 2026" style="height: 300px;">
+            <div class="thumbnail-content">
+                <div class="thumbnail-header">HackHarvard 2026: Hack to the Moon</div>
+                <div class="thumbnail-description">
+                    Branding, campaign graphics and merch for Harvard's undergraduate hackathon
+                </div>
+                <div class="thumbnail-description" style="color:#bbb;">
+                    Case study
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="thumbnail" data-selected>
+        <a href="ivmun">
+            <img src="{{ img('art_direction', 'ivmun.jpg') }}" alt="IVMUN" style="height: 300px;">
+            <div class="thumbnail-content">
+                <div class="thumbnail-header">International Vietnam Model United Nations
+                </div>
+                <div class="thumbnail-description">
+                    Biggest Model UN in Vietnam with annual conference participation up to 1000 people of many
+                    countries besides Vietnam
+                </div>
+                <div class="thumbnail-description" style="color:#bbb;">
+                    Co-head of Design
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="thumbnail" data-selected>
+        <a href="merch">
+            <img src="{{ img('design', 'merch/hpair-crest.png') }}" alt="Merch" style="height: 300px;">
+            <div class="thumbnail-content">
+                <div class="thumbnail-header">Merch</div>
+                <div class="thumbnail-description">
+                    Crests, logos and goods for HPAIR, CNN Olympics and HUDC
+                </div>
+                <div class="thumbnail-description" style="color:#bbb;">
+                    Case study
+                </div>
+            </div>
+        </a>
+    </div>
+
     <div class="thumbnail">
         <a href="olympics">
             <img src="{{ img('olympics', '6Artboard.jpg') }}" alt="CNN Olympics" style="height: 300px;">
@@ -36,23 +89,6 @@
                 </div>
                 <div class="thumbnail-description" style="color:#bbb;">
                     Art director
-                </div>
-            </div>
-        </a>
-    </div>
-
-    <div class="thumbnail">
-        <a href="https://www.facebook.com/official.ivmun">
-            <img src="{{ img('art_direction', 'ivmun.jpg') }}" alt="CEC" style="height: 300px;">
-            <div class="thumbnail-content">
-                <div class="thumbnail-header">International Vietnam Model United Nations
-                </div>
-                <div class="thumbnail-description">
-                    Biggest Model UN in Vietnam with annual conference participation up to 1000 people of many
-                    countries besides Vietnam
-                </div>
-                <div class="thumbnail-description" style="color:#bbb;">
-                    Co-head of Design
                 </div>
             </div>
         </a>
@@ -102,6 +138,34 @@
         </div>
     </div>
 </div>
+
+<script>
+    (function () {
+        var btns = document.querySelectorAll(".view-btn");
+        var cards = document.querySelectorAll("#designList .thumbnail");
+
+        function setView(view) {
+            cards.forEach(function (c) {
+                c.style.display = (view === "all" || c.hasAttribute("data-selected")) ? "" : "none";
+            });
+            btns.forEach(function (b) {
+                var on = b.dataset.view === view;
+                b.classList.toggle("active", on);
+                b.setAttribute("aria-pressed", on);
+            });
+        }
+
+        btns.forEach(function (b) {
+            b.addEventListener("click", function () {
+                setView(b.dataset.view);
+                // keep the choice on back/forward without adding history entries
+                history.replaceState(null, "", b.dataset.view === "all" ? "#all" : location.pathname);
+            });
+        });
+
+        setView(location.hash === "#all" ? "all" : "selected");
+    })();
+</script>
 {% endblock %}
 <!--- Additional footer detail --->
 {% block footer%} <a class="com-footer" style="text-decoration: none; color: #888" href="about">Commission me on

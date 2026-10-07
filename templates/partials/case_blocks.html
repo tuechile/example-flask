@@ -1,0 +1,184 @@
+{#
+    Case-study building blocks, one macro per layout in case-study-style-guide.md (§ numbers match).
+    Import with: {% import "partials/case_blocks.html" as cs %}
+    Text arguments may contain inline HTML (<em>, <strong>, <br>).
+#}
+
+{# §10 Caption #}
+{% macro img_caption(text) %}
+<p class="img-caption">{{ text|safe }}</p>
+{% endmacro %}
+
+
+{# Narrow reading column for everything after the hero / preview / TL;DR #}
+{% macro body() %}
+<div class="case-page">
+    {{ caller() }}
+</div>
+{% endmacro %}
+
+
+{# Generic fade-in block: a lone placeholder, or §12 bespoke HTML #}
+{% macro block() %}
+<div class="bio-container reveal">
+    {{ caller() }}
+</div>
+{% endmacro %}
+
+
+{# §1 Hero #}
+{% macro hero(title, subtitle=None, tags=[], eyebrow=None, meta=None, href=None, subtitle_size="sm") %}
+<div class="bio-container reveal">
+    {% if href %}
+    <a class="case-hero case-hero--link" href="{{ href }}" target="_blank" rel="noopener noreferrer">
+    {% else %}
+    <div class="case-hero">
+    {% endif %}
+        {% if eyebrow %}<p class="case-subtitle case-eyebrow">{{ eyebrow|safe }}</p>{% endif %}
+        <h1 class="case-title">{{ title|safe }}</h1>
+        {% if subtitle %}<p class="case-subtitle case-subtitle--{{ subtitle_size }}">{{ subtitle|safe }}</p>{% endif %}
+        {% if meta %}<p class="hero-meta">{{ meta|safe }}</p>{% endif %}
+        {% if tags %}
+        <div class="tag-row">
+            {% for tag in tags %}<div class="tag">{{ tag|safe }}</div>{% endfor %}
+        </div>
+        {% endif %}
+    {% if href %}</a>{% else %}</div>{% endif %}
+</div>
+{% endmacro %}
+
+
+{# §2 Section — heading, optional bold lead line, body from the call block #}
+{% macro section(heading=None, lead=None) %}
+<div class="bio-container reveal">
+    <div class="bio-text bio-text--section">
+        {% if heading %}<h2>{{ heading|safe }}</h2>{% endif %}
+        {% if lead %}<p class="lead"><strong>{{ lead|safe }}</strong></p>{% endif %}
+        {% if caller %}{{ caller() }}{% endif %}
+    </div>
+</div>
+{% endmacro %}
+
+
+{# §3 Chapter #}
+{% macro chapter(heading, theme=None, poem=None) %}
+<div class="bio-container reveal">
+    <div class="bio-text bio-text--center">
+        {% if theme %}<p>{{ theme|safe }}</p>{% endif %}
+        <h2>{{ heading|safe }}</h2>
+        {% if poem %}<p class="gradient-poem">{{ poem|safe }}</p>{% endif %}
+    </div>
+</div>
+{% endmacro %}
+
+
+{# §4 Figure — a single media card #}
+{% macro card(src, alt, size=None, zoom=True) %}
+<div class="media-card{% if size %} media-card--{{ size }}{% endif %}">
+    <img{% if zoom %} class="lightboxable"{% endif %} src="{{ src }}" alt="{{ alt }}">
+</div>
+{% endmacro %}
+
+{% macro figure(src, alt, size=None, caption=None, zoom=True) %}
+<div class="bio-container reveal">
+    {{ card(src, alt, size, zoom) }}
+</div>
+{% if caption %}{{ img_caption(caption) }}{% endif %}
+{% endmacro %}
+
+
+{# §5 Rows — layout: pair | equal | auto | 3 | quad; cells are card / video_card / placeholder #}
+{% macro row(layout="pair", caption=None) %}
+<div class="bio-container reveal">
+    <div class="split{% if layout != 'auto' %} split-{{ layout }}{% endif %}">
+        {{ caller() }}
+    </div>
+</div>
+{% if caption %}{{ img_caption(caption) }}{% endif %}
+{% endmacro %}
+
+{% macro video_card(src, types=["video/mp4"]) %}
+<div class="media-card">
+    <video autoplay loop muted playsinline>
+        {% for type in types %}<source src="{{ src }}" type="{{ type }}">{% endfor %}
+    </video>
+</div>
+{% endmacro %}
+
+{% macro placeholder(text="Coming soon") %}
+<div class="media-card media-card--placeholder">{{ text }}</div>
+{% endmacro %}
+
+
+{# §6 Mockup strip — images: list of (src, alt) #}
+{% macro mockups(images, caption=None) %}
+<div class="case-mockups">
+    {% for src, alt in images %}
+    <img class="lightboxable" src="{{ src }}" alt="{{ alt }}">
+    {% endfor %}
+</div>
+{% if caption %}{{ img_caption(caption) }}{% endif %}
+{% endmacro %}
+
+
+{# §7 Media + text #}
+{% macro media_text(src, alt, heading=None, lead=None, size="sm", flow=False) %}
+<div class="bio-container reveal">
+    <div class="split{% if flow %} split-flow{% endif %}">
+        {{ card(src, alt, size) }}
+        <div class="bio-text bio-text--section">
+            {% if heading %}<h2>{{ heading|safe }}</h2>{% endif %}
+            {% if lead %}<p class="lead"><strong>{{ lead|safe }}</strong></p>{% endif %}
+            {{ caller() }}
+        </div>
+    </div>
+</div>
+{% endmacro %}
+
+
+{# §8 Callouts #}
+{% macro callout_box(title, points=[], text=None, display=True, wide=False) %}
+<div class="callout{% if wide %} callout--wide{% endif %}">
+    <h3{% if display %} class="callout-title--display"{% endif %}>{{ title|safe }}</h3>
+    {% if text %}<p>{{ text|safe }}</p>{% endif %}
+    {% for point in points %}<p>• {{ point|safe }}</p>{% endfor %}
+</div>
+{% endmacro %}
+
+{% macro callout(title, points=[], text=None, display=True, wide=False) %}
+<div class="bio-container reveal">
+    {{ callout_box(title, points, text, display, wide) }}
+</div>
+{% endmacro %}
+
+{# boxes: two dicts with title, points, and optional display #}
+{% macro compare(boxes) %}
+<div class="bio-container reveal">
+    <div class="split split-equal">
+        {% for box in boxes %}
+        {{ callout_box(box.title, box.points, display=box.get('display', True)) }}
+        {% endfor %}
+    </div>
+</div>
+{% endmacro %}
+
+
+{# §9 Rollout grid — phases: list of (label, title, description) #}
+{% macro rollout(phases) %}
+<div class="bio-container reveal">
+    <div class="rollout-grid">
+        {% for label, title, description in phases %}
+        <div class="rollout-card">
+            <p class="rollout-phase">{{ label }}</p>
+            <p><strong>{{ title|safe }}</strong><br>{{ description|safe }}</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endmacro %}
+
+
+{# §11 Call to action (use inside a section) #}
+{% macro cta(href, label) %}
+<a href="{{ href }}" target="_blank" rel="noopener" class="cta-button"><strong>{{ label|safe }}</strong></a>
+{% endmacro %}

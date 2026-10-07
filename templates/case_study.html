@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{#
+    Case-study page shell. Layouts and rules: case-study-style-guide.md
+    Child pages: {% extends "case_study.html" %}, {% import "partials/case_blocks.html" as cs %},
+    then fill {% block case %}. Optional: {% block case_css %}, {% block case_scripts %}.
+#}
+
+{% block extra_css %}
+<link href="/static/css/ux.css?v={{ asset_v }}" rel="stylesheet">
+{% block case_css %}{% endblock %}
+{% endblock %}
+
+{% block content %}
+
+<div class="progress-wrap">
+    <div class="progress-bar" id="progressBar"></div>
+</div>
+
+{% block case %}{% endblock %}
+
+{% include "partials/case_scripts.html" %}
+{% block case_scripts %}{% endblock %}
+
+{% endblock %}

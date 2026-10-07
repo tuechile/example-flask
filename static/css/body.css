@@ -717,3 +717,43 @@
       aspect-ratio: 17 / 22;
     }
   }  
+/* Design page: Selected / All view toggle */
+.view-toggle {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    gap: 0.75rem;
+    margin: -1rem auto 0;
+    font-family: "Crimson Text", serif;
+    font-style: italic;
+}
+
+.view-btn {
+    font: inherit;
+    font-size: 1.05rem;
+    color: var(--text);
+    background: none;
+    border: none;
+    border-bottom: 1px solid transparent;
+    padding: 0.2rem 0.1rem;
+    cursor: pointer;
+    transition: filter 0.3s ease, color 0.3s ease;
+}
+
+.view-btn:hover {
+    filter: blur(1px);
+}
+
+.view-btn.active {
+    color: var(--title);
+    border-bottom-color: var(--accent);
+}
+
+.view-sep {
+    color: var(--text);
+}
+
+/* Gallery variant: keep each image's own aspect ratio instead of cropping */
+.masonry--natural .item img {
+    height: auto;
+}

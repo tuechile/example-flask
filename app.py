@@ -13,6 +13,7 @@ app.secret_key = "change-this-to-a-long-random-string"  # required for sessions
 IMAGE_FOLDERS = {
     "about": "about",
     "afvs": "afvs",
+    "design": "design",
     "art_direction": "art direction",
     "client": "client",
     "fish": "fish",
@@ -27,7 +28,22 @@ IMAGE_FOLDERS = {
     "ux": "ux",
 }
 
+# Cache-busting version appended to local CSS/JS URLs (?v=...).
+# Bump on every change so browsers fetch fresh assets.
+ASSET_VERSION = "3"
+
 GALLERY_IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".gif", ".webp"}
+
+# Masonry photo galleries, all rendered by templates/gallery.html.
+# folder: IMAGE_FOLDERS key; section: page title suffix; sort: gallery_images()
+# sort mode; natural_height: show images at their own aspect ratio, uncropped.
+GALLERIES = {
+    "illustration": {"folder": "illustration", "section": "Personal", "sort": "date_desc"},
+    "portal": {"folder": "portal", "section": "Personal"},
+    "street": {"folder": "street", "section": "Personal"},
+    "superface": {"folder": "self", "section": "Personal"},
+    "olympics": {"folder": "olympics", "section": "Design", "natural_height": True},
+}
 
 # Templates that live under templates/Projects/ instead of at the templates
 # root, keyed by the short "finder" name used elsewhere in this file.
@@ -36,6 +52,17 @@ PROJECT_TEMPLATES = {
     "t4sg": "Projects/2ft.html",
     "commonspirit": "Projects/commonspirit.html",
 }
+
+
+def render_gallery(name):
+    config = {"sort": "name", "natural_height": False, **GALLERIES[name]}
+    return render_template("gallery.html", **config)
+
+
+def render_sub_page(name, folder):
+    if name in GALLERIES:
+        return render_gallery(name)
+    return render_template(f"{folder}/{name}.html")
 
 
 def _date_sort_key(filename):
@@ -66,7 +93,7 @@ def inject_image_helper():
             return sorted(files, key=_date_sort_key, reverse=True)
         return sorted(files)
 
-    return dict(img=img, gallery_images=gallery_images)
+    return dict(img=img, gallery_images=gallery_images, asset_v=ASSET_VERSION)
 
 @app.route("/", methods=["GET", "POST"])
 def home():
@@ -76,7 +103,7 @@ def home():
         finder = request.form.get("finder", "").strip().lower()
 
         personal_websites = ["afvs", "essays", "fysemr", "gifafvs", "illustration", "portal", "street", "superface"]
-        collab_websites = ["highlander", "recit", "olympics"]
+        collab_websites = ["highlander", "recit", "olympics", "ivmun", "hackharvard", "merch"]
         flat = ["about", "collab", "cs171", "personal"]
 
         # ✅ If user types "t4sg" (or similar), send them to the t4sg page
@@ -86,12 +113,21 @@ def home():
         if finder in ["commonspirit", "common spirit", "commonspirit health", "common spirit health", "t4sg x commonspirit"]:
             return render_template(PROJECT_TEMPLATES["commonspirit"])
 
+        if finder in ["hack harvard", "hackharvard 2026", "hack to the moon", "hhuh"]:
+            return render_template("collab websites/hackharvard.html")
+
+        if finder in ["model un", "mun", "vietnam model united nations"]:
+            return render_template("collab websites/ivmun.html")
+
+        if finder in ["hpair", "hconf", "hudc", "cnn olympics", "stickers", "tote"]:
+            return render_template("collab websites/merch.html")
+
         if finder in flat:
             return render_template(PROJECT_TEMPLATES.get(finder, f"{finder}.html"))
         elif finder in personal_websites:
-            return render_template(f"personal websites/{finder}.html")
+            return render_sub_page(finder, "personal websites")
         elif finder in collab_websites:
-            return render_template(f"collab websites/{finder}.html")
+            return render_sub_page(finder, "collab websites")
 
         elif finder in ["chi", "pirenily", "me", "chi le", "emily", "iron pig", "chi bell", "myself", "i", "artist"]:
             return render_template("about.html")
@@ -105,9 +141,9 @@ def home():
         else:
             finder = random.choice(personal_websites + collab_websites + flat)
             if finder in personal_websites:
-                return render_template(f"personal websites/{finder}.html")
+                return render_sub_page(finder, "personal websites")
             elif finder in collab_websites:
-                return render_template(f"collab websites/{finder}.html")
+                return render_sub_page(finder, "collab websites")
             else:
                 return render_template(PROJECT_TEMPLATES.get(finder, f"{finder}.html"))
 
@@ -141,19 +177,19 @@ def collab():
 
 @app.route("/illustration")
 def illustration():
-    return render_template("personal websites/illustration.html")
+    return render_gallery("illustration")
 
 @app.route("/portal")
 def portal():
-    return render_template("personal websites/portal.html")
+    return render_gallery("portal")
 
 @app.route("/street")
 def street():
-    return render_template("personal websites/street.html")
+    return render_gallery("street")
 
 @app.route("/superface")
 def superface():
-    return render_template("personal websites/superface.html")
+    return render_gallery("superface")
 
 @app.route("/afvs")
 def afvs():
@@ -181,7 +217,19 @@ def recit():
 
 @app.route("/olympics")
 def olympics():
-    return render_template("collab websites/olympics.html")
+    return render_gallery("olympics")
+
+@app.route("/ivmun")
+def ivmun():
+    return render_template("collab websites/ivmun.html")
+
+@app.route("/hackharvard")
+def hackharvard():
+    return render_template("collab websites/hackharvard.html")
+
+@app.route("/merch")
+def merch():
+    return render_template("collab websites/merch.html")
 
 @app.route("/cs1710")
 def cs171():

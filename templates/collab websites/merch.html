@@ -1,0 +1,42 @@
+{% extends "case_study.html" %}
+{% import "partials/case_blocks.html" as cs %}
+
+{% block title %}| Merch{% endblock %}
+
+{% block case %}
+
+{{ cs.hero("Merch", "Crests, logos and goods for student organizations.",
+           tags=["HPAIR", "CNN Olympics", "HUDC"]) }}
+
+{# ===== HPAIR ===== #}
+{% call cs.section("HPAIR") %}
+<p>
+    Merch for the Harvard College Project for Asian and International Relations' HCONF 2026,
+    <em>Emerging Horizons: Truth at Dawn, Hope at Dusk</em>.
+</p>
+{% endcall %}
+
+{% call cs.row("pair", caption="HCONF crest and notebook cover sketch.") %}
+    {{ cs.card(img('design', 'merch/hpair-crest.png'), "HCONF crest: a glowing tower inside a shield") }}
+    {{ cs.card(img('design', 'merch/hpair-notebook.jpg'), "Notebook cover sketch built around the One Pillar Pagoda") }}
+{% endcall %}
+
+{# ===== CNN Olympics ===== #}
+{% call cs.section("CNN Olympics") %}
+<p>Commissioned team logos for CNN Hội Thao.</p>
+{% endcall %}
+
+{% call cs.row("quad") %}
+    {% for filename in gallery_images('olympics') %}
+    {{ cs.card(img('olympics', filename), "CNN Olympics logo") }}
+    {% endfor %}
+{% endcall %}
+
+{# ===== HUDC ===== #}
+{{ cs.section("HUDC") }}
+
+{% call cs.block() %}
+    {{ cs.placeholder() }}
+{% endcall %}
+
+{% endblock %}

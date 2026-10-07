@@ -1,0 +1,50 @@
+{% extends "case_study.html" %}
+{% import "partials/case_blocks.html" as cs %}
+
+{% block title %}| HackHarvard{% endblock %}
+
+{% block case %}
+
+{{ cs.hero("HackHarvard 2026: Hack to the Moon",
+           "Branding, campaign graphics and merch for HackHarvard 2026, Oct 16–18 at Harvard University.",
+           tags=["Theme: Hack to the Moon", "Scope: Logo · Key art · Posters · Banners · Merch"]) }}
+
+{# ===== Key art ===== #}
+{{ cs.figure(img('design', 'hackharvard/banner.jpg'),
+             "Hack to the Moon banner with a domed tower, planets and glowing orbs",
+             size="lg", caption="Campaign banner.") }}
+
+{% call cs.section("Identity") %}
+<p>
+    The 2026 theme, <em>Hack to the Moon</em>, pairs the HackHarvard monogram with a night-sky world of
+    towers, crescents and rockets in pink, teal and gold.
+</p>
+{% endcall %}
+
+{% call cs.row("pair", caption="Key art and event mark.") %}
+    {{ cs.card(img('design', 'hackharvard/keyart.jpg'), "HackHarvard key art: the monogram built from a tower and crescent moon") }}
+    {{ cs.card(img('design', 'hackharvard/mark.png'), "Hack to the Moon event mark with dates 10/16 to 10/18, 2026") }}
+{% endcall %}
+
+{# ===== Posters ===== #}
+{{ cs.section("Campaign") }}
+
+{% call cs.row("pair", caption="Launch and applications-open posters.") %}
+    {{ cs.card(img('design', 'hackharvard/poster-moon.jpg'), "Hack to the Moon poster announcing Oct 16 to 18, 2026") }}
+    {{ cs.card(img('design', 'hackharvard/poster-apps.jpg'), "Hacker applications open poster") }}
+{% endcall %}
+
+{# ===== Merch ===== #}
+{{ cs.section("Merch") }}
+
+{{ cs.figure(img('design', 'hackharvard/stickers.png'), "Sticker sheet with six HackHarvard 2026 stickers",
+             size="md", caption="Sticker sheet.") }}
+
+{% call cs.row("quad", caption="T-shirt back, tote, pin and logo lockup.") %}
+    {{ cs.card(img('design', 'hackharvard/tee-back.jpg'), "Red t-shirt back with sponsor logos") }}
+    {{ cs.card(img('design', 'hackharvard/tote.jpg'), "Tote bag mockup with the HackHarvard 2026 logo") }}
+    {{ cs.card(img('design', 'hackharvard/pin.jpg'), "Oval HackHarvard 2026 pin with a rocket") }}
+    {{ cs.card(img('design', 'hackharvard/logo.png'), "HackHarvard 2026 gradient logo") }}
+{% endcall %}
+
+{% endblock %}

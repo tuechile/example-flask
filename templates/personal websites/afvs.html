@@ -1,25 +1,31 @@
-{% extends "layout.html" %}
+{% extends "case_study.html" %}
+{% import "partials/case_blocks.html" as cs %}
 
 {% block title %}| Personal{% endblock %}
-{% block extra_css %}
-<link href="/static/css/ux.css" rel="stylesheet">
+
+{% block case_css %}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=BBH+Sans+Bartle&family=Reem+Kufi+Fun&display=swap"
     rel="stylesheet">
 <style>
+    /* p5 sketch */
     #sketch-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         width: 90%;
         height: auto;
+        margin: auto;
+        padding-top: 2.5vh;
         position: relative;
-        justify-content: unset;
     }
 
     canvas {
         width: 90%;
         height: auto;
         display: block;
-        background: #fff;
+        background: var(--highlight);
     }
 
     .sketch-note {
@@ -31,36 +37,12 @@
         text-align: center;
         font-family: var(--font-serif);
         font-size: var(--fs-1);
-        color: rgba(0, 0, 0, 0.55);
+        color: var(--ink-muted);
         font-style: italic;
         pointer-events: none;
     }
 
-    .case-subtitle {
-        font-size: var(--fs-2);
-    }
-
-    .hero-meta {
-        font-family: var(--font-serif);
-        color: var(--text-secondary);
-        font-size: var(--fs-1);
-        margin-top: var(--s-2);
-    }
-
-    .gradient-poem {
-        max-width: 700px;
-        margin: 0 auto;
-        font-family: var(--font-serif);
-        font-size: var(--fs-3);
-        line-height: var(--lh);
-        background: linear-gradient(45deg, var(--accent), #fff, var(--accent));
-        background-size: 200%;
-        background-clip: text;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        animation: gradientHover 2s infinite linear;
-    }
-
+    /* Art photos: show whole image, capped to half the viewport */
     .media-card {
         display: flex;
         align-items: center;
@@ -74,35 +56,16 @@
         max-width: 100%;
         object-fit: contain;
     }
-
-    .split-3 {
-        grid-template-columns: repeat(3, 1fr);
-    }
-
-    @media screen and (max-width: 880px) {
-        .split-3 {
-            grid-template-columns: 1fr;
-        }
-    }
 </style>
-
 {% endblock %}
 
-{% block content %}
+{% block case %}
 
-<!-- Sticky progress bar -->
-<div class="progress-wrap">
-    <div class="progress-bar" id="progressBar"></div>
-</div>
-
-<!--- Subnavigation page for displaying project --->
+{# §12 Bespoke: p5.js sketch #}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.js"></script>
-
-<div id="sketch-container"
-    style="display: flex; justify-content: center; margin: auto; align-items: center; padding-top: 2.5vh;">
+<div id="sketch-container">
     <p class="sketch-note">This is my first ever panel created in Processing.</p>
 </div>
-<!-- Import the script from Processing -->
 <script>
     let f;
     let d = 710;
@@ -112,12 +75,7 @@
     // A mixture of English and Vietnamese text for random display
     let textArray = ["Cute", "What\nthey\ndoing?", "Ew", "That's\nnot it...", "YES", "HELP", "Actually...", "BYE!", "tsk,\ntsk", "Ủa alo", "Im", "Thôi đi", "Để\nyên!", "Ơ hay", "Kinh\nvãi", "Ê Ê Ê", "BYEEEE", "Chịu\nluôn", "Chillax", "Ồ OK", "Shhhh", "Hả?", "Huh?", "Not\nthis.", "Chuyện!"];
 
-    function setup() {
-        let canvas = createCanvas(windowWidth, windowWidth * 0.6);
-        canvas.parent("sketch-container");
-        canvas.style("width", "90%");
-        canvas.style("height", "auto");
-
+    function drawBackdrop() {
         background(255);
         noStroke();
 
@@ -139,6 +97,14 @@
         textSize(50 * scaleX);
         textFont("BBH Sans Bartle");
         text("MIND\nOTHERS'\nBUSINESS", 70 * scaleX, 400 * scaleY);
+    }
+
+    function setup() {
+        let canvas = createCanvas(windowWidth, windowWidth * 0.6);
+        canvas.parent("sketch-container");
+        canvas.style("width", "90%");
+        canvas.style("height", "auto");
+        drawBackdrop();
     }
 
     function draw() {
@@ -183,7 +149,7 @@
 
         // Thought text
         fill(255);
-        textSize(50 * scaleX); // optionally use min(scaleX, scaleY)
+        textSize(50 * scaleX);
         textAlign(CENTER, CENTER);
         textFont("Reem Kufi Fun");
         text(textArray[counter], 560 * scaleX, 120 * scaleY);
@@ -195,431 +161,184 @@
 
     function windowResized() {
         resizeCanvas(windowWidth, windowWidth * 0.6);
-
-        // Optional: redraw static background
-        background(255);
-        noStroke();
-
-        let scaleX = width / 1000;
-        let scaleY = height / 600;
-        let c = 0;
-
-        for (let i = 200; i < 800; i += 25) {
-            for (let j = 50; j < 550; j += 25) {
-                fill(c % 2 === 0 ? 190 : 230);
-                c++;
-                ellipse(i * scaleX, j * scaleY, 10 * scaleX, 10 * scaleY);
-            }
-            c++;
-        }
-
-        textAlign(LEFT, CENTER);
-        fill(0);
-        textSize(50 * scaleX);
-        textFont("BBH Sans Bartle");
-        text("MIND\nOTHERS'\nBUSINESS", 70 * scaleX, 400 * scaleY);
+        drawBackdrop();
     }
-
 </script>
 
-<!--- AFVS 97 project reflections --->
-<div class="bio-container reveal">
-    <div class="case-hero">
-        <h1 class="case-title">Kill the Pig</h1>
-        <p class="case-subtitle">
-            Two linked studio projects on gaze, my identity, and code for AFVS 97: Sophomore Tutorial.
-        </p>
-        <p class="hero-meta">March–May 2026</p>
-        <div class="tag-row">
-            <div class="tag">Discarded metal wires, clay, cloths, frame, Home Depot poles</div>
-            <div class="tag">Python, Processing </div>
-            <div class="tag">Solo </div>
+{# ===================== Kill the Pig (AFVS 97) ===================== #}
+{{ cs.hero("Kill the Pig",
+           "Two linked studio projects on gaze, my identity, and code for AFVS 97: Sophomore Tutorial.",
+           meta="March–May 2026", subtitle_size="md",
+           tags=["Discarded metal wires, clay, cloths, frame, Home Depot poles", "Python, Processing", "Solo"]) }}
 
-        </div>
+{% call cs.body() %}
 
-    </div>
-</div>
+    {# ----- Project 1: A Pig's Death ----- #}
+    {{ cs.chapter("Chapter 1: A pig's death", theme="Theme: A view of my world",
+                  poem="I cannot see the world<br>The world is seeing what I cannot see<br>What I cannot see is seeing the world.") }}
 
-<div class="case-page">
+    {{ cs.figure(img('afvs', 'p1-title.jpg'), "Pig's head sculpture projected onto a stairwell", size="lg") }}
 
-    <!-- ===== Project 1: A Pig's Death ===== -->
-    <div class="bio-container reveal">
-        <div class="bio-text" style="text-align:center; max-width:700px; margin:0 auto;">
-            <p class="bio-text" style="text-align: center;">
-                Theme: A view of my world
-            </p>
+    {% call cs.section() %}
+    <p>
+        I have always been interested in the general themes of rebirth, death, gaze, and the grotesque, and the
+        intertwining play of execution. This project set out to be more personal and exploratory as I tried to
+        grasp all of my past identities, beliefs, and hobbies and put them on display like a public execution —
+        <em>I was called a pig (non-offensively)</em>
+    </p>
+    <p>
+        There are two big sections of this piece: the head and the projection.
+    </p>
+    {% endcall %}
 
-            <h2>Chapter 1: A pig's death</h2>
-            <p class="gradient-poem">
-                I cannot see the world<br>
-                The world is seeing what I cannot see<br>
-                What I cannot see is seeing the world.
-            </p>
+    {% call cs.row("auto", caption="Snapshots of the pig's head in progress — wireframe, foil, then paint and discarded materials.") %}
+        {{ cs.card(img('afvs', 'p1-progress-1.jpg'), "Wireframe armature for the pig's head") }}
+        {{ cs.card(img('afvs', 'p1-progress-2.jpg'), "Foil-wrapped head form in progress") }}
+    {% endcall %}
 
-        </div>
-    </div>
+    {% call cs.section() %}
+    <p>
+        I started out very interested in performance art and the uncanny, almost anonymously voyeuristic feeling
+        of public execution. Attacking the theme of <em>a view of</em> not <em>my</em> world taught me a lot
+        about logistics and physics to build a back-facing headpiece, which naturally led to my decision not to
+        use the sculpture on a moving body. Going into this project either without any expectation or with too
+        ambitious ones, I learned to navigate the trade-offs between a medium and its implied values — there
+        were times I didn't like how a medium turned out and had to reverse-engineer everything.
+    </p>
+    {% endcall %}
 
-    <div class="bio-container reveal">
-        <div class="media-card media-card--lg">
-            <img class="lightboxable" src="{{ img('afvs', 'p1-title.jpg') }}"
-                alt="Pig's head sculpture projected onto a stairwell">
-        </div>
-    </div>
+    {% call cs.row("auto", caption="Draft code &rarr; actual projection.") %}
+        {{ cs.card(img('afvs', 'p1-code-face.jpg'), "Draft distortion code next to a webcam test") }}
+        {{ cs.card(img('afvs', 'p1-projection-test.jpg'), "Distorted face projected onto the stairwell") }}
+    {% endcall %}
 
-    <div class="bio-container reveal">
-        <div class="bio-text" style="text-align:left; max-width:920px;">
-            <p>
-                I have always been interested in the general themes of rebirth, death, gaze, and the grotesque, and the
-                intertwining play of execution. This project set out to be more personal and exploratory as I tried to
-                grasp all of my past identities, beliefs, and hobbies and put them on display like a public execution —
-                <em>I was called a pig (non-offensively)</em>
-            </p>
-            <p>
-                There are two big sections of this piece: the head
-                and the projection.
-            </p>
-        </div>
-    </div>
+    {% call cs.section() %}
+    <p>
+        I actually regretted that this project couldn't be exhibited as a moving piece — not for technical
+        reasons, but because I couldn't figure out how to keep it stable on a moving body, and a lot of the
+        head's components were wobbly enough to fall off mid-motion. A more visual-striking, moving sculpture is
+        my biggest "what if" for this piece — though it would have lost the layer of altered reality and
+        identity reconstruction that only works as a static projected sculpture.
+    </p>
+    {% endcall %}
 
-    <div class="bio-container reveal">
-        <div class="split">
-            <div class="media-card">
-                <img class="lightboxable" src="{{ img('afvs', 'p1-progress-1.jpg') }}"
-                    alt="Wireframe armature for the pig's head">
-            </div>
-            <div class="media-card">
-                <img class="lightboxable" src="{{ img('afvs', 'p1-progress-2.jpg') }}"
-                    alt="Foil-wrapped head form in progress">
-            </div>
-        </div>
-    </div>
-    <p class="img-caption">Snapshots of the pig's head in progress — wireframe, foil, then paint and discarded
-        materials.</p>
+    {% call cs.row("quad", caption="360&deg; sculpture at studio.") %}
+        {{ cs.card(img('afvs', 'p1-360-1.jpg'), "360-degree view of the finished sculpture at the studio") }}
+        {{ cs.card(img('afvs', 'p1-360-2.jpg'), "Another angle of the finished sculpture") }}
+        {{ cs.card(img('afvs', 'p1-360-3.jpg'), "Another angle of the finished sculpture") }}
+        {{ cs.card(img('afvs', 'p1-360-4.jpg'), "Another angle of the finished sculpture") }}
+    {% endcall %}
 
-    <div class="bio-container reveal">
-        <div class="bio-text" style="text-align:left; max-width:920px;">
-            <p>
-                I started out very interested in performance art and the uncanny, almost anonymously voyeuristic feeling
-                of public execution. Attacking the theme of <em>a view of</em> not <em>my</em> world taught me a lot
-                about logistics and physics to build a back-facing headpiece, which naturally led to my decision not to
-                use the sculpture on a moving body. Going into this project either without any expectation or with too
-                ambitious ones, I learned to navigate the trade-offs between a medium and its implied values — there
-                were
-                times I didn't like how a medium turned out and had to reverse-engineer everything.
-            </p>
-        </div>
-    </div>
+    {{ cs.figure(img('afvs', 'p1-final.jpg'), "Finished sculpture projected at home", size="lg",
+                 caption="Sculpture at home with projection.") }}
 
-    <div class="bio-container reveal">
-        <div class="split">
-            <div class="media-card">
-                <img class="lightboxable" src="{{ img('afvs', 'p1-code-face.jpg') }}"
-                    alt="Draft distortion code next to a webcam test">
-            </div>
-            <div class="media-card">
-                <img class="lightboxable" src="{{ img('afvs', 'p1-projection-test.jpg') }}"
-                    alt="Distorted face projected onto the stairwell">
-            </div>
-        </div>
-    </div>
-    <p class="img-caption">Draft code &rarr; actual projection.</p>
+    {# ----- Project 2: A Pig's Funeral ----- #}
+    {{ cs.chapter("Chapter 2: A pig's funeral", theme="Theme: WhaT iF",
+                  poem="I can see the world<br>The world is seeing me not me being me<br>What I cannot see is between me and the world.") }}
 
-    <div class="bio-container reveal">
-        <div class="bio-text" style="text-align:left; max-width:920px;">
-            <p>
-                I actually regretted that this project couldn't be exhibited as a moving piece — not for technical
-                reasons, but because I couldn't figure out how to keep it stable on a moving body, and a lot of the
-                head's components were wobbly enough to fall off mid-motion. A more visual-striking, moving sculpture is
-                my biggest "what if" for this piece — though it would have lost the layer of altered reality and
-                identity
-                reconstruction that only works as a static projected sculpture.
-            </p>
-        </div>
-    </div>
+    {% call cs.row("pair") %}
+        {{ cs.card(img('afvs', 'p2-lead.jpg'), "Netted sculpture suspended in the studio") }}
+        {{ cs.card(img('afvs', 'p2-scale.jpg'), "Scale reference of the netted sculpture") }}
+    {% endcall %}
 
-    <div class="bio-container reveal">
-        <div class="split split-quad">
-            <div class="media-card">
-                <img class="lightboxable" src="{{ img('afvs', 'p1-360-1.jpg') }}"
-                    alt="360-degree view of the finished sculpture at the studio">
-            </div>
-            <div class="media-card">
-                <img class="lightboxable" src="{{ img('afvs', 'p1-360-2.jpg') }}"
-                    alt="Another angle of the finished sculpture">
-            </div>
-            <div class="media-card">
-                <img class="lightboxable" src="{{ img('afvs', 'p1-360-3.jpg') }}"
-                    alt="Another angle of the finished sculpture">
-            </div>
-            <div class="media-card">
-                <img class="lightboxable" src="{{ img('afvs', 'p1-360-4.jpg') }}"
-                    alt="Another angle of the finished sculpture">
-            </div>
-        </div>
-    </div>
-    <p class="img-caption">360&deg; sculpture at studio.</p>
+    {% call cs.section() %}
+    <p>
+        This project is guided by an ongoing question that began in <em>A Pig's Death</em>: what does it mean to
+        be seen? What is an unstable gaze, a partial gaze, or an absent gaze? For this second project, I
+        expanded that into a spatial and participatory system — building an enclosed booth that separates the
+        viewer (outside) from the viewed (inside), using red fabric, netting, and a suspended structure that
+        references both a body and an interior organ. I let the material stay visibly constructed and unstable,
+        embracing the "wobbly," fragmented quality I'd previously resisted.
+    </p>
+    <p>The installation runs through three states: when someone is inside the booth looking, when they're inside
+        but not looking, and when the booth is empty.</p>
+    {% endcall %}
 
-    <div class="bio-container reveal">
-        <div class="media-card media-card--lg">
-            <img class="lightboxable" src="{{ img('afvs', 'p1-final.jpg') }}"
-                alt="Finished sculpture projected at home">
-        </div>
-    </div>
-    <p class="img-caption">Sculpture at home with projection.</p>
+    {% call cs.row("3", caption="Experiment with the code (Python + Processing) in another space &mdash; the booth's three states.") %}
+        {{ cs.card(img('afvs', 'p2-state-empty.jpg'), "State: booth empty, projection alone") }}
+        {{ cs.card(img('afvs', 'p2-state-silhouette.jpg'), "State: inside but not looking, dissolving into diary text") }}
+        {{ cs.card(img('afvs', 'p2-state-look.jpg'), "State: someone inside the booth looking, face distorted") }}
+    {% endcall %}
 
-    <!-- ===== Project 2: A Pig's Funeral ===== -->
-    <div class="bio-container reveal">
-        <div class="bio-text" style="text-align:center; max-width:700px; margin:0 auto;">
-            <p class="bio-text" style="text-align: center;">
-                Theme: WhaT iF
-            </p>
+    {% call cs.section() %}
+    <p>
+        Early experiments focused on facial tracking and distortion, similar to the projection in the pig's
+        head, but simply distorting the face felt too literal. A key shift happened when I tested what occurs
+        when no eyes are detected — that became the second state, where the body dissolves into a negative
+        space filled with text from my queer diaries. Closing my eyes meant seeing neither myself nor any color,
+        so I leaned into the inner thoughts instead, translating them into text so identity could be replaced
+        with memory and interiority. The third state, when no one is present, extends the first project's "what
+        if" about autonomy — the system keeps running as a kind of memory capsule, suggesting identity persists
+        even without a viewer.
+    </p>
+    <p>
+        One of the most important developments was the booth itself. What started as a neutral, mechanically
+        difficult photo booth turned into a womb-like structure, referencing gynecological imagery and the idea
+        of the gaze as a forceful birth. Its openings invite outside viewers to look in, yet the orientation of
+        the viewed's posture prevents any direct eye contact — the same misalignment I explored in <em>A Pig's
+        Death</em>. The pig's head, reframed within a "funeral," becomes both a remnant and a continuation,
+        linking death to distortion to a sense of rebirth.
+    </p>
+    {% endcall %}
 
-            <h2>Chapter 2: A pig's funeral</h2>
+    {% call cs.row("auto", caption="Position of the projected frame vs. the booth.") %}
+        {{ cs.card(img('afvs', 'p2-booth-interior.jpg'), "Red fabric and netting booth interior") }}
+        {{ cs.card(img('afvs', 'p2-installation-room.jpg'), "Booth and projected frame installed in the room") }}
+    {% endcall %}
 
-            <p class="gradient-poem">
-                I can see the world<br>
-                The world is seeing me not me being me<br>
-                What I cannot see is between me and the world.
-            </p>
-        </div>
-    </div>
+    {% call cs.section() %}
+    <p>
+        I'm still questioning whether the work invites genuine self-reflection, or if the mix of overstimulating
+        elements overrides that possibility — a tension between being seen, seeing oneself, and existing without
+        either, and a question of the gaze's technological moment now versus what it becomes further down the
+        human timeline.
+    </p>
+    {% endcall %}
 
-    <div class="bio-container reveal">
-        <div class="split split-pair">
-            <div class="media-card">
-                <img class="lightboxable" src="{{ img('afvs', 'p2-lead.jpg') }}"
-                    alt="Netted sculpture suspended in the studio">
-            </div>
-            <div class="media-card">
-                <img class="lightboxable" src="{{ img('afvs', 'p2-scale.jpg') }}"
-                    alt="Scale reference of the netted sculpture">
-            </div>
-        </div>
-    </div>
+{% endcall %}
 
-    <div class="bio-container reveal">
-        <div class="bio-text" style="text-align:left; max-width:920px;">
-            <p>
-                This project is guided by an ongoing question that began in <em>A Pig's Death</em>: what does it mean to
-                be seen? What is an unstable gaze, a partial gaze, or an absent gaze? For this second project, I
-                expanded
-                that into a spatial and participatory system — building an enclosed booth that separates the viewer
-                (outside) from the viewed (inside), using red fabric, netting, and a suspended structure that references
-                both a body and an interior organ. I let the material stay visibly constructed and unstable, embracing
-                the "wobbly," fragmented quality I'd previously resisted.
-            </p>
-            <p>The installation runs through three states: when someone is inside the booth looking, when they're inside
-                but not looking, and when the booth is empty.</p>
-        </div>
-    </div>
+{# ===================== Heart Room (Conflux) ===================== #}
+{{ cs.hero("Heart Room",
+           "A project on intestine's devotion to the body, the body's devotion to consciousness, the conciousness's devotion to the intestines for Conflux Winter Residency",
+           meta="Jan 2026", subtitle_size="md",
+           href="https://seas.harvard.edu/news/habitual-devotion-making-meaning-digital-world",
+           tags=["43 feet of fabric, clay, Home Depot poles, wood work", "Arduino, LEDs, 3D printing", "Co-artist: Carlos Salais, Alyssa Ao"]) }}
 
-    <div class="bio-container reveal">
-        <div class="split split-3">
-            <div class="media-card">
-                <img class="lightboxable" src="{{ img('afvs', 'p2-state-empty.jpg') }}"
-                    alt="State: booth empty, projection alone">
-            </div>
-            <div class="media-card">
-                <img class="lightboxable" src="{{ img('afvs', 'p2-state-silhouette.jpg') }}"
-                    alt="State: inside but not looking, dissolving into diary text">
-            </div>
-            <div class="media-card">
-                <img class="lightboxable" src="{{ img('afvs', 'p2-state-look.jpg') }}"
-                    alt="State: someone inside the booth looking, face distorted">
-            </div>
-        </div>
-    </div>
-    <p class="img-caption">Experiment with the code (Python + Processing) in another space &mdash; the booth's three
-        states.</p>
+{% call cs.body() %}
 
-    <div class="bio-container reveal">
-        <div class="bio-text" style="text-align:left; max-width:920px;">
-            <p>
-                Early experiments focused on facial tracking and distortion, similar to the projection in the pig's
-                head, but simply distorting the face felt too literal. A key shift happened when I tested what occurs
-                when no eyes are detected — that became the second state, where the body dissolves into a negative
-                space filled with text from my queer diaries. Closing my eyes meant seeing neither myself nor any color,
-                so I leaned into the inner thoughts instead, translating them into text so identity could be replaced
-                with memory and interiority. The third state, when no one is present, extends the first project's "what
-                if" about autonomy — the system keeps running as a kind of memory capsule, suggesting identity persists
-                even without a viewer.
-            </p>
-            <p>
-                One of the most important developments was the booth itself. What started as a neutral, mechanically
-                difficult photo booth turned into a womb-like structure, referencing gynecological imagery and the idea
-                of the gaze as a forceful birth. Its openings invite outside viewers to look in, yet the orientation of
-                the viewed's posture prevents any direct eye contact — the same misalignment I explored in <em>A Pig's
-                    Death</em>. The pig's head, reframed within a "funeral," becomes both a remnant and a continuation,
-                linking death to distortion to a sense of rebirth.
-            </p>
-        </div>
-    </div>
+    {% call cs.row("auto", caption="Light mode vs. dark mode.") %}
+        {{ cs.card(img('afvs', 'chud lightmode.JPG'), "Chud doll lit in light mode") }}
+        {{ cs.video_card(img('afvs', 'chud darkmode.mp4')) }}
+    {% endcall %}
 
-    <div class="bio-container reveal">
-        <div class="split">
-            <div class="media-card">
-                <img class="lightboxable" src="{{ img('afvs', 'p2-booth-interior.jpg') }}"
-                    alt="Red fabric and netting booth interior">
-            </div>
-            <div class="media-card">
-                <img class="lightboxable" src="{{ img('afvs', 'p2-installation-room.jpg') }}"
-                    alt="Booth and projected frame installed in the room">
-            </div>
-        </div>
-    </div>
-    <p class="img-caption">Position of the projected frame vs. the booth.</p>
+    {% call cs.section() %}
+    <p>
+        There is claustrophobia represented by a confined tunnel that you cannot see through right away, and you
+        have to trust us to lead you through it. It is short but small and messy, and you have no choice but to
+        move forward.
+    </p>
+    <p>
+        Then there is morbid curiosity. The tunnel's fabric walls are not see-through, but they are
+        full of holes, and you might find yourself wanting to peek through them. The sound pulls you in and so
+        does the light, and if you do look, you will find our doll with its beating heart, plastic head, metal
+        ribcage, and velvet intestines. It is not a particularly pleasant thing to see, and the redness of
+        everything carries an intensity that evokes a sense of gore no one should reasonably enjoy. But then the
+        heartbeat is somehow soothing, and the doll's face is not quite scary, so you might want to look again
+        and study it more carefully. You can use your fingers to stretch the fabric and look at the doll more
+        closely, or take a few more steps along the tunnel to find a different angle.
+    </p>
+    <p class="gradient-poem">All gaze is unneutral;</p>
+    <p>
+        It is almost like we were sneaky onlookers of something we are not privy to, but the mental and physical
+        journey to exempt ourselves from looking (by just leaving the room straight ahead) is also challenging.
+    </p>
+    {% endcall %}
 
-    <div class="bio-container reveal">
-        <div class="bio-text" style="text-align:left; max-width:920px;">
-            <p>
-                I'm still questioning whether the work invites genuine self-reflection, or if the mix of overstimulating
-                elements overrides that possibility — a tension between being seen, seeing oneself, and existing without
-                either, and a question of the gaze's technological moment now versus what it becomes further down the
-                human timeline.
-            </p>
-        </div>
-    </div>
-</div>
-<div class="bio-container reveal">
-    <a class="case-hero" href="https://seas.harvard.edu/news/habitual-devotion-making-meaning-digital-world"
-        target="_blank" rel="noopener noreferrer" style=" text-decoration:none; color:inherit;">
-        <h1 class="case-title">Heart Room</h1>
-        <p class="case-subtitle">
-            A project on intestine's devotion to the body, the body's devotion to consciousness, the conciousness's devotion to the intestines
-            for Conflux Winter Residency
-        </p>
-        <p class="hero-meta">Jan 2026</p>
-        <div class="tag-row">
-            <div class="tag">43 feet of fabric, clay, Home Depot poles, wood work</div>
-            <div class="tag">Arduino, LEDs, 3D printing</div>
-            <div class="tag">Co-artist: Carlos Salais, Alyssa Ao</div>
-        </div>
-    </a>
-</div>
+    {% call cs.row("auto") %}
+        {{ cs.video_card(img('afvs', 'chudbeat.MOV'), types=["video/quicktime", "video/mp4"]) }}
+        {{ cs.video_card(img('afvs', 'heartbeat.MOV'), types=["video/quicktime", "video/mp4"]) }}
+    {% endcall %}
 
-
-<div class="case-page">
-
-    <div class="bio-container reveal">
-        <div class="split">
-            <div class="media-card">
-                <img class="lightboxable" src="{{ img('afvs', 'chud lightmode.JPG') }}"
-                    alt="Chud doll lit in light mode">
-            </div>
-            <div class="media-card">
-                <video autoplay loop muted playsinline>
-                    <source src="{{ img('afvs', 'chud darkmode.mp4') }}" type="video/mp4">
-                </video>
-            </div>
-        </div>
-    </div>
-    <p class="img-caption">Light mode vs. dark mode.</p>
-    <div class="bio-text" style="text-align:left; max-width:920px;">
-        <p>
-            There is
-            claustrophobia represented by a confined tunnel that you cannot see through right away, and you have to
-            trust us to lead you through it. It is short but small and messy, and you have no choice but to move
-            forward.
-        </p>
-        <p> Then there is morbid curiosity. The tunnel's fabric walls are not see-through, but they are
-            full of holes, and you might find yourself wanting to peek through them. The sound pulls you in and so
-            does the light, and if you do look, you will find our doll with its beating heart, plastic head, metal
-            ribcage, and velvet intestines. It is not a particularly pleasant thing to see, and the redness of
-            everything carries an intensity that evokes a sense of gore no one should reasonably enjoy. But then the
-            heartbeat is somehow soothing, and the doll's face is not quite scary, so you might want to look again
-            and study it more carefully. You can use your fingers to stretch the fabric and look at the doll more
-            closely, or take a few more steps along the tunnel to find a different angle.
-        </p>
-        <p class="gradient-poem" style="text-align: center;">
-
-            All gaze is unneutral;
-        </p>
-        <p>It is almost like we were sneaky
-            onlookers of something we are not privy to, but the mental and physical journey to exempt ourselves from
-            looking (by just leaving the room straight ahead) is also challenging.
-        </p>
-    </div>
-
-
-    <div class="bio-container reveal">
-        <div class="split">
-            <div class="media-card">
-                <video autoplay loop muted playsinline>
-                    <source src="{{ img('afvs', 'chudbeat.MOV') }}" type="video/quicktime">
-                    <source src="{{ img('afvs', 'chudbeat.MOV') }}" type="video/mp4">
-                </video>
-            </div>
-            <div class="media-card">
-                <video autoplay loop muted playsinline>
-                    <source src="{{ img('afvs', 'heartbeat.MOV') }}" type="video/quicktime">
-                    <source src="{{ img('afvs', 'heartbeat.MOV') }}" type="video/mp4">
-                </video>
-            </div>
-        </div>
-    </div>
-
-</div>
-
-
-<!-- Lightbox overlay (ux.css already styles .lightbox-overlay / .close-btn) -->
-<div class="lightbox-overlay" id="lightbox">
-    <div class="close-btn" id="lightboxClose">&times;</div>
-    <img id="lightboxImg" src="" alt="Expanded image">
-</div>
-</div>
-
-
-<script>
-    // ===== Scroll progress bar =====
-    (function () {
-        const bar = document.getElementById("progressBar");
-        function onScroll() {
-            const doc = document.documentElement;
-            const scrollTop = doc.scrollTop || document.body.scrollTop;
-            const scrollHeight = doc.scrollHeight - doc.clientHeight;
-            const pct = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
-            bar.style.width = pct.toFixed(2) + "%";
-        }
-        window.addEventListener("scroll", onScroll, { passive: true });
-        onScroll();
-    })();
-
-    // ===== Reveal on scroll =====
-    (function () {
-        const els = document.querySelectorAll(".reveal");
-        const obs = new IntersectionObserver((entries) => {
-            entries.forEach(e => {
-                if (e.isIntersecting) e.target.classList.add("show");
-            });
-        }, { threshold: 0.12 });
-        els.forEach(el => obs.observe(el));
-    })();
-
-    // ===== Lightbox for images =====
-    (function () {
-        const overlay = document.getElementById("lightbox");
-        const img = document.getElementById("lightboxImg");
-        const close = document.getElementById("lightboxClose");
-        const items = document.querySelectorAll(".lightboxable");
-
-        function open(src, alt) {
-            img.src = src;
-            img.alt = alt || "Expanded image";
-            overlay.style.display = "flex";
-        }
-        function shut() {
-            overlay.style.display = "none";
-            img.src = "";
-        }
-
-        items.forEach(i => i.addEventListener("click", () => open(i.src, i.alt)));
-        close.addEventListener("click", shut);
-        overlay.addEventListener("click", (e) => { if (e.target === overlay) shut(); });
-        window.addEventListener("keydown", (e) => { if (e.key === "Escape") shut(); });
-    })();
-</script>
-
-<!--- Spacer to maintain page length --->
-<div class="spacer" style="padding-bottom: 0rem;"> </div>
+{% endcall %}
 
 {% endblock %}

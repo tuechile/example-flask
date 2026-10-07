@@ -1,0 +1,44 @@
+<!-- Shared by the Design case studies: progress bar, scroll reveal, lightbox -->
+<div class="lightbox-overlay" id="lightbox">
+    <div class="close-btn" id="lightboxClose">&times;</div>
+    <img id="lightboxImg" src="" alt="Expanded image">
+</div>
+
+<script>
+    (function () {
+        const bar = document.getElementById("progressBar");
+        function onScroll() {
+            const doc = document.documentElement;
+            const scrollHeight = doc.scrollHeight - doc.clientHeight;
+            const pct = scrollHeight > 0 ? (doc.scrollTop / scrollHeight) * 100 : 0;
+            bar.style.width = pct.toFixed(2) + "%";
+        }
+        window.addEventListener("scroll", onScroll, { passive: true });
+        onScroll();
+    })();
+
+    (function () {
+        const obs = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("show"); });
+        }, { threshold: 0.12 });
+        document.querySelectorAll(".reveal").forEach(el => obs.observe(el));
+    })();
+
+    (function () {
+        const overlay = document.getElementById("lightbox");
+        const img = document.getElementById("lightboxImg");
+        function open(src, alt) {
+            img.src = src;
+            img.alt = alt || "Expanded image";
+            overlay.style.display = "flex";
+        }
+        function shut() {
+            overlay.style.display = "none";
+            img.src = "";
+        }
+        document.querySelectorAll(".lightboxable").forEach(i => i.addEventListener("click", () => open(i.src, i.alt)));
+        document.getElementById("lightboxClose").addEventListener("click", shut);
+        overlay.addEventListener("click", (e) => { if (e.target === overlay) shut(); });
+        window.addEventListener("keydown", (e) => { if (e.key === "Escape") shut(); });
+    })();
+</script>
