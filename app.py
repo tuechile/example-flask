@@ -3,9 +3,11 @@ import difflib
 import os
 import random
 import re
+import struct
 import subprocess
 import unicodedata
 from datetime import datetime
+from functools import lru_cache
 
 app = Flask(__name__)
 app.secret_key = "change-this-to-a-long-random-string"  # required for sessions
@@ -34,19 +36,19 @@ IMAGE_FOLDERS = {
 
 # Cache-busting version appended to local CSS/JS URLs (?v=...).
 # Bump on every change so browsers fetch fresh assets.
-ASSET_VERSION = "29"
+ASSET_VERSION = "32"
 
 GALLERY_IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".gif", ".webp"}
 
-# Masonry photo galleries, all rendered by templates/gallery.html.
+# Photo galleries, all rendered by templates/gallery.html as justified rows.
 # folder: IMAGE_FOLDERS key; section: page title suffix; sort: gallery_images()
-# sort mode; natural_height: show images at their own aspect ratio, uncropped.
+# sort mode.
 GALLERIES = {
     "illustration": {"folder": "illustration", "section": "Personal", "sort": "date_desc"},
     "portal": {"folder": "portal", "section": "Personal"},
     "street": {"folder": "street", "section": "Personal"},
     "superface": {"folder": "self", "section": "Personal"},
-    "olympics": {"folder": "olympics", "section": "Design", "natural_height": True},
+    "olympics": {"folder": "olympics", "section": "Design"},
 }
 
 # Templates that live under templates/Projects/ instead of at the templates
@@ -59,7 +61,7 @@ PROJECT_TEMPLATES = {
 
 
 def render_gallery(name):
-    config = {"sort": "name", "natural_height": False, **GALLERIES[name]}
+    config = {"sort": "name", **GALLERIES[name]}
     return render_template("gallery.html", **config)
 
 
@@ -75,6 +77,60 @@ def _date_sort_key(filename):
     if year < 100:
         year += 2000
     return datetime(year, month, day)
+
+
+@lru_cache(maxsize=None)
+def _image_size(path):
+    """(width, height) as displayed, read from the file header (no Pillow).
+    JPEGs honour the EXIF orientation, like browsers do. None if unreadable."""
+    try:
+        with open(path, "rb") as f:
+            data = f.read(256 * 1024)
+    except OSError:
+        return None
+    if data[:8] == b"\x89PNG\r\n\x1a\n":
+        return struct.unpack(">II", data[16:24])
+    if data[:6] in (b"GIF87a", b"GIF89a"):
+        return struct.unpack("<HH", data[6:10])
+    if data[:4] == b"RIFF" and data[8:12] == b"WEBP":
+        chunk = data[12:16]
+        if chunk == b"VP8X":
+            return (int.from_bytes(data[24:27], "little") + 1, int.from_bytes(data[27:30], "little") + 1)
+        if chunk == b"VP8L":
+            bits = int.from_bytes(data[21:25], "little")
+            return ((bits & 0x3FFF) + 1, ((bits >> 14) & 0x3FFF) + 1)
+        if chunk == b"VP8 ":
+            w, h = struct.unpack("<HH", data[26:30])
+            return (w & 0x3FFF, h & 0x3FFF)
+        return None
+    if data[:2] != b"\xff\xd8":
+        return None
+    i, rotated = 2, False
+    while i + 9 < len(data):
+        if data[i] != 0xFF:
+            return None
+        marker = data[i + 1]
+        length = struct.unpack(">H", data[i + 2:i + 4])[0]
+        if marker == 0xE1 and data[i + 4:i + 10] == b"Exif\0\0":
+            rotated = _exif_orientation(data[i + 10:i + 2 + length]) in (5, 6, 7, 8)
+        elif 0xC0 <= marker <= 0xCF and marker not in (0xC4, 0xC8, 0xCC):
+            h, w = struct.unpack(">HH", data[i + 5:i + 9])
+            return (h, w) if rotated else (w, h)
+        i += 2 + length
+    return None
+
+
+def _exif_orientation(tiff):
+    end = "<" if tiff[:2] == b"II" else ">"
+    try:
+        ifd = struct.unpack(end + "I", tiff[4:8])[0]
+        for n in range(struct.unpack(end + "H", tiff[ifd:ifd + 2])[0]):
+            entry = ifd + 2 + 12 * n
+            if struct.unpack(end + "H", tiff[entry:entry + 2])[0] == 0x0112:
+                return struct.unpack(end + "H", tiff[entry + 8:entry + 10])[0]
+    except struct.error:
+        pass
+    return 1
 
 
 # Which top-nav item a page belongs to, so the nav can mark "you are here".
@@ -148,6 +204,12 @@ def inject_image_helper():
             return sorted(files, key=_date_sort_key, reverse=True)
         return sorted(files)
 
+    def image_ratio(folder, filename):
+        """Width/height of a gallery image, for laying out justified rows."""
+        real_folder = IMAGE_FOLDERS.get(folder, folder)
+        size = _image_size(os.path.join(app.static_folder, "asset", "images", real_folder, filename))
+        return round(size[0] / size[1], 4) if size and size[1] else 1.5
+
     def previews(folder, files=None, limit=8):
         """'|'-joined image URLs for a card's hover pop-ups (static/popups.js).
         Without files, takes a random handful from the folder's gallery."""
@@ -156,7 +218,7 @@ def inject_image_helper():
             files = random.sample(files, min(limit, len(files)))
         return "|".join(img(folder, f) for f in files)
 
-    return dict(img=img, gallery_images=gallery_images, previews=previews, asset_v=ASSET_VERSION)
+    return dict(img=img, gallery_images=gallery_images, image_ratio=image_ratio, previews=previews, asset_v=ASSET_VERSION)
 
 # Landing-page finder: every page and the words people might type to reach it.
 # Matching is case-, accent- and punctuation-insensitive, so "Recít" == "recit".

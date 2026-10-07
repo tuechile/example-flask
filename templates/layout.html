@@ -42,6 +42,10 @@
         {% block content %}
         {% endblock %}
     </main>
+    <script>
+        // Pages with a single picture feather its edges into the black; anything busier stays crisp
+        if (document.querySelectorAll("main img:not(.contact-logo)").length < 2) document.body.classList.add("one-pic");
+    </script>
     <footer>
         {% block footer %}
         {% endblock %}

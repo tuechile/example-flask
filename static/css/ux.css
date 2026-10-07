@@ -45,19 +45,6 @@
     min-width: 0;
 }
 
-/* Case-study images have no frame, so their edges feather into the black */
-.media-card img,
-.case-mockups .lightboxable,
-.t4sg-mockups .lightboxable,
-.bio-image,
-.bio-container img:not(.contact-logo),
-.gif-image {
-    -webkit-mask-image: var(--feather-mask);
-    -webkit-mask-composite: source-in;
-    mask-image: var(--feather-mask);
-    mask-composite: intersect;
-}
-
 /* Feature rollout cubicles */
 .rollout-grid {
     width: 100%;
