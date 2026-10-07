@@ -1,14 +1,13 @@
 {% extends "layout.html" %}
 
-{% block title %}| Design{% endblock %}
+{% block title %}| Graphic Design{% endblock %}
 {% block extra_css %}
 <link href="/static/css/body.css?v={{ asset_v }}" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
 <!--- Navigation page for displaying collaborative work and commissions --->
-<h1 style="text-align: center; margin: 40px; font-family: 'BHN Cinema'; color: white; font-size: 4vw">Graphic Design
-</h1>
+<h1 class="page-title">Graphic Design</h1>
 <div class="view-toggle" role="group" aria-label="View mode">
     <button type="button" class="view-btn active" data-view="selected" aria-pressed="true">Selected</button>
     <button type="button" class="view-btn" data-view="all" aria-pressed="false">All</button>
@@ -78,15 +77,15 @@
             <div class="project-thumb-subrow">
                 <div class="project-thumb-sub">Art Director</div>
             </div>
-            <div class="project-thumb-desc">Hanoi's dynamic studio weaving cinematic tales, captivating hearts with immersive storytelling.</div>
+            <div class="project-thumb-desc">Posters and banners for a student-run Hanoi film studio making short films about Vietnamese stories.</div>
         </div>
     </a>
 
-    <a class="project-thumb" href="https://www.facebook.com/official.ivmun" data-previews="{{ previews('art_direction', ['ivmun.jpg']) }}" data-selected>
+    <a class="project-thumb" href="https://www.facebook.com/official.ivmun" target="_blank" rel="noopener" aria-label="International Vietnam Model United Nations, on Facebook (opens in a new tab)" data-previews="{{ previews('art_direction', ['ivmun-quarter.webp', 'ivmun-banner.webp', 'ivmun-header.webp', 'ivmun-storm.webp']) }}" data-selected>
         <img class="project-thumb-img project-thumb-img--cover project-thumb-img--focus-right" src="{{ img('art_direction', 'ivmun-cover.webp') }}" alt="IVMUN 2023 banner: the title over red-green mountains, a crescent moon and a geometric tower">
         <div class="project-thumb-meta">
             <div class="project-thumb-namebox">
-                <div class="project-thumb-title">International Vietnam Model United Nations</div>
+                <div class="project-thumb-title">International Vietnam Model United Nations<span class="ext-mark" aria-hidden="true">↗</span></div>
             </div>
             <div class="project-thumb-subrow">
                 <div class="project-thumb-sub">Co-head of Design</div>
@@ -194,5 +193,5 @@
 <script src="/static/popups.js?v={{ asset_v }}"></script>
 {% endblock %}
 <!--- Additional footer detail --->
-{% block footer%} <a class="com-footer" style="text-decoration: none; color: #888" href="about">Commission me on
+{% block footer%} <a class="com-footer" style="text-decoration: none; color: #888" href="/about">Commission me on
     Instagram!</a> {%endblock%}

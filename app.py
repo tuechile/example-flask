@@ -3,6 +3,7 @@ import difflib
 import os
 import random
 import re
+import subprocess
 import unicodedata
 from datetime import datetime
 
@@ -33,7 +34,7 @@ IMAGE_FOLDERS = {
 
 # Cache-busting version appended to local CSS/JS URLs (?v=...).
 # Bump on every change so browsers fetch fresh assets.
-ASSET_VERSION = "23"
+ASSET_VERSION = "26"
 
 GALLERY_IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".gif", ".webp"}
 
@@ -79,10 +80,45 @@ def _date_sort_key(filename):
 # Which top-nav item a page belongs to, so the nav can mark "you are here".
 NAV_SECTIONS = {
     "about": ["about"],
-    "design": ["collab", "hackharvard", "merch", "olympics", "recit", "highlander"],
-    "play": ["personal", "afvs", "gifafvs", "essays", "fysemr", "illustration", "portal", "street", "superface"],
+    "design": ["design", "hackharvard", "merch", "olympics", "recit", "highlander"],
+    "play": ["play", "afvs", "gifafvs", "essays", "fysemr", "illustration", "portal", "street", "superface"],
     "projects": ["t4sg", "commonspirit", "cs1710"],
 }
+
+
+def _last_updated():
+    """'Oct 2026': date of the last commit, or of the newest file if git isn't around (e.g. on deploy)."""
+    try:
+        out = subprocess.run(["git", "log", "-1", "--format=%ct"], cwd=app.root_path,
+                             capture_output=True, text=True, timeout=2).stdout.strip()
+        stamp = int(out)
+    except (OSError, ValueError, subprocess.SubprocessError):
+        stamp = max(os.path.getmtime(os.path.join(d, f))
+                    for root in (app.template_folder, app.static_folder)
+                    for d, _, files in os.walk(os.path.join(app.root_path, root)) for f in files)
+    return datetime.fromtimestamp(stamp).strftime("%b %Y")
+
+
+LAST_UPDATED = _last_updated()
+
+# Case studies in reading order; each one's footer links to the next (wrapping around).
+CASE_STUDIES = [
+    ("hackharvard", "HackHarvard 2026: Hack to the Moon"),
+    ("merch", "Merch"),
+    ("commonspirit", "T4SG × CommonSpirit Health"),
+    ("cs171", "Chi x Rain: An Essay on Unicode"),
+    ("t4sg", "T4SG × 2ft Prosthetics"),
+]
+
+
+@app.context_processor
+def inject_site_info():
+    endpoints = [e for e, _ in CASE_STUDIES]
+    next_case = None
+    if request.endpoint in endpoints:
+        endpoint, title = CASE_STUDIES[(endpoints.index(request.endpoint) + 1) % len(CASE_STUDIES)]
+        next_case = {"url": url_for(endpoint), "title": title}
+    return dict(last_updated=LAST_UPDATED, next_case=next_case)
 
 
 @app.context_processor
@@ -128,11 +164,11 @@ SEARCH_INDEX = [
     ("/about", ["about", "about me", "chi", "chi le", "le tue chi", "tue", "chi tue le", "pirenily", "me",
                 "myself", "emily", "iron pig", "chi bell", "artist", "bio", "contact", "email", "instagram",
                 "linkedin", "github", "resume", "cv", "self photography"]),
-    ("/collab", ["design", "graphic design", "collab", "collaboration", "collaborations", "collaborative work",
+    ("/design", ["design", "graphic design", "collab", "collaboration", "collaborations", "collaborative work",
                  "commission", "commissions", "commissioned work", "client", "client work", "clubs", "club",
                  "art direction", "art director", "director", "direction", "member", "logo", "logos", "poster",
                  "posters", "branding", "brand"]),
-    ("/personal", ["play", "personal", "personal work", "self", "mine", "free", "journey", "person", "fun"]),
+    ("/play", ["play", "personal", "personal work", "self", "mine", "free", "journey", "person", "fun"]),
     ("/#portfolio", ["projects", "project", "portfolio", "code", "coding projects", "ux", "ui", "uiux", "ui ux",
                      "case study", "case studies", "work", "cinenode", "cine node", "aerotone", "aero tone",
                      "arduino", "neural reconstruction", "handwritten curves", "handwriting", "machine learning"]),
@@ -247,17 +283,23 @@ def commonspirit():
 def about():
     return render_template("about.html")
 
+# Old addresses still work: /collab and /client -> /design, /personal -> /play
+@app.route("/collab")
 @app.route("/client")
-def client():
-    return redirect(url_for("collab"))
+def collab():
+    return redirect(url_for("design"), code=301)
 
 @app.route("/personal")
 def personal():
-    return render_template("personal.html")
+    return redirect(url_for("play"), code=301)
 
-@app.route("/collab")
-def collab():
+@app.route("/design")
+def design():
     return render_template("collab.html")
+
+@app.route("/play")
+def play():
+    return render_template("personal.html")
 
 @app.route("/illustration")
 def illustration():

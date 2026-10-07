@@ -8,6 +8,7 @@
     --panel: rgba(255, 255, 255, 0.03);
     --text: #888;
     --title: #eee;
+    --lead: #bbb;
 }
 
 .progress-wrap {
@@ -126,7 +127,8 @@
     transition: filter var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-out);
 }
 
-.media-card:hover img {
+.media-card:hover img,
+.media-card:focus-within img {
     filter: grayscale(0%);
     transform: translateY(-2px);
 }
@@ -495,7 +497,9 @@
 
 /* Blur ONLY interactive thumbnails */
 .thumbnail:has(a):hover img,
-.thumbnail:has(a):hover .thumbnail-content {
+.thumbnail:has(a):hover .thumbnail-content,
+.thumbnail:has(a:focus-visible) img,
+.thumbnail:has(a:focus-visible) .thumbnail-content {
   filter: blur(1px);
 }
 
@@ -583,9 +587,7 @@
     justify-content: center;
     align-items: center;
     z-index: 9999;
-    opacity: 1;
-    visibility: visible;
-    transition: opacity var(--dur-3) var(--ease-out), visibility var(--dur-3) var(--ease-out);
+    /* appears and disappears instantly, no fade */
 }
 
 .loader-container.hidden {
@@ -726,7 +728,8 @@
     cursor: pointer;
 }
 
-.view-btn:hover {
+.view-btn:hover,
+.view-btn:focus-visible {
     filter: blur(1px);
 }
 
@@ -755,7 +758,7 @@
 /* Unframed images (galleries, bio, GIFs) get feathered edges; framed ones (.media-card, cards, pop-ups) stay crisp */
 .item img,
 .bio-image,
-.bio-container img,
+.bio-container img:not(.contact-logo),
 .gif-image {
     -webkit-mask-image: var(--feather-mask);
     -webkit-mask-composite: source-in;
@@ -763,13 +766,24 @@
     mask-composite: intersect;
 }
 
-/* Design page: project-style cards stacked in one column */
+/* Design page: project-style cards in two columns, one on narrow screens */
 .design-list {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 3rem;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 2rem;
+    width: min(1100px, 86vw);
     margin: 3rem auto 6rem;
+}
+
+.design-list .project-thumb {
+    width: 100%;
+}
+
+@media screen and (max-width: 880px) {
+    .design-list {
+        grid-template-columns: 1fr;
+        width: min(720px, 86vw);
+    }
 }
 
 /* Design artwork comes in every shape; crop to one frame so the cards line up */
@@ -801,4 +815,23 @@
     display: block;
     height: auto;
     border: 1px solid var(--border);
+}
+
+/* ===== Big page headings (Graphic Design, Personal Works) ===== */
+.page-title {
+    text-align: center;
+    margin: 40px;
+    font-family: 'BHN Cinema';
+    font-weight: normal;
+    color: #fff;
+    /* 4vw on a laptop, but never tiny on phones or huge on wide screens */
+    font-size: clamp(2.25rem, 4vw, 4rem);
+}
+
+/* About: one line before the long bio */
+.bio-text .bio-lead {
+    font-style: italic;
+    font-size: 1.15em;
+    color: var(--lead);
+    text-align: left;
 }

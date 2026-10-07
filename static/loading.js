@@ -1,45 +1,55 @@
-// Script for the loader to load on every new page for at least 0.4s
+// Loader GIF between pages. It only appears when a page is slow (over 200ms),
+// except on the way to the landing page, where it always plays.
 document.addEventListener("DOMContentLoaded", () => {
     const loader = document.querySelector('.loader-container');
+    const SLOW = 200;
+    const LANDING_HOLD = 400;
+    let timer = null;
 
     function showLoader() {
         loader.classList.remove('hidden');
     }
 
-    function hideLoader() {
-        setTimeout(() => {
-            loader.classList.add('hidden');
-        }, 400); // Minimum delay to show the loader
+    function showIfSlow() {
+        clearTimeout(timer);
+        timer = setTimeout(showLoader, SLOW);
     }
 
-    document.querySelectorAll('a').forEach(link => {
+    function hideLoader() {
+        clearTimeout(timer);
+        loader.classList.add('hidden');
+    }
+
+    // Arriving: only show the loader if this page is still loading after 200ms
+    if (document.readyState !== 'complete') showIfSlow();
+    window.addEventListener('load', hideLoader);
+
+    document.querySelectorAll('a[href]').forEach(link => {
         link.addEventListener('click', (e) => {
-            const url = link.getAttribute('href');
+            if (link.classList.contains('lightbox')) return;
+            // New tab, new window, or a download: this page stays, so no loader
+            if (link.target === '_blank' || link.hasAttribute('download') ||
+                e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
 
-            // Skip lightbox links
-            if (link.classList.contains('lightbox')) {
-                return; // Ignore loader for lightbox
-            }
+            const url = new URL(link.href, location.href);
+            // External sites and mailto: let the browser handle them as usual
+            if (url.origin !== location.origin) return;
+            // Jumping within this page
+            if (url.pathname === location.pathname && url.hash) return;
 
-            // Check if the link is internal (same origin or relative URL)
-            const isInternal = url && (url.startsWith('/') || url.startsWith(window.location.origin));
-
-            if (isInternal) {
+            if (url.pathname === '/') {
+                // Landing page always gets the loader
+                e.preventDefault();
                 showLoader();
+                setTimeout(() => { location.href = url.href; }, LANDING_HOLD);
             } else {
-                e.preventDefault(); // Optional: prevent external links from triggering loader
-                window.location.href = url; // Redirect to external site without showing the loader
+                showIfSlow();
             }
         });
     });
 
-    // Hide the loader after the page fully loads
-    window.addEventListener('load', hideLoader);
-
-    // Reset the loader when navigating back
+    // Coming back via the back button restores this page from cache: hide the loader
     window.addEventListener('pageshow', (event) => {
-        if (event.persisted) {
-            loader.classList.add('hidden');
-        }
+        if (event.persisted) hideLoader();
     });
 });

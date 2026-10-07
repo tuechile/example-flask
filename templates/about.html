@@ -10,67 +10,63 @@
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const images = document.querySelectorAll('.image');
-        const body = document.body;
+        const canHover = window.matchMedia('(hover: hover)').matches;
+        let open = null; // { image, popup } currently shown
+
+        function scatter(image) {
+            const MaxDisplacement = window.innerWidth > 600 ? 35 : 80;
+            const MinDisplacement = window.innerWidth > 600 ? -5 : 0;
+            const rand = () => Math.floor(Math.random() * (MaxDisplacement - MinDisplacement + 1)) + MinDisplacement;
+            image.style.top = `${rand()}vw`;
+            image.style.left = `${rand()}vw`;
+        }
+
+        function show(image) {
+            hide();
+            const popup = document.createElement('div');
+            popup.classList.add('popup-image');
+            popup.style.backgroundImage = image.style.backgroundImage;
+            open = { image, popup };
+
+            const img = new Image();
+            img.onload = () => {
+                if (!open || open.popup !== popup) return; // already hidden again
+                const width = Math.min(300, window.innerWidth - 32);
+                const height = img.naturalHeight * width / img.naturalWidth;
+                popup.style.width = `${width}px`;
+                popup.style.height = `${height}px`;
+                popup.style.left = `${Math.random() * (window.innerWidth - width)}px`;
+                popup.style.top = `${Math.random() * Math.max(0, window.innerHeight - height)}px`;
+                document.body.appendChild(popup);
+            };
+            img.src = image.dataset.src;
+        }
+
+        function hide() {
+            if (!open) return;
+            open.popup.remove();
+            scatter(open.image);
+            open = null;
+        }
 
         images.forEach(image => {
             image.style.backgroundImage = `url('${image.dataset.src}')`;
+            scatter(image);
 
-            const MaxDisplacement = window.innerWidth > 600 ? 35 : 80;
-            const MinDisplacement = window.innerWidth > 600 ? -5 : 0;
-
-            const randomTopDisplacement = Math.floor(Math.random() * (MaxDisplacement - MinDisplacement + 1)) + MinDisplacement;
-            const randomLeftDisplacement = Math.floor(Math.random() * (MaxDisplacement - MinDisplacement + 1)) + MinDisplacement;
-
-            image.style.top = `${randomTopDisplacement}vw`;
-            image.style.left = `${randomLeftDisplacement}vw`;
-
-            image.addEventListener('mouseenter', () => {
-                // Create a new pop-up image
-                const popup = document.createElement('div');
-                popup.classList.add('popup-image');
-                popup.style.backgroundImage = image.style.backgroundImage;
-
-                // Create a temporary image element to get its natural dimensions
-                const img = new Image();
-                img.src = image.style.backgroundImage.replace(/^url\(["']?/, '').replace(/["']?\)$/, '');
-
-                img.onload = () => {
-                    // Calculate dimensions based on original aspect ratio
-                    const maxWidth = 300; // Maximum width for the pop-up
-                    const scaleFactor = maxWidth / img.naturalWidth;
-
-                    const width = img.naturalWidth * scaleFactor;
-                    const height = img.naturalHeight * scaleFactor;
-
-                    popup.style.width = `${width}px`;
-                    popup.style.height = `${height}px`;
-
-                    // Generate random position
-                    const randomX = Math.random() * (window.innerWidth - width);
-                    const randomY = Math.random() * (window.innerHeight - height);
-                    popup.style.left = `${randomX}px`;
-                    popup.style.top = `${randomY}px`;
-
-                    // Add the pop-up to the body
-                    body.appendChild(popup);
-                };
-
-                // Remove the pop-up when the mouse leaves the original image
-                image.addEventListener('mouseleave', () => {
-                    popup.remove();
-                    const MaxDisplacement = window.innerWidth > 600 ? 35 : 80;
-                    const MinDisplacement = window.innerWidth > 600 ? -5 : 0;
-
-                    const randomTopDisplacement = Math.floor(Math.random() * (MaxDisplacement - MinDisplacement + 1)) + MinDisplacement;
-                    const randomLeftDisplacement = Math.floor(Math.random() * (MaxDisplacement - MinDisplacement + 1)) + MinDisplacement;
-
-                    image.style.top = `${randomTopDisplacement}vw`;
-                    image.style.left = `${randomLeftDisplacement}vw`;                    
+            if (canHover) {
+                image.addEventListener('mouseenter', () => show(image));
+                image.addEventListener('mouseleave', hide);
+            } else {
+                // Touch: tap a photo to pop it up, tap it again (or anywhere else) to put it away
+                image.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    if (open && open.image === image) hide(); else show(image);
                 });
-            });
+            }
         });
-    });
 
+        if (!canHover) document.addEventListener('click', hide);
+    });
 </script>
 <div class="bio-container">
     <!-- Picture, name, and contact info on the left side -->
@@ -79,24 +75,25 @@
         <h2 class="bio-name">My name is Chi Le or Lê Tuệ Chi.</h2>
         <p class="bio-contact-text">Feel free to reach out to me via Instagram or email!</p>
         <div class="bio-contact-logos">
-            <a href="https://www.instagram.com/pju_irza/" target="_blank" style="text-decoration: none">
+            <a href="https://www.instagram.com/pju_irza/" class="ext" target="_blank" rel="noopener" style="text-decoration: none">
                 <img src="{{ img('other', 'ig.png') }}" alt="Instagram" class="contact-logo">
             </a>
-            <a href="mailto:letuechi.2006@gmail.com" target="_blank" style="text-decoration: none">
+            <a href="mailto:letuechi.2006@gmail.com" style="text-decoration: none">
                 <img src="{{ img('other', 'mail.png') }}" alt="Gmail" class="contact-logo">
             </a>
-            <a href="https://www.linkedin.com/in/chi-tue-le-214705320/" target="_blank" style="text-decoration: none">
+            <a href="https://www.linkedin.com/in/chi-tue-le-214705320/" class="ext" target="_blank" rel="noopener" style="text-decoration: none">
                 <img src="{{ img('other', 'linkedin.png') }}" alt="LinkedIn" class="contact-logo">
             </a>
-            <a href="https://github.com/tuechile" target="_blank" style="text-decoration: none">
+            <a href="https://github.com/tuechile" class="ext" target="_blank" rel="noopener" style="text-decoration: none">
                 <img src="{{ img('other', 'github.webp') }}" alt="GitHub" class="contact-logo">
             </a>
         </div>
     </div>
     <div class="bio-text">
+        <p class="bio-lead">I make films, pictures, interfaces and code, and keep them all here under one name: <em>pirenily</em>.</p>
         <p>
-            I am currently a junior at Harvard College, concentrating in <a href="https://seas.harvard.edu/computer-science">Computer Science</a>
-            and <a href="https://afvs.fas.harvard.edu/">Art, Film, and Visual Studies</a> with a secondary in <a href="https://www.math.harvard.edu/">Mathematics</a>.
+            I am currently a junior at Harvard College, concentrating in <a class="ext" href="https://seas.harvard.edu/computer-science" target="_blank" rel="noopener">Computer Science</a>
+            and <a class="ext" href="https://afvs.fas.harvard.edu/" target="_blank" rel="noopener">Art, Film, and Visual Studies</a> with a secondary in <a class="ext" href="https://www.math.harvard.edu/" target="_blank" rel="noopener">Mathematics</a>.
             I am currently part of the Harvard Undergraduate Hackathon (HackHarvard), Tech 4 Social Good (T4SG), and the Office for the Arts.
         </p>
         <p></p> <p></p>

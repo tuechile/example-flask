@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pirenily {% block title %}{% endblock %}</title>
+    <meta property="og:title" content="Pirenily {{ self.title() }}">
+    {% include "partials/meta.html" %}
     <!-- Import necessary fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,7 +21,7 @@
 
 <body>
     <!-- Loader -->
-    <div class="loader-container">
+    <div class="loader-container hidden">
         <img src="{{ img('other', 'loader.gif') }}" alt="Loading...">
     </div>
 
@@ -29,10 +31,11 @@
             <div class="nav-header">
                 <a class="nav-header" href="/"> Pirenily </a>
             </div>
+            <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false"><span></span><span></span></button>
             <div class="nav-item-big">
                 <a class="nav-item" href="/about"{% if nav_section == "about" %} aria-current="page"{% endif %}> About </a>
-                <a class="nav-item" href="/collab"{% if nav_section == "design" %} aria-current="page"{% endif %}> Design </a>
-                <a class="nav-item" href="/personal"{% if nav_section == "play" %} aria-current="page"{% endif %}> Play </a>
+                <a class="nav-item" href="/design"{% if nav_section == "design" %} aria-current="page"{% endif %}> Design </a>
+                <a class="nav-item" href="/play"{% if nav_section == "play" %} aria-current="page"{% endif %}> Play </a>
                 <a class="nav-item" href="/#portfolio"{% if nav_section == "projects" %} aria-current="page"{% endif %}> Projects </a>
             </div>
         </nav>
@@ -43,10 +46,44 @@
         {% block footer %}
         {% endblock %}
         <p></p>
-        Chi (Tue) Le | pirenily | Updated Aug 2026
+        Chi (Tue) Le | pirenily | Updated {{ last_updated }}
     </footer>
 
     <script src="{{ url_for('static', filename='loading.js') }}?v={{ asset_v }}">
+    </script>
+    <script>
+        // Phones: past the top, the nav folds into a "=" button that drops the links down
+        (function () {
+            var nav = document.querySelector(".navigator");
+            var btn = nav.querySelector(".nav-toggle");
+            var head = nav.querySelector(".nav-header");
+            var phone = window.matchMedia("(max-width: 666px)");
+
+            function setOpen(open) {
+                nav.classList.toggle("is-open", open);
+                btn.setAttribute("aria-expanded", String(open));
+            }
+
+            function update() {
+                var fold = phone.matches && window.scrollY > 40;
+                if (fold === nav.classList.contains("is-folded")) return;
+                if (fold) {
+                    // hold the unfolded height so the page underneath doesn't jump
+                    nav.style.minHeight = nav.offsetHeight + "px";
+                    nav.classList.add("is-folded");
+                    nav.style.setProperty("--fold-h", head.offsetHeight + "px");
+                } else {
+                    nav.classList.remove("is-folded");
+                    nav.style.minHeight = "";
+                    setOpen(false);
+                }
+            }
+
+            btn.addEventListener("click", function () { setOpen(!nav.classList.contains("is-open")); });
+            window.addEventListener("scroll", update, { passive: true });
+            window.addEventListener("resize", update);
+            update();
+        })();
     </script>
 </body>
 

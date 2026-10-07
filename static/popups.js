@@ -1,4 +1,4 @@
-// Hover a card with data-previews="url|url|..." and one of its pictures pops up at a random spot.
+// Hover (or tab onto) a card with data-previews="url|url|..." and one of its pictures pops up at a random spot.
 // Each new hover shows a different picture. Instant (no fades); it disappears when the mouse leaves.
 (function () {
     if (!window.matchMedia("(hover: hover)").matches) return;
@@ -34,7 +34,7 @@
             shown = el;
         }
 
-        card.addEventListener("mouseenter", function () {
+        function enter() {
             if (!pics) {
                 // load on first hover; each picture pops as soon as it arrives
                 pics = urls.map(function (u) {
@@ -49,12 +49,18 @@
             // brushing off the edge and straight back isn't a new hover: keep the same picture
             if (shown && Date.now() - leftAt < GRACE) layer.appendChild(shown);
             else pop();
-        });
+        }
 
-        card.addEventListener("mouseleave", function () {
+        function leave() {
             hovering = false;
             leftAt = Date.now();
             layer.innerHTML = "";
-        });
+        }
+
+        card.addEventListener("mouseenter", enter);
+        card.addEventListener("mouseleave", leave);
+        // Tabbing onto a card pops a picture, the same as hovering it
+        card.addEventListener("focus", function () { if (card.matches(":focus-visible")) enter(); });
+        card.addEventListener("blur", leave);
     });
 })();

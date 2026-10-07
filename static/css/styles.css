@@ -11,6 +11,8 @@
     --pill-text: rgba(220, 220, 220, 0.75);
     --pill-text-on: rgba(255, 255, 255, 0.95);
     --nav-fade: #000;
+    --nav-panel: rgba(0, 0, 0, 0.7);
+    --ext-mark: rgba(200, 200, 200, 0.5);
 
     /* Motion: one fast-out curve, three durations, no bounce */
     --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
@@ -80,7 +82,8 @@ body {
     transition: filter var(--dur-1) var(--ease-out);
 }
 
-.scroll-mouse:hover {
+.scroll-mouse:hover,
+.scroll-mouse:focus-visible {
     filter: blur(1px);
 }
 
@@ -126,7 +129,8 @@ body {
     -webkit-filter: grayscale(100%);
 }
 
-.contact-logo:hover {
+.contact-logo:hover,
+a:focus-visible .contact-logo {
     filter: blur(1px) grayscale(100%);
     opacity: 0.8;
 }
@@ -172,7 +176,8 @@ body {
   -webkit-backdrop-filter: blur(10px);
 }
 
-.side-tab:hover{
+.side-tab:hover,
+.side-tab:focus-visible{
   filter: blur(1px);
 }
 
@@ -190,6 +195,83 @@ body {
   display: flex;
   justify-content: center;
   align-items: flex-start;
+}
+
+/* Home Projects: cards in two columns, one on narrow screens */
+.project-grid{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 2rem;
+  width: min(1100px, 80vw);
+  margin: 0 auto;
+}
+
+.project-grid .project-thumb{
+  width: 100%;
+}
+
+/* Cards in a column of one or two; spacing lives on the card so the subgrid below can use row-gap: 0 */
+.project-grid,
+.design-list{
+  row-gap: 0;
+}
+
+.project-grid .project-cell,
+.design-list .project-thumb{
+  margin-bottom: 3rem;
+}
+
+/* Two-up cards (home Projects, Design page): each card borrows its row's tracks
+   (image / title + pills / subtitle / description) so side-by-side cards line up
+   and end at the same height */
+@media screen and (min-width: 881px) {
+  .project-grid .project-cell,
+  .project-grid .project-thumb,
+  .design-list .project-thumb{
+    display: grid;
+    grid-row: span 4;
+    grid-template-rows: subgrid;
+    row-gap: 0;
+  }
+
+  .project-grid .project-thumb-img{
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+
+  .project-grid .project-thumb-meta,
+  .design-list .project-thumb-meta{
+    display: contents;
+  }
+
+  .project-grid .project-thumb-namebox,
+  .design-list .project-thumb-namebox{
+    padding: 0.9rem 1rem 0;
+  }
+
+  /* Half-width cards are narrow: long pill lists wrap instead of running off the edge */
+  .project-grid .project-thumb-tags,
+  .design-list .project-thumb-tags{
+    flex-shrink: 1;
+    max-width: 60%;
+  }
+
+  .project-grid .project-thumb-subrow,
+  .design-list .project-thumb-subrow{
+    padding: 0 1rem;
+  }
+
+  .project-grid .project-thumb-desc,
+  .design-list .project-thumb-desc{
+    padding: 0 1rem 1rem;
+  }
+}
+
+@media screen and (max-width: 880px) {
+  .project-grid{
+    grid-template-columns: 1fr;
+    width: min(720px, 86vw);
+  }
 }
 
 /* ===== Thumbnail card ===== */
@@ -317,7 +399,8 @@ body {
 }
 
 /* Only link cards (a.project-thumb) are interactive — plain divs (no href) don't blur */
-a.project-thumb:hover{
+a.project-thumb:hover,
+a.project-thumb:focus-visible{
   border-color: rgba(255,255,255,0.6);
   filter: blur(1px);
 }
@@ -358,8 +441,14 @@ a.project-thumb:hover{
     text-decoration: none;
 }
 
-.nav-item:hover {
+.nav-item:hover,
+.nav-item:focus-visible {
     filter: blur(1px);
+}
+
+/* "=" menu button: only exists on phones once the nav folds (see layout.html) */
+.nav-toggle {
+    display: none;
 }
 
 .nav-header {
@@ -372,7 +461,8 @@ a.project-thumb:hover{
     align-content: center;
 }
 
-.nav-header:hover {
+.nav-header:hover,
+.nav-header:focus-visible {
     filter: blur(1px);
 }
 
@@ -541,6 +631,71 @@ footer {
         text-align: right;
     }
 
+    /* Folded nav: only the logo row keeps its backdrop; the rest lets the page show and click through */
+    .navigator.is-folded {
+        align-items: flex-start;
+        pointer-events: none;
+        background-size: 100% var(--fold-h);
+        background-repeat: no-repeat;
+    }
+
+    .navigator.is-folded > * {
+        pointer-events: auto;
+    }
+
+    .navigator.is-folded .nav-header {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    .navigator.is-folded .nav-item-big {
+        display: none;
+    }
+
+    .navigator.is-folded.is-open .nav-item-big {
+        display: grid;
+        position: absolute;
+        top: var(--fold-h);
+        right: 0.75rem;
+        padding: 0.5rem 1rem;
+        background: var(--nav-panel);
+        border: 1px solid var(--hairline);
+        border-radius: var(--r-sm);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+    }
+
+    .navigator.is-folded .nav-toggle {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        position: absolute;
+        top: calc(var(--fold-h) / 2);
+        right: 1rem;
+        transform: translateY(-50%);
+        padding: 0.75rem 0.5rem;
+        background: none;
+        border: none;
+        cursor: pointer;
+    }
+
+    .nav-toggle span {
+        display: block;
+        width: 22px;
+        height: 1.5px;
+        background: var(--pill-text-on);
+        transition: transform var(--dur-2) var(--ease-out);
+    }
+
+    /* "=" turns into an "x" while open */
+    .navigator.is-open .nav-toggle span:first-child {
+        transform: translateY(3.75px) rotate(45deg);
+    }
+
+    .navigator.is-open .nav-toggle span:last-child {
+        transform: translateY(-3.75px) rotate(-45deg);
+    }
+
     .header {
         font-size: 3rem;
         padding: 0rem;
@@ -599,4 +754,28 @@ footer {
         order: 5;
         margin-top: 0.4rem;
     }
+}
+/* ===== Links that leave the site: a small ↗ ===== */
+a.ext {
+    position: relative;
+}
+
+a.ext::after,
+.ext-mark {
+    content: "↗";
+    font-family: "Crimson Text", serif;
+    font-style: normal;
+    font-size: 0.6em;
+    color: var(--ext-mark);
+    vertical-align: super;
+    margin-left: 0.15em;
+}
+
+/* Icon links: tuck the arrow into the icon's top-right corner */
+a.ext:has(.contact-logo)::after {
+    position: absolute;
+    top: -0.35rem;
+    right: 0.1rem;
+    font-size: 0.6rem;
+    margin: 0;
 }

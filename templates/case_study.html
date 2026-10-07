@@ -19,6 +19,13 @@
 
 {% block case %}{% endblock %}
 
+{% if next_case %}
+<a class="next-case" href="{{ next_case.url }}">
+    <span class="next-case-label">Next project</span>
+    <span class="next-case-title">{{ next_case.title }} →</span>
+</a>
+{% endif %}
+
 {% include "partials/case_scripts.html" %}
 {% block case_scripts %}{% endblock %}
 
