@@ -274,6 +274,11 @@ a:focus-visible .contact-logo {
     grid-template-columns: 1fr;
     width: min(720px, 86vw);
   }
+
+  .side-tab{
+    padding: 0.55rem 1.1rem;
+    text-align: center;
+  }
 }
 
 /* ===== Thumbnail card ===== */
