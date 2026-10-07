@@ -752,6 +752,21 @@
     transition: transform var(--dur-2) var(--ease-out), width var(--dur-2) var(--ease-out);
 }
 
+/* Design page: project-style cards stacked in one column */
+.design-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+    margin: 3rem auto 6rem;
+}
+
+/* Design artwork comes in every shape; crop to one frame so the cards line up */
+.project-thumb-img--cover {
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+}
+
 /* Gallery variant: keep each image's own aspect ratio instead of cropping */
 .masonry--natural .item img {
     height: auto;
