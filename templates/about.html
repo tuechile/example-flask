@@ -152,7 +152,7 @@
             <figcaption>
                 <p class="globe-place" id="globe-place"></p>
                 <p class="globe-count" id="globe-count"></p>
-                <p class="globe-legend"><i></i>been<i class="wish"></i>someday</p>
+                <p class="globe-legend"><i class="home"></i>home<i></i>been<i class="wish"></i>someday</p>
             </figcaption>
         </figure>
     </div>
@@ -165,6 +165,7 @@
     const BEEN = [
         ['Venice', 'Italy', 45.44, 12.33], ['Rome', 'Italy', 41.90, 12.50], ['Milan', 'Italy', 45.46, 9.19],
         ['Lake Como', 'Italy', 46.00, 9.26], ['Florence', 'Italy', 43.77, 11.26],
+        ['Treviso', 'Italy', 45.67, 12.24], ['Bologna', 'Italy', 44.49, 11.34], ['Padua', 'Italy', 45.41, 11.88],
         ['Prague', 'Czechia', 50.08, 14.44],
         ['Salzburg', 'Austria', 47.80, 13.04], ['Vienna', 'Austria', 48.21, 16.37],
         ['Rotterdam', 'Netherlands', 51.92, 4.48], ['Amsterdam', 'Netherlands', 52.37, 4.90],
@@ -179,23 +180,37 @@
         ['Cebu', 'Philippines', 10.32, 123.89],
     ];
     const BEEN_US = [
-        ['Portland', 'Maine', 43.66, -70.26],
-        ['Concord', 'New Hampshire', 43.21, -71.54],
+        ['Portland', 'Maine', 43.66, -70.26], ['Bangor', 'Maine', 44.80, -68.77],
+        ['Bar Harbor', 'Maine', 44.39, -68.20],
+        ['Portsmouth', 'New Hampshire', 43.07, -70.76],
         ['Boston', 'Massachusetts', 42.36, -71.06], ['Cambridge', 'Massachusetts', 42.37, -71.11],
         ['Somerville', 'Massachusetts', 42.39, -71.10], ['Newburyport', 'Massachusetts', 42.81, -70.88],
-        ['New Haven', 'Connecticut', 41.31, -72.92],
+        ['New Haven', 'Connecticut', 41.31, -72.92], ['Madison', 'Connecticut', 41.28, -72.60],
         ['New York City', 'New York', 40.71, -74.01],
         ['Jersey City', 'New Jersey', 40.73, -74.08],
-        ['Providence', 'Rhode Island', 41.82, -71.41],
+        ['Providence', 'Rhode Island', 41.82, -71.41], ['Pawtucket', 'Rhode Island', 41.88, -71.38],
         ['Philadelphia', 'Pennsylvania', 39.95, -75.17],
         ['Washington', 'D.C.', 38.91, -77.04],
         ['Atlanta', 'Georgia', 33.75, -84.39],
         ['San Juan', 'Puerto Rico', 18.47, -66.11],
         ['San Francisco', 'California', 37.77, -122.42], ['San Jose', 'California', 37.34, -121.89],
         ['Santa Cruz', 'California', 36.97, -122.03], ['Mountain View', 'California', 37.39, -122.08],
+        ['Palo Alto', 'California', 37.44, -122.14],
         ['Los Angeles', 'California', 34.05, -118.24], ['Irvine', 'California', 33.68, -117.83],
         ['Orange County', 'California', 33.79, -117.85],
     ];
+    // Home: Vietnam, drawn as a filled shape. Rough outline as [lon, lat], clockwise from the northwest corner.
+    const HOME = { name: 'Vietnam (home)', at: [16.0, 107.0], outline: [
+        [102.15, 22.40], [102.70, 22.70], [103.30, 22.80], [104.00, 22.80], [104.80, 22.80], [105.40, 23.30],
+        [106.20, 22.95], [106.70, 22.80], [107.40, 21.80], [108.05, 21.55], [107.40, 21.10], [106.70, 20.70],
+        [106.00, 19.90], [105.70, 19.00], [106.40, 18.20], [106.60, 17.50], [107.20, 16.80], [108.20, 16.10],
+        [108.80, 15.40], [109.20, 14.00], [109.30, 12.60], [109.20, 11.60], [108.70, 11.10], [107.80, 10.60],
+        [106.80, 10.30], [106.60, 9.60], [105.80, 8.60], [104.80, 8.60], [105.00, 9.80], [104.60, 10.40],
+        [105.10, 10.95], [106.10, 11.10], [106.40, 11.70], [107.50, 12.30], [107.60, 13.50], [107.40, 14.50],
+        [107.70, 15.30], [107.20, 16.20], [106.50, 16.80], [106.00, 17.60], [105.60, 18.30], [105.10, 18.70],
+        [104.50, 19.10], [104.00, 19.40], [104.40, 19.90], [104.50, 20.40], [103.80, 20.70], [103.20, 20.85],
+        [102.80, 21.40], [102.40, 21.90],
+    ] };
     const SOMEDAY = [
         ['Bohemia', 'Czechia', 49.80, 13.40], ['Germany', '', 52.52, 13.40],
         ['Antwerp', 'Belgium', 51.22, 4.40], ['Leuven', 'Belgium', 50.88, 4.70],
@@ -216,7 +231,7 @@
         const color = name => css.getPropertyValue(name).trim();
         const C = {
             accent: color('--accent'), land: color('--globe-land'), back: color('--globe-land-back'),
-            wish: color('--globe-wish'), rim: color('--border'),
+            wish: color('--globe-wish'), rim: color('--border'), home: color('--globe-home'),
         };
         const rad = Math.PI / 180;
 
@@ -228,7 +243,9 @@
         const markers = [
             ...BEEN.concat(BEEN_US).map(p => ({ p, been: true })),
             ...SOMEDAY.map(p => ({ p, been: false })),
+            { p: [HOME.name, '', ...HOME.at], been: true, home: true },
         ];
+        const homeOutline = HOME.outline.map(([lon, lat]) => [Math.sin(lat * rad), Math.cos(lat * rad), lon * rad]);
         markers.forEach(m => { m.sin = Math.sin(m.p[2] * rad); m.cos = Math.cos(m.p[2] * rad); m.lam = m.p[3] * rad; });
 
         let land = null; // [sinLat, cosLat, lon] triples
@@ -292,10 +309,23 @@
                 ctx.fill(front);
             }
 
+            // Home, filled in; skipped once it turns past the rim
+            const home = homeOutline.map(([s, co, l]) => project(s, co, l, R));
+            if (home.every(([, , z]) => z > 0)) {
+                ctx.beginPath();
+                home.forEach(([x, y], i) => (i ? ctx.lineTo : ctx.moveTo).call(ctx, c + x, c + y));
+                ctx.closePath();
+                ctx.fillStyle = ctx.strokeStyle = C.home;
+                ctx.lineWidth = k;
+                ctx.lineJoin = 'round';
+                ctx.fill();
+                ctx.stroke();
+            }
+
             for (const m of markers) {
                 const [x, y, z] = project(m.sin, m.cos, m.lam, R);
                 m.x = c + x; m.y = c + y; m.z = z;
-                if (z <= 0) continue;
+                if (z <= 0 || m.home) continue;
                 const big = (m === hover ? 1.7 : 1) * k;
                 ctx.beginPath();
                 if (m.been) {

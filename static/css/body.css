@@ -12,6 +12,7 @@
     --globe-land: rgba(255, 255, 255, 0.32);
     --globe-land-back: rgba(255, 255, 255, 0.05);
     --globe-wish: #888;
+    --globe-home: rgba(255, 255, 255, 0.9);
 }
 
 .progress-wrap {
@@ -388,6 +389,12 @@
     background: none;
     box-shadow: none;
     border: 1px solid var(--globe-wish);
+}
+
+.travel-globe .globe-legend i.home {
+    border-radius: 1px;
+    background: var(--globe-home);
+    box-shadow: none;
 }
 
 @media screen and (max-width: 880px) {

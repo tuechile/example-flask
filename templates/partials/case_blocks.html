@@ -66,13 +66,47 @@
 
 {# §2 Section — heading is the numbered eyebrow (and rail entry), lead is the big line under it.
    index: a shorter rail label for long headings #}
-{% macro section(heading=None, lead=None, index=None) %}
+{% macro section(heading=None, lead=None, index=None, meta=None, links=[]) %}
 <section class="cs-section{% if not heading %} cs-section--cont{% endif %}"
     {%- if heading %} data-index="{{ index or heading|striptags }}"{% endif %}>
     {% if heading %}<p class="cs-eyebrow"><span class="cs-num"></span>{% if lead %}{{ heading|safe }}{% endif %}</p>{% endif %}
-    {% if lead or heading %}<h2 class="cs-heading">{{ (lead or heading)|safe }}</h2>{% endif %}
+    {% if lead or heading %}<h2 class="cs-heading{% if meta or links %} cs-heading--org{% endif %}">{{ (lead or heading)|safe }}</h2>{% endif %}
+    {% if meta or links %}{{ org(meta, links) }}{% endif %}
     {% if caller %}<div class="cs-prose">{{ caller() }}</div>{% endif %}
 </section>
+{% endmacro %}
+
+
+{# Org line under a section heading: social icons, then a short fact line.
+   links: list of (kind, href). Instagram / Facebook / LinkedIn reuse the About page's logos;
+   the rest are drawn here in the same filled style. #}
+{% set org_logos = {"instagram": ("Instagram", "ig.png"), "facebook": ("Facebook", "fb.png"), "linkedin": ("LinkedIn", "linkedin.png")} %}
+{% set org_icons = {
+    "x": ("X", '<path fill="currentColor" d="M18.24 2.25h3.31l-7.23 8.26 8.5 11.24h-6.65l-5.21-6.82-5.97 6.82H1.68l7.73-8.84L1.25 2.25h6.83l4.71 6.23zm-1.16 17.52h1.83L7.08 4.13H5.12z"/>'),
+    "website": ("Website", '<mask id="org-globe"><rect width="24" height="24" fill="#fff"/><g fill="none" stroke="#000" stroke-width="1.6"><path d="M2 12h20M12 2c2.6 2.7 3.9 6 3.9 10s-1.3 7.3-3.9 10c-2.6-2.7-3.9-6-3.9-10S9.4 4.7 12 2z"/></g></mask><circle cx="12" cy="12" r="10" fill="currentColor" mask="url(#org-globe)"/>'),
+    "article": ("Article", '<mask id="org-article"><rect width="24" height="24" fill="#fff"/><path d="M8 8h8M8 12h8M8 16h5" stroke="#000" stroke-width="1.8" stroke-linecap="round"/></mask><rect x="4" y="2" width="16" height="20" rx="2.5" fill="currentColor" mask="url(#org-article)"/>'),
+} %}
+{% macro org(meta=None, links=[]) %}
+<div class="cs-org">
+    {% if links %}
+    <div class="cs-org-links">
+        {% for kind, href in links %}
+        {% if kind in org_logos %}
+        {% set name, file = org_logos[kind] %}
+        <a href="{{ href }}" target="_blank" rel="noopener" aria-label="{{ name }}" title="{{ name }}">
+            <img src="{{ url_for('static', filename='asset/images/other/' ~ file) }}" alt="">
+        </a>
+        {% else %}
+        {% set name, paths = org_icons[kind] %}
+        <a href="{{ href }}" target="_blank" rel="noopener" aria-label="{{ name }}" title="{{ name }}">
+            <svg viewBox="0 0 24 24" aria-hidden="true">{{ paths|safe }}</svg>
+        </a>
+        {% endif %}
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% if meta %}<p class="cs-org-meta">{{ meta|safe }}</p>{% endif %}
+</div>
 {% endmacro %}
 
 
@@ -224,11 +258,13 @@
 {% endmacro %}
 
 
-{# §11 Call to action (use inside a section) — a panel link with the destination's host #}
-{% macro cta(href, label) %}
-<a href="{{ href }}" target="_blank" rel="noopener" class="cta-button">
+{# §11 Call to action (use inside a section) — a panel link with the destination's host.
+   Site-internal links ("/hackharvard") open in the same tab; kicker overrides the small label. #}
+{% macro cta(href, label, kicker=None) %}
+{% set internal = href.startswith('/') %}
+<a href="{{ href }}"{% if not internal %} target="_blank" rel="noopener"{% endif %} class="cta-button">
     <span>
-        <span class="cs-label">{{ href.split('/')[2]|replace('www.', '') }}</span>
+        <span class="cs-label">{{ kicker or ('pirenily.com' if internal else href.split('/')[2]|replace('www.', '')) }}</span>
         <span class="cta-title">{{ label|replace(' →', '')|safe }}</span>
     </span>
 </a>

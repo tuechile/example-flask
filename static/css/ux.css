@@ -1395,6 +1395,57 @@ html {
     text-wrap: balance;
 }
 
+.cs-heading--org {
+    margin-bottom: var(--s-2);
+}
+
+.cs-org {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--s-2);
+    margin-bottom: var(--s-5);
+}
+
+.cs-org-meta {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: var(--fs-2);
+    font-style: italic;
+    line-height: 1.6;
+    color: var(--text-secondary);
+}
+
+.cs-org-links {
+    display: flex;
+    align-items: center;
+    gap: var(--s-3);
+}
+
+/* Same treatment as the About page's .contact-logo */
+.cs-org-links a {
+    display: flex;
+    color: var(--highlight);
+    opacity: 0.55;
+    transition: opacity var(--dur-1) var(--ease-out), filter var(--dur-1) var(--ease-out);
+}
+
+.cs-org-links a:hover {
+    opacity: 0.85;
+    filter: blur(1px);
+}
+
+.cs-org-links img,
+.cs-org-links svg {
+    width: auto;
+    height: 1.25rem;
+    filter: grayscale(100%);
+}
+
+.cs-org-links svg {
+    width: 1.25rem;
+}
+
 .cs-subheading {
     margin: var(--s-2) 0 var(--s-4);
     font-family: var(--font-serif);
