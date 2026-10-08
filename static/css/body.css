@@ -13,6 +13,7 @@
     --globe-land-back: rgba(255, 255, 255, 0.05);
     --globe-wish: #888;
     --globe-home: rgba(255, 255, 255, 0.9);
+    --globe-route: rgba(28, 165, 145, 0.4);
 }
 
 .progress-wrap {
@@ -353,6 +354,33 @@
     cursor: grabbing;
 }
 
+/* Zoomed in, a finger on the globe moves the globe rather than the page */
+.travel-globe canvas.zoomed {
+    touch-action: none;
+}
+
+.travel-globe .globe-zoom {
+    margin: 0.2rem 0 0;
+}
+
+.travel-globe .globe-zoom button {
+    font-family: 'Crimson Text', serif;
+    font-size: 1rem;
+    line-height: 1;
+    color: var(--text);
+    background: none;
+    border: 1px solid var(--border);
+    width: 1.6rem;
+    height: 1.6rem;
+    margin: 0 0.2rem;
+    padding: 0;
+    cursor: pointer;
+}
+
+.travel-globe .globe-zoom button:hover {
+    filter: blur(1px);
+}
+
 .travel-globe .globe-place {
     font-family: 'Crimson Text', serif;
     font-style: italic;
@@ -579,6 +607,17 @@
     object-fit: cover;
     filter: grayscale(100%);
     opacity: 0.8;
+}
+
+.bio-card-note {
+    grid-column: 1 / -1;
+    margin: 8px 0 0;
+    font-family: 'Crimson Text', serif;
+    font-style: italic;
+    font-size: 0.8rem;
+    line-height: 1.4;
+    text-align: center;
+    color: var(--text);
 }
 
 .bio-thumb:hover {

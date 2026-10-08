@@ -108,6 +108,7 @@
                 <img class="bio-thumb" src="{{ img('about', 'pose.jpg') }}" alt="" loading="lazy">
                 <img class="bio-thumb" src="{{ img('about', 'beach.jpg') }}" alt="" loading="lazy">
                 <img class="bio-thumb" src="{{ img('about', 'cong.jpg') }}" alt="" loading="lazy">
+                <p class="bio-card-note">Want to know more about me? Find the puzzles on here and you will know :)</p>
             </div>
         </div>
         <h2 class="bio-name">My name is Chi Le or Lê Tuệ Chi.</h2>
@@ -128,7 +129,7 @@
         </div>
     </div>
     <div class="bio-text">
-        <p class="bio-lead">I am a designer and an engineer and I love to make curious-y thing.</p>
+        <p class="bio-lead">I am a designer and an engineer and I love to make things more curious.</p>
         <p>
             I am currently a junior at Harvard College, concentrating in <a class="ext" href="https://seas.harvard.edu/computer-science" target="_blank" rel="noopener">Computer Science</a>
             and <a class="ext" href="https://afvs.fas.harvard.edu/" target="_blank" rel="noopener">Art, Film, and Visual Studies</a> with a secondary in <a class="ext" href="https://www.math.harvard.edu/" target="_blank" rel="noopener">Mathematics</a>.
@@ -153,6 +154,7 @@
                 <p class="globe-place" id="globe-place"></p>
                 <p class="globe-count" id="globe-count"></p>
                 <p class="globe-legend"><i class="home"></i>home<i></i>been<i class="wish"></i>someday</p>
+                <p class="globe-zoom"><button type="button" data-zoom="0.5" aria-label="Zoom out">&minus;</button><button type="button" data-zoom="2" aria-label="Zoom in">+</button></p>
             </figcaption>
         </figure>
     </div>
@@ -166,6 +168,7 @@
         ['Venice', 'Italy', 45.44, 12.33], ['Rome', 'Italy', 41.90, 12.50], ['Milan', 'Italy', 45.46, 9.19],
         ['Lake Como', 'Italy', 46.00, 9.26], ['Florence', 'Italy', 43.77, 11.26],
         ['Treviso', 'Italy', 45.67, 12.24], ['Bologna', 'Italy', 44.49, 11.34], ['Padua', 'Italy', 45.41, 11.88],
+        ['Vicenza', 'Italy', 45.55, 11.55],
         ['Prague', 'Czechia', 50.08, 14.44],
         ['Salzburg', 'Austria', 47.80, 13.04], ['Vienna', 'Austria', 48.21, 16.37],
         ['Rotterdam', 'Netherlands', 51.92, 4.48], ['Amsterdam', 'Netherlands', 52.37, 4.90],
@@ -198,6 +201,25 @@
         ['Palo Alto', 'California', 37.44, -122.14],
         ['Los Angeles', 'California', 34.05, -118.24], ['Irvine', 'California', 33.68, -117.83],
         ['Orange County', 'California', 33.79, -117.85],
+    ];
+    // On a trip but not counted (it's home)
+    const STOPS = [['Hanoi', 'Vietnam', 21.03, 105.85]];
+    // Trips, drawn as lines once zoomed in. Each path is a chain of place names from the lists above.
+    const TRIPS = [
+        { name: 'Eurosummer 2025', paths: [
+            ['Venice', 'Bologna', 'Rome'], ['Venice', 'Milan', 'Lake Como'], ['Venice', 'Florence'],
+            ['Venice', 'Padua'], ['Venice', 'Vicenza'],
+            ['Venice', 'Salzburg', 'Vienna', 'Prague', 'Amsterdam', 'Rotterdam', 'Brussels'],
+            ['Brussels', 'Luxembourg City'],
+            ['Brussels', 'Paris', 'Lyon', 'Madrid', 'Ibiza', 'Barcelona'],
+        ] },
+        { name: 'ASEAN Summer 2026', paths: [['Phnom Penh', 'Bangkok', 'Hanoi', 'Cebu']] },
+        { name: 'East Coast Summer 2024', paths: [[
+            'Washington', 'Philadelphia', 'New York City', 'New Haven', 'Madison', 'Providence', 'Pawtucket',
+            'Boston', 'Portsmouth', 'Portland', 'Bar Harbor',
+        ]] },
+        { name: 'California Winter 2024', paths: [['San Jose', 'Santa Cruz', 'Los Angeles', 'Irvine']] },
+        { name: 'SF Summer 2026', paths: [['Boston', 'San Francisco', 'Mountain View', 'Palo Alto', 'San Francisco', 'Boston']] },
     ];
     // Home: Vietnam, drawn as a filled shape. Rough outline as [lon, lat], clockwise from the northwest corner.
     const HOME = { name: 'Vietnam (home)', at: [16.0, 107.0], outline: [
@@ -232,6 +254,7 @@
         const C = {
             accent: color('--accent'), land: color('--globe-land'), back: color('--globe-land-back'),
             wish: color('--globe-wish'), rim: color('--border'), home: color('--globe-home'),
+            route: color('--globe-route'),
         };
         const rad = Math.PI / 180;
 
@@ -241,12 +264,34 @@
             `${countries.size} countries · ${BEEN.length} cities<br>${states.size} U.S. states &amp; territories`;
 
         const markers = [
-            ...BEEN.concat(BEEN_US).map(p => ({ p, been: true })),
+            ...BEEN.concat(BEEN_US, STOPS).map(p => ({ p, been: true })),
             ...SOMEDAY.map(p => ({ p, been: false })),
             { p: [HOME.name, '', ...HOME.at], been: true, home: true },
         ];
         const homeOutline = HOME.outline.map(([lon, lat]) => [Math.sin(lat * rad), Math.cos(lat * rad), lon * rad]);
         markers.forEach(m => { m.sin = Math.sin(m.p[2] * rad); m.cos = Math.cos(m.p[2] * rad); m.lam = m.p[3] * rad; });
+
+        // Each leg follows the great circle, a point per degree, so long flights bend with the globe
+        const byName = new Map(markers.map(m => [m.p[0], m]));
+        function leg(a, b) {
+            const v = m => [m.cos * Math.cos(m.lam), m.cos * Math.sin(m.lam), m.sin];
+            const A = v(a), B = v(b);
+            const w = Math.acos(Math.min(1, A[0] * B[0] + A[1] * B[1] + A[2] * B[2]));
+            const n = Math.max(1, Math.ceil(w / rad));
+            const pts = [];
+            for (let i = 0; i <= n; i++) {
+                const fa = w ? Math.sin((1 - i / n) * w) / Math.sin(w) : 1;
+                const fb = w ? Math.sin(i / n * w) / Math.sin(w) : 0;
+                const x = fa * A[0] + fb * B[0], y = fa * A[1] + fb * B[1], z = fa * A[2] + fb * B[2];
+                const lat = Math.atan2(z, Math.hypot(x, y));
+                pts.push([Math.sin(lat), Math.cos(lat), Math.atan2(y, x)]);
+            }
+            return pts;
+        }
+        TRIPS.forEach(t => {
+            t.lines = t.paths.map(names => names.slice(1).flatMap((name, i) => leg(byName.get(names[i]), byName.get(name))));
+            t.screen = [];
+        });
 
         let land = null; // [sinLat, cosLat, lon] triples
         fetch("{{ url_for('static', filename='asset/data/land-dots.json') }}?v={{ asset_v }}")
@@ -262,7 +307,10 @@
 
         // View center (lon, lat); starts over the Atlantic so the U.S. and Europe are both in sight
         let lam0 = -35 * rad, phi0 = 25 * rad;
-        let size = 0, dpr = 1, hover = null, dragging = null, visible = true;
+        let size = 0, dpr = 1, hover = null, dragging = null, pinch = null, visible = true;
+        let zoom = 1;
+        const ZOOM_MAX = 10, ROUTES_AT = 2.5; // trips show up from ROUTES_AT on
+        const touches = new Map();
         const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
         function resize() {
@@ -283,8 +331,10 @@
         }
 
         function draw() {
-            const R = size / 2 - 6, c = size / 2;
+            if (size < 20) return; // not laid out yet
+            const R = size / 2 - 6, c = size / 2, Z = R * zoom;
             const k = Math.max(1, R / 140); // dots grow with the globe
+            const kl = k * Math.sqrt(Math.min(zoom, 4)); // and land a little more when zoomed
             ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
             ctx.clearRect(0, 0, size, size);
 
@@ -294,11 +344,16 @@
             ctx.lineWidth = 1;
             ctx.stroke();
 
+            // Zoomed in, the globe is bigger than the canvas; the rim becomes a lens
+            ctx.save();
+            ctx.clip();
+
             if (land) {
                 const front = new Path2D(), back = new Path2D();
                 for (let j = 0; j < land.length; j += 3) {
-                    const [x, y, z] = project(land[j], land[j + 1], land[j + 2], R);
-                    const r = (z > 0 ? 0.5 + 0.5 * z : 0.6) * k;
+                    const [x, y, z] = project(land[j], land[j + 1], land[j + 2], Z);
+                    if (Math.abs(x) > R + 4 || Math.abs(y) > R + 4) continue;
+                    const r = (z > 0 ? 0.5 + 0.5 * z : 0.6) * kl;
                     const path = z > 0 ? front : back;
                     path.moveTo(c + x + r, c + y);
                     path.arc(c + x, c + y, r, 0, Math.PI * 2);
@@ -310,7 +365,7 @@
             }
 
             // Home, filled in; skipped once it turns past the rim
-            const home = homeOutline.map(([s, co, l]) => project(s, co, l, R));
+            const home = homeOutline.map(([s, co, l]) => project(s, co, l, Z));
             if (home.every(([, , z]) => z > 0)) {
                 ctx.beginPath();
                 home.forEach(([x, y], i) => (i ? ctx.lineTo : ctx.moveTo).call(ctx, c + x, c + y));
@@ -322,10 +377,32 @@
                 ctx.stroke();
             }
 
+            // Trips, the hovered one drawn last and brightest
+            const showRoutes = zoom >= ROUTES_AT;
+            for (const t of [...TRIPS].sort((a, b) => (a === hover) - (b === hover))) {
+                t.screen = [];
+                if (!showRoutes) continue;
+                ctx.beginPath();
+                for (const line of t.lines) {
+                    let run = null;
+                    for (const [s, co, l] of line) {
+                        const [x, y, z] = project(s, co, l, Z);
+                        if (z <= 0) { run = null; continue; }
+                        if (run) ctx.lineTo(c + x, c + y);
+                        else { run = []; t.screen.push(run); ctx.moveTo(c + x, c + y); }
+                        run.push([c + x, c + y]);
+                    }
+                }
+                ctx.strokeStyle = t === hover ? C.accent : C.route;
+                ctx.lineWidth = (t === hover ? 1.6 : 1) * k;
+                ctx.lineJoin = 'round';
+                ctx.stroke();
+            }
+
             for (const m of markers) {
-                const [x, y, z] = project(m.sin, m.cos, m.lam, R);
-                m.x = c + x; m.y = c + y; m.z = z;
-                if (z <= 0 || m.home) continue;
+                const [x, y, z] = project(m.sin, m.cos, m.lam, Z);
+                m.x = c + x; m.y = c + y; m.z = x * x + y * y < R * R ? z : 0; // outside the lens counts as hidden
+                if (m.z <= 0 || m.home) continue;
                 const big = (m === hover ? 1.7 : 1) * k;
                 ctx.beginPath();
                 if (m.been) {
@@ -338,13 +415,42 @@
                 } else {
                     ctx.arc(m.x, m.y, 2.4 * big, 0, Math.PI * 2);
                     ctx.strokeStyle = C.wish;
+                    ctx.lineWidth = 1;
                     ctx.stroke();
                 }
             }
+            ctx.restore();
+        }
+
+        // Screen point (relative to the center) back to [lat, lon]; null off the globe
+        function unproject(x, y, Z) {
+            const rho = Math.hypot(x, y);
+            if (rho >= Z) return null;
+            if (!rho) return [phi0, lam0];
+            const cc = Math.asin(rho / Z), sc = Math.sin(cc), coc = Math.cos(cc), up = -y;
+            return [
+                Math.asin(coc * Math.sin(phi0) + up * sc * Math.cos(phi0) / rho),
+                lam0 + Math.atan2(x * sc, rho * Math.cos(phi0) * coc - up * Math.sin(phi0) * sc),
+            ];
+        }
+
+        // Zoom keeping the spot under (x, y) in place
+        function zoomTo(z, x = 0, y = 0) {
+            z = Math.max(1, Math.min(ZOOM_MAX, z));
+            const R = size / 2 - 6;
+            const before = unproject(x, y, R * zoom);
+            zoom = z;
+            const after = unproject(x, y, R * zoom);
+            if (before && after) {
+                lam0 += before[1] - after[1];
+                phi0 = Math.max(-80 * rad, Math.min(80 * rad, phi0 + before[0] - after[0]));
+            }
+            canvas.classList.toggle('zoomed', zoom > 1);
+            draw();
         }
 
         function frame() {
-            if (!dragging && !hover && !still) lam0 += 0.0016;
+            if (!dragging && !hover && !still && zoom === 1) lam0 += 0.0016;
             draw();
             if (visible) requestAnimationFrame(frame);
         }
@@ -358,30 +464,67 @@
                 const d = (m.x - x) ** 2 + (m.y - y) ** 2;
                 if (d < bestD) { best = m; bestD = d; }
             }
+            if (best) return best;
+            bestD = 49; // trips: within 7px of a line
+            for (const t of TRIPS) {
+                for (const run of t.screen) {
+                    for (let i = 1; i < run.length; i++) {
+                        const [ax, ay] = run[i - 1], [bx, by] = run[i];
+                        const dx = bx - ax, dy = by - ay, len = dx * dx + dy * dy;
+                        const u = len ? Math.max(0, Math.min(1, ((x - ax) * dx + (y - ay) * dy) / len)) : 0;
+                        const d = (ax + u * dx - x) ** 2 + (ay + u * dy - y) ** 2;
+                        if (d < bestD) { best = t; bestD = d; }
+                    }
+                }
+            }
             return best;
         }
 
         function label(m) {
             hover = m;
-            place.textContent = m ? (m.p[1] && m.p[1] !== m.p[0] ? `${m.p[0]}, ${m.p[1]}` : m.p[0]) + (m.been ? '' : ' (someday)') : '';
+            place.textContent = !m ? '' : m.paths ? m.name : (m.p[1] && m.p[1] !== m.p[0] ? `${m.p[0]}, ${m.p[1]}` : m.p[0]) + (m.been ? '' : ' (someday)');
             if (still) draw();
         }
 
+        const center = e => {
+            const box = canvas.getBoundingClientRect();
+            return [e.clientX - box.left - box.width / 2, e.clientY - box.top - box.height / 2];
+        };
+        const spread = () => {
+            const [a, b] = [...touches.values()];
+            return [Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY), { clientX: (a.clientX + b.clientX) / 2, clientY: (a.clientY + b.clientY) / 2 }];
+        };
+
         canvas.addEventListener('pointerdown', e => {
-            dragging = { x: e.clientX, y: e.clientY, lam: lam0, phi: phi0, moved: false };
+            touches.set(e.pointerId, e);
             canvas.setPointerCapture(e.pointerId);
+            if (touches.size === 2) { // two fingers: pinch to zoom
+                pinch = { d: spread()[0], zoom };
+                dragging = null;
+                canvas.classList.remove('dragging');
+                return;
+            }
+            dragging = { x: e.clientX, y: e.clientY, lam: lam0, phi: phi0, moved: false };
             canvas.classList.add('dragging');
         });
         canvas.addEventListener('pointermove', e => {
-            if (!dragging) { label(nearest(e)); return; }
+            if (touches.has(e.pointerId)) touches.set(e.pointerId, e);
+            if (pinch && touches.size === 2) {
+                const [d, mid] = spread();
+                zoomTo(pinch.zoom * d / pinch.d, ...center(mid));
+                return;
+            }
+            if (!dragging) { if (!pinch) label(nearest(e)); return; }
             const dx = e.clientX - dragging.x, dy = e.clientY - dragging.y;
             if (Math.abs(dx) + Math.abs(dy) > 3) dragging.moved = true;
-            lam0 = dragging.lam - dx * 0.5 * rad;
-            phi0 = Math.max(-80 * rad, Math.min(80 * rad, dragging.phi + dy * 0.5 * rad));
+            lam0 = dragging.lam - dx * 0.5 * rad / zoom;
+            phi0 = Math.max(-80 * rad, Math.min(80 * rad, dragging.phi + dy * 0.5 * rad / zoom));
             if (still) draw();
         });
         const release = e => {
-            // A tap without dragging picks the nearest place (how touch screens get labels)
+            touches.delete(e.pointerId);
+            if (pinch) { if (!touches.size) pinch = null; return; }
+            // A tap without dragging picks the nearest place or trip (how touch screens get labels)
             if (dragging && !dragging.moved) label(nearest(e));
             else if (e.pointerType !== 'mouse') label(null);
             dragging = null;
@@ -389,6 +532,14 @@
         };
         canvas.addEventListener('pointerup', release);
         canvas.addEventListener('pointercancel', release);
+        canvas.addEventListener('wheel', e => {
+            // Let the page scroll on when there's no more zooming to do
+            if ((e.deltaY > 0 && zoom === 1) || (e.deltaY < 0 && zoom === ZOOM_MAX)) return;
+            e.preventDefault();
+            zoomTo(zoom * Math.exp(-e.deltaY * (e.ctrlKey ? 0.01 : 0.002)), ...center(e));
+        }, { passive: false });
+        document.querySelectorAll('.globe-zoom button').forEach(btn =>
+            btn.addEventListener('click', () => zoomTo(zoom * btn.dataset.zoom)));
         canvas.addEventListener('pointerleave', e => { if (!dragging && e.pointerType === 'mouse') label(null); });
 
         // Only spin while on screen
